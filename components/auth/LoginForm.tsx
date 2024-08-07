@@ -52,34 +52,56 @@ const LoginForm = () => {
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setError(null); // Reset error state before submission
+    console.log("[Login Form] Attempting login...");
 
     try {
+      console.log("[useAuthStore] Starting login process...");
       await login(data.email, data.password);
 
       // Ensure the state is updated before accessing roles
       const roles = useAuthStore.getState().roles;
       const isAuthenticated = useAuthStore.getState().isAuthenticated;
+      const redirectURL = localStorage.getItem("redirectAfterLogin");
+
+      console.log(
+        "[Login Form] Login successful. isAuthenticated:",
+        isAuthenticated
+      );
+      console.log("[Login Form] Roles:", roles);
 
       // Only proceed with redirection if the user is authenticated
       if (isAuthenticated) {
-        // Check if there's a stored URL in local storage
-        const redirectURL = localStorage.getItem("redirectAfterLogin");
-
-        // Role-based redirection logic
+        console.log("[Login Form] Redirecting based on roles...");
         if (redirectURL) {
           // Clear the stored URL after using it
+          console.log("[Login Form] Redirecting to stored URL:", redirectURL);
           localStorage.removeItem("redirectAfterLogin");
           router.push(redirectURL);
+          console.log("[Login Form] Redirection to stored URL complete.");
         } else {
           // Default role-based redirection
           if (roles.is_qr_superadmin === 1) {
+            console.log("[Login Form] Redirecting to /superadmin-portal");
             router.push("/superadmin-portal");
+            console.log(
+              "[Login Form] Redirection to /superadmin-portal complete."
+            );
           } else if (roles.is_qr_admin === 1) {
+            console.log("[Login Form] Redirecting to /admin-portal");
             router.push("/admin-portal");
+            console.log("[Login Form] Redirection to /admin-portal complete.");
           } else if (roles.is_qr_member === 1) {
+            console.log("[Login Form] Redirecting to /members-portal");
             router.push("/members-portal");
+            console.log(
+              "[Login Form] Redirection to /members-portal complete."
+            );
           } else {
+            console.log(
+              "[Login Form] No matching roles found. Redirecting to /"
+            );
             router.push("/"); // Fallback in case no roles match
+            console.log("[Login Form] Redirection to / complete.");
           }
         }
       } else {

@@ -10,11 +10,14 @@ interface AuthState {
   };
   isAuthenticated: boolean;
   isLoading: boolean;
+  logoutInProgress: boolean;
   setIsLoading: (isLoading: boolean) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: any) => void;
   setRoles: (roles: any) => void;
+  setLogoutInProgress: (inProgress: boolean) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -28,9 +31,16 @@ export const useAuthStore = create<AuthState>()(
       },
       isAuthenticated: false,
       isLoading: true,
+      logoutInProgress: false,
       setIsLoading: (isLoading) => set({ isLoading }),
       setUser: (user) => set({ user, isAuthenticated: !!user }),
-      setRoles: (roles) => set({ roles }),
+      setRoles: (roles) => {
+        console.log("[useAuthStore] Setting roles:", roles);
+        set({ roles });
+      },
+      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+      setLogoutInProgress: (inProgress) =>
+        set({ logoutInProgress: inProgress }),
       login: async (email, password) => {
         const response = await fetch("/api/auth/login", {
           method: "POST",

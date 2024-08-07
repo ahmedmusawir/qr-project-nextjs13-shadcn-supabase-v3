@@ -20,6 +20,11 @@ const withSuperadminProtection = (
     const isLoading = useAuthStore((state) => state.isLoading);
 
     useEffect(() => {
+      console.log("[Super HOC] isAuthenticated:", isAuthenticated);
+      console.log("[Super HOC] roles:", roles);
+      console.log("[Super HOC] isLoading:", isLoading);
+      console.log("[Super HOC] Superadmin:", roles.is_qr_superadmin);
+
       if (!isLoading) {
         if (!isAuthenticated || roles.is_qr_superadmin !== 1) {
           router.push("/auth");

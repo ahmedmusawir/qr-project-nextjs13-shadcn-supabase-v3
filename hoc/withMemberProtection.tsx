@@ -18,6 +18,10 @@ const withMemberProtection = (WrappedComponent: ComponentType<LayoutProps>) => {
     const isLoading = useAuthStore((state) => state.isLoading);
 
     useEffect(() => {
+      console.log("[Member HOC] isAuthenticated:", isAuthenticated);
+      console.log("[Member HOC] roles:", roles);
+      console.log("[Member HOC] isLoading:", isLoading);
+
       if (!isLoading) {
         if (!isAuthenticated || roles.is_qr_member !== 1) {
           router.push("/auth");
