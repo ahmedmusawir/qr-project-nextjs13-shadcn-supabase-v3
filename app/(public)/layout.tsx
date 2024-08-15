@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import NavbarHome from "@/components/global/NavbarHome";
 import Main from "@/components/common/Main";
+import Navbar from "@/components/global/Navbar";
 
 export default async function PublicLayout({
   children,
@@ -10,7 +11,7 @@ export default async function PublicLayout({
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <NavbarHome />
+        <Navbar />
         <Main className="flex flex-col">
           {children
             ? children

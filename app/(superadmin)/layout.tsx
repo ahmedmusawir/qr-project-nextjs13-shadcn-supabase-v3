@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import withSuperAdminProtection from "@/hoc/withSuperAdminProtection";
 import NavbarSuperadmin from "@/components/global/NavbarSuperadmin";
 import SuperAdminSidebar from "@/components/layout/SuperAdminSidebar";
+import Navbar from "@/components/global/Navbar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,7 +13,7 @@ interface LayoutProps {
 const SuperAdminLayout = ({ children }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen">
-      <NavbarSuperadmin />
+      <Navbar />
       <div className="flex flex-1">
         <div className="hidden md:block h-auto flex-shrink-0 border-4 w-[25rem]">
           <SuperAdminSidebar />
@@ -23,5 +24,4 @@ const SuperAdminLayout = ({ children }: LayoutProps) => {
   );
 };
 
-// export default SuperAdminLayout;
 export default withSuperAdminProtection(SuperAdminLayout);
