@@ -41,7 +41,7 @@ const AdminPagination = ({
             className={currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}
           />
         </PaginationItem>
-        <PaginationItem>
+        {/* <PaginationItem>
           {[...Array(Math.max(totalPages, 1))].map((_, index) => (
             <PaginationLink
               key={index}
@@ -54,7 +54,7 @@ const AdminPagination = ({
               {index + 1}
             </PaginationLink>
           ))}
-        </PaginationItem>
+        </PaginationItem> */}
         <PaginationItem>
           <PaginationEllipsis />
         </PaginationItem>

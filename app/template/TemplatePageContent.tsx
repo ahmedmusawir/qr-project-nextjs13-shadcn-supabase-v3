@@ -1,6 +1,8 @@
 import Page from "@/components/common/Page";
 import Row from "@/components/common/Row";
+import { Button } from "@/components/ui/button";
 import Head from "next/head";
+import Link from "next/link";
 import React from "react";
 
 const TemplatePageContent = () => {
@@ -11,6 +13,11 @@ const TemplatePageContent = () => {
         <meta name="description" content="This is the template page" />
       </Head>
       <Page className={""} FULL={false}>
+        <Link className="float-end" href="/admin-event">
+          <Button className="bg-gray-700 hover:bg-gray-600 text-white">
+            Create Event
+          </Button>
+        </Link>
         <Row className="prose max-w-3xl mx-auto">
           <h1 className="h1">This is TemplatePageContent (Copy Me)</h1>
           <h2 className="h2">

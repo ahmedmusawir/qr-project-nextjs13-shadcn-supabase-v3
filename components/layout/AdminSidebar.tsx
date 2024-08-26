@@ -29,16 +29,16 @@ const AdminSidebar = () => {
         <CommandGroup heading="Suggestions">
           <CommandItem>
             <LayoutDashboard className="mr-2 h-4 w-4" />
-            <Link href="/admin-portal">Dashboard</Link>
+            <Link href="/admin-portal">Events List</Link>
           </CommandItem>
-          <CommandItem>
+          {/* <CommandItem>
             <Newspaper className="mr-2 h-4 w-4" />
             <Link href="/admin-booking">New Booking</Link>
           </CommandItem>
           <CommandItem>
             <Newspaper className="mr-2 h-4 w-4" />
             <Link href="/posts">Bookings</Link>
-          </CommandItem>
+          </CommandItem> */}
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="Settings">
@@ -47,7 +47,7 @@ const AdminSidebar = () => {
             <span>Profile</span>
             <CommandShortcut>&#x2318; P</CommandShortcut>
           </CommandItem>
-          <CommandItem>
+          {/* <CommandItem>
             <CreditCard className="mr-2 h-4 w-4" />
             <span>Billing</span>
             <CommandShortcut>&#x2318; B</CommandShortcut>
@@ -56,7 +56,7 @@ const AdminSidebar = () => {
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
             <CommandShortcut>&#x2318; S</CommandShortcut>
-          </CommandItem>
+          </CommandItem> */}
         </CommandGroup>
       </CommandList>
     </Command>

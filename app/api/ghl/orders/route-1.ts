@@ -64,32 +64,28 @@ export async function GET() {
         const ticketType = item.price?.name;
         const qty = item.qty;
 
-        console.log("QUANTITY: ", qty);
+        for (let i = 0; i < qty; i++) {
+          const { data: existingTickets, error: ticketsError } = await supabase
+            .from("ghl_qr_tickets")
+            .select("*")
+            .eq("order_id", orderDetails._id)
+            .eq("ticket_type", ticketType);
 
-        // First, check how many tickets already exist
-        const { data: existingTickets, error } = await supabase
-          .from("ghl_qr_tickets")
-          .select("*")
-          .eq("order_id", orderDetails._id)
-          .eq("ticket_type", ticketType);
+          if (ticketsError) {
+            console.error(
+              `[Order ${orderId}] Error fetching tickets: ${ticketsError.message}`
+            );
+            continue;
+          }
 
-        if (error) {
-          console.error(
-            `Error fetching existing tickets for order ${orderId}:`,
-            error.message
-          );
-          continue;
-        }
-
-        const existingCount = existingTickets ? existingTickets.length : 0;
-
-        // Insert only the missing tickets
-        for (let i = existingCount; i < qty; i++) {
-          await supabase.from("ghl_qr_tickets").insert({
-            order_id: orderDetails._id,
-            ticket_type: ticketType,
-            status: "live",
-          });
+          // Only insert if no tickets exist for this order and ticket type
+          if (!existingTickets || existingTickets.length === 0) {
+            await supabase.from("ghl_qr_tickets").insert({
+              order_id: orderDetails._id,
+              ticket_type: ticketType,
+              status: "live",
+            });
+          }
         }
       }
     }

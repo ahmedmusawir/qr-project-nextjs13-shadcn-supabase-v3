@@ -1,17 +1,50 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get("page") || "1", 10); // Default to page 1
+  const pageSize = parseInt(searchParams.get("pageSize") || "10", 10); // Default to 10 items per page
+
+  const offset = (page - 1) * pageSize;
+
   try {
-    const supabase = createClient();
-    const { data, error } = await supabase.from("ghl_events").select("*");
+    const response = await fetch(
+      `https://services.leadconnectorhq.com/products/?locationId=4rKuULHASyQ99nwdL1XH`,
+      {
+        headers: {
+          Authorization: "Bearer pit-a0cb4c90-dcd4-45e1-b811-8a01c30e5014",
+          Version: "2021-07-28",
+          Accept: "application/json",
+        },
+      }
+    );
 
-    if (error) {
-      throw new Error(error.message);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch events: ${response.statusText}`);
     }
 
-    return NextResponse.json(data);
+    const eventsRawData = await response.json();
+    const eventsData = await eventsRawData.products;
+
+    console.log("Received events data:", eventsData);
+
+    // Since eventsData is already an array, no need for extra processing
+    const totalItems = eventsData.length;
+    const paginatedEvents = eventsData.slice(offset, offset + pageSize);
+
+    const totalPages = Math.ceil(totalItems / pageSize);
+
+    return NextResponse.json({
+      events: paginatedEvents,
+      pagination: {
+        totalItems,
+        totalPages,
+        currentPage: page,
+        pageSize,
+      },
+    });
   } catch (error: any) {
+    console.error("[/api/events] Error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

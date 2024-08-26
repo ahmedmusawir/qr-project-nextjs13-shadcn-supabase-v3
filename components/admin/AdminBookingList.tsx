@@ -1,5 +1,6 @@
 import { Order } from "@/types/orders";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface AdminBookingListProps {
   orders: Order[];
@@ -21,9 +22,9 @@ const AdminBookingList = ({ orders }: AdminBookingListProps) => {
             />
           </div>
           <div className="min-w-0 flex-1">
-            {/* <a href="#" className="focus:outline-none"> */}
-            <span aria-hidden="true" className="absolute inset-0" />
-            <h3 className="font-medium text-red-500">{order.event_name}</h3>
+            <h3 className="font-medium text-red-500 dark:text-red-500">
+              {order.event_name}
+            </h3>
             <p className="truncate text-sm text-gray-500">
               <span className="text-gray-800 font-bold">Booked By:</span>
               <br />
@@ -34,14 +35,12 @@ const AdminBookingList = ({ orders }: AdminBookingListProps) => {
               <br />
               {order.date_added}
             </p>
-            <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
-              Paid: ${order.total_paid}
-            </span>
-            {/* </a> */}
+          </div>
+          <Link href={`/order/${order.order_id}`}>
             <Button className="bg-gray-700 hover:bg-gray-600 text-white mt-12">
               Booking Details
             </Button>
-          </div>
+          </Link>
         </div>
       ))}
     </div>

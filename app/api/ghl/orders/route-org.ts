@@ -20,20 +20,7 @@ export async function GET() {
 
       console.log(`[Order Details for ${orderId}]`, orderDetails);
 
-      // Initialize quantities
-      let vipQty = 0;
-      let regularQty = 0;
-
-      // Step 3: Calculate ticket quantities and update `ghl_qr_orders`
-      for (const item of orderDetails.items) {
-        if (item.price?.name === "VIP") {
-          vipQty += item.qty;
-        } else if (item.price?.name === "Regular") {
-          regularQty += item.qty;
-        }
-      }
-
-      // Upsert into `ghl_qr_orders`
+      // Step 3: Upsert into the Supabase table
       await supabase.from("ghl_qr_orders").upsert({
         order_id: orderDetails._id,
         location_id: orderDetails.altId,
@@ -55,43 +42,7 @@ export async function GET() {
         event_ticket_currency: orderDetails.items[0]?.price?.currency,
         event_available_qty: orderDetails.items[0]?.price?.availableQuantity,
         event_ticket_qty: orderDetails.items[0]?.qty,
-        vip_ticket_qty: vipQty,
-        regular_ticket_qty: regularQty,
       });
-
-      // Step 4: Insert or update tickets into `ghl_qr_tickets`
-      for (const item of orderDetails.items) {
-        const ticketType = item.price?.name;
-        const qty = item.qty;
-
-        console.log("QUANTITY: ", qty);
-
-        // First, check how many tickets already exist
-        const { data: existingTickets, error } = await supabase
-          .from("ghl_qr_tickets")
-          .select("*")
-          .eq("order_id", orderDetails._id)
-          .eq("ticket_type", ticketType);
-
-        if (error) {
-          console.error(
-            `Error fetching existing tickets for order ${orderId}:`,
-            error.message
-          );
-          continue;
-        }
-
-        const existingCount = existingTickets ? existingTickets.length : 0;
-
-        // Insert only the missing tickets
-        for (let i = existingCount; i < qty; i++) {
-          await supabase.from("ghl_qr_tickets").insert({
-            order_id: orderDetails._id,
-            ticket_type: ticketType,
-            status: "live",
-          });
-        }
-      }
     }
 
     return NextResponse.json({
