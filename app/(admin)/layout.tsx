@@ -14,10 +14,10 @@ const AdminLayout = ({ children }: LayoutProps) => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <section className="flex flex-1">
-        <div className="hidden sm:block h-auto flex-shrink-0 border-4 w-[15rem]">
+        <div className="hidden xl:block h-auto flex-shrink-0 border-4 w-[15rem]">
           <AdminSidebar />
         </div>
-        <div className="flex-grow">{children}</div>
+        <div className="flex-grow bg-gray-200">{children}</div>
       </section>
     </div>
   );

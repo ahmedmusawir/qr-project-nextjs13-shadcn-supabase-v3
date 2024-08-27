@@ -33,37 +33,27 @@ const AdminPagination = ({
 
   return (
     <Pagination>
-      <PaginationContent>
-        <PaginationItem>
+      <PaginationContent className="list-none">
+        <PaginationItem className="bg-gray-700 w-[120px]">
           <PaginationPrevious
             href="#"
             onClick={handlePrevious}
-            className={currentPage === 1 ? "cursor-not-allowed opacity-50" : ""}
+            className={
+              currentPage === 1
+                ? "cursor-not-allowed text-gray-300 no-underline"
+                : "text-white no-underline"
+            }
           />
         </PaginationItem>
-        {/* <PaginationItem>
-          {[...Array(Math.max(totalPages, 1))].map((_, index) => (
-            <PaginationLink
-              key={index}
-              href="#"
-              className={
-                currentPage === index + 1 ? "bg-red-500 text-white" : ""
-              }
-              onClick={() => setCurrentPage(index + 1)}
-            >
-              {index + 1}
-            </PaginationLink>
-          ))}
-        </PaginationItem> */}
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
+
+        <PaginationItem className="bg-gray-700 w-[120px]">
           <PaginationNext
             href="#"
             onClick={handleNext}
             className={
-              currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
+              currentPage === totalPages
+                ? "cursor-not-allowed text-gray-300 no-underline"
+                : "text-white no-underline"
             }
           />
         </PaginationItem>
