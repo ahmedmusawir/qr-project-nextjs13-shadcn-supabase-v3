@@ -47,8 +47,8 @@ const AdminPortalPageContent = () => {
       </Head>
       <Page className={""} FULL={false}>
         <Row className="prose max-w-3xl mx-auto">
-          <h1 className="h1">Admin Portal</h1>
-          <h2 className="h2">Events list:</h2>
+          <h1 className="">Admin Portal</h1>
+          <h2 className="mt-[-1.5rem]">Events list:</h2>
 
           {isLoading ? <Spinner /> : <AdminEventList />}
           <AdminPagination

@@ -3,27 +3,19 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { useGHLDataStore } from "@/store/useGHLDataStore";
 
-interface FieldSelectorProps {
-  onFieldSelect: (fieldId: string, fieldName: string) => void;
-}
-
-const FieldSelector = ({ onFieldSelect }: FieldSelectorProps) => {
+const FieldSelector = () => {
   const { fields } = useGHLDataStore();
 
+  // console.log("The Custom Fields", fields);
+
   return (
-    <Select
-      onValueChange={(value) => {
-        const selectedField = fields.find((field) => field.field_id === value);
-        if (selectedField) {
-          onFieldSelect(selectedField.field_id, selectedField.field_name);
-        }
-      }}
-    >
+    <Select>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select Custom Field" />
       </SelectTrigger>

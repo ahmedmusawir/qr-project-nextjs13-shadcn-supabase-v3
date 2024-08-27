@@ -97,12 +97,12 @@ const EventItem = ({ event }: Props) => {
           </div>
           <div className="text-sm mt-2 text-center xl:text-left">
             {activeFieldName ? (
-              <div>
+              <p>
                 <Badge variant="outline" className="bg-gray-600 text-white">
                   Connected Field:
                 </Badge>{" "}
-                <p>{activeFieldName}</p>
-              </div>
+                {activeFieldName}
+              </p>
             ) : (
               <p className="text-red-500">No Custom Field Connected</p>
             )}

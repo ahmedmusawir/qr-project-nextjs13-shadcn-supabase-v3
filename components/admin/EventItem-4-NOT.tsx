@@ -1,5 +1,4 @@
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import FieldSelector from "./FieldSelector";
 import { GHLEvent } from "@/types/events";
@@ -7,9 +6,8 @@ import { formatDate } from "@/utils/common/commonUtils";
 import {
   getActiveFieldForProduct,
   upsertProductFieldCombo,
-} from "@/services/fieldServices"; // Import the service function
-import Spinner from "@/components/common/Spinner"; // Import Spinner component
-import { Badge } from "../ui/badge";
+} from "@/services/fieldServices";
+import Link from "next/link";
 
 interface Props {
   event: GHLEvent;
@@ -21,11 +19,7 @@ const EventItem = ({ event }: Props) => {
     null
   );
   const [activeFieldName, setActiveFieldName] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
-  // Fetching current active filed from ghl_qr_fields table
   useEffect(() => {
     const fetchActiveField = async () => {
       const fieldName = await getActiveFieldForProduct(event._id);
@@ -35,41 +29,25 @@ const EventItem = ({ event }: Props) => {
     fetchActiveField();
   }, [event._id]);
 
-  // Updating selected values from the Event Selector
   const handleFieldSelect = (fieldId: string, fieldName: string) => {
     setSelectedFieldId(fieldId);
     setSelectedFieldName(fieldName);
   };
 
-  // Connecting Product to Custom field in ghl_qr_fileds table
   const handleSave = async () => {
     if (selectedFieldId && selectedFieldName) {
-      setIsLoading(true);
-      setError(null);
-      setMessage(null);
+      const result = await upsertProductFieldCombo(
+        event._id,
+        event.name,
+        selectedFieldId,
+        selectedFieldName
+      );
 
-      try {
-        const result = await upsertProductFieldCombo(
-          event._id,
-          event.name,
-          selectedFieldId,
-          selectedFieldName
-        );
-
-        // Updating current active filed name
-        if (result.success) {
-          setActiveFieldName(selectedFieldName);
-        }
-
-        setMessage("Field successfully linked to product.");
-      } catch (err) {
-        console.error(err);
-        setError("Failed to link field to product.");
-      } finally {
-        setIsLoading(false);
+      if (result.success) {
+        setActiveFieldName(selectedFieldName);
       }
     } else {
-      setError("No field selected Moose");
+      console.log("No field selected");
     }
   };
 
@@ -79,7 +57,7 @@ const EventItem = ({ event }: Props) => {
         <img
           alt=""
           src={event.image}
-          className="h-[92%] w-full rounded-t-xl xl:rounded-l-2xl xl:rounded-r-none bg-gray-50 object-cover"
+          className="h-[91%] w-full rounded-t-xl xl:rounded-l-2xl xl:rounded-r-none bg-gray-50 object-cover"
         />
       </div>
       <div className="text-center xl:text-left xl:w-1/2">
@@ -97,29 +75,21 @@ const EventItem = ({ event }: Props) => {
           </div>
           <div className="text-sm mt-2 text-center xl:text-left">
             {activeFieldName ? (
-              <div>
-                <Badge variant="outline" className="bg-gray-600 text-white">
-                  Connected Field:
-                </Badge>{" "}
-                <p>{activeFieldName}</p>
-              </div>
+              <p>Connected Field: {activeFieldName}</p>
             ) : (
-              <p className="text-red-500">No Custom Field Connected</p>
+              <p>No Custom Field Connected</p>
             )}
           </div>
           <div className="flex border-t border-gray-900/5 pt-6 justify-center xl:justify-start">
             <p className="font-semibold text-gray-900">
               <Button
-                className="bg-gray-700 hover:bg-gray-600 text-white w-[180px] flex items-center justify-center"
+                className="bg-gray-700 hover:bg-gray-600 text-white w-[180px]"
                 onClick={handleSave}
-                disabled={isLoading}
               >
-                {isLoading ? <Spinner /> : "Save Custom Field"}
+                Save Custom Field
               </Button>
             </p>
           </div>
-          {message && <p className="text-green-500 mt-2">{message}</p>}
-          {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
         <div className="text-sm leading-6">
           <p className="font-semibold text-gray-900">

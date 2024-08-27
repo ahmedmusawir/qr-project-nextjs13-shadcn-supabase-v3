@@ -40,7 +40,7 @@ const AdminPagination = ({
             onClick={handlePrevious}
             className={
               currentPage === 1
-                ? "cursor-not-allowed text-gray-300 no-underline"
+                ? "cursor-not-allowed text-gray-700 no-underline"
                 : "text-white no-underline"
             }
           />
@@ -52,7 +52,7 @@ const AdminPagination = ({
             onClick={handleNext}
             className={
               currentPage === totalPages
-                ? "cursor-not-allowed text-gray-300 no-underline"
+                ? "cursor-not-allowed text-gray-700 no-underline"
                 : "text-white no-underline"
             }
           />

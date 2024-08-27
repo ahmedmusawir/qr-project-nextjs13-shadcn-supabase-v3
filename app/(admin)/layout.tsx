@@ -17,7 +17,7 @@ const AdminLayout = ({ children }: LayoutProps) => {
         <div className="hidden xl:block h-auto flex-shrink-0 border-4 w-[15rem]">
           <AdminSidebar />
         </div>
-        <div className="flex-grow bg-gray-200">{children}</div>
+        <div className="flex-grow bg-gray-100">{children}</div>
       </section>
     </div>
   );
