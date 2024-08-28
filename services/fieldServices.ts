@@ -1,72 +1,35 @@
-import { createClient } from "@/utils/supabase/client";
-
-// Updating the product/field combo records for GHL Webhook Implementation
+// Function to upsert product-field combo using the server-side API
 export const upsertProductFieldCombo = async (
   product_id: string,
   product_name: string,
   field_id: string,
   field_name: string
 ) => {
-  const supabase = createClient();
-
   try {
-    // Step 1: Find any active records with the same product_id
-    const { data: activeRecords, error: activeError } = await supabase
-      .from("ghl_qr_fields")
-      .select("*")
-      .eq("product_id", product_id)
-      .eq("status", "active");
+    const response = await fetch("/api/qrapp/upsert-field", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        product_id,
+        product_name,
+        field_id,
+        field_name,
+      }),
+    });
 
-    if (activeError) throw activeError;
-
-    // Step 2: If found, update them to inactive
-    if (activeRecords && activeRecords.length > 0) {
-      const { error: updateError } = await supabase
-        .from("ghl_qr_fields")
-        .update({ status: "inactive" })
-        .eq("product_id", product_id)
-        .eq("status", "active");
-
-      if (updateError) throw updateError;
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.error || "Failed to upsert product-field combo"
+      );
     }
 
-    // Step 3: Check if the combo exists and is inactive, then upsert
-    const { data: existingRecord, error: existingError } = await supabase
-      .from("ghl_qr_fields")
-      .select("*")
-      .eq("product_id", product_id)
-      .eq("field_id", field_id)
-      .single();
-
-    if (existingError && existingError.code !== "PGRST116") throw existingError;
-
-    if (existingRecord) {
-      // Step 4: Update the existing inactive record to active
-      const { error: upsertError } = await supabase
-        .from("ghl_qr_fields")
-        .update({ status: "active" })
-        .eq("product_id", product_id)
-        .eq("field_id", field_id);
-
-      if (upsertError) throw upsertError;
-    } else {
-      // Step 5: Insert the new record as active
-      const { error: insertError } = await supabase
-        .from("ghl_qr_fields")
-        .insert({
-          product_id,
-          product_name,
-          field_id,
-          field_name,
-          status: "active",
-        });
-
-      if (insertError) throw insertError;
-    }
-
+    const data = await response.json();
     return {
-      success: true,
-      message: "Product-field combination saved successfully.",
+      success: data.success,
+      message: data.message,
     };
   } catch (error: any) {
     console.error("Error upserting product-field combination:", error.message);
@@ -76,21 +39,19 @@ export const upsertProductFieldCombo = async (
 
 // Fetch the current active field
 export const getActiveFieldForProduct = async (product_id: string) => {
-  const supabase = createClient();
-
-  const { data, error } = await supabase
-    .from("ghl_qr_fields")
-    .select("field_name")
-    .eq("product_id", product_id)
-    .eq("status", "active")
-    .single(); // Assuming there should only be one active record
-
-  if (error) {
-    console.error("Error fetching active field:", error);
+  const response = await fetch(
+    `/api/qrapp/active-fields?product_id=${product_id}`
+  );
+  if (!response.ok) {
+    console.error("Error fetching active field:", response.statusText);
     return null;
   }
 
-  return data ? data.field_name : null;
+  const data = await response.json();
+  if (data.field_name === null) {
+    console.log(`No active field found for product_id: ${product_id}`);
+  }
+  return data.field_name || "No active field connected";
 };
 
 // Fetching all the custom fields from GHL

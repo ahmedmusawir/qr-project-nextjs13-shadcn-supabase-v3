@@ -96,21 +96,27 @@ const EventItem = ({ event }: Props) => {
             <FieldSelector onFieldSelect={handleFieldSelect} />
           </div>
           <div className="text-sm mt-2 text-center xl:text-left">
-            {activeFieldName ? (
-              <div>
-                <Badge variant="outline" className="bg-gray-600 text-white">
-                  Connected Field:
-                </Badge>{" "}
-                <p>{activeFieldName}</p>
-              </div>
-            ) : (
-              <p className="text-red-500">No Custom Field Connected</p>
-            )}
+            {!activeFieldName && <Spinner />}
+
+            <section>
+              <Badge variant="outline" className="bg-indigo-700 text-white">
+                Connected Field:
+              </Badge>{" "}
+              <p
+                className={
+                  activeFieldName === "No active field connected"
+                    ? "text-red-500"
+                    : "text-indigo-500 font-bold"
+                }
+              >
+                {activeFieldName}
+              </p>
+            </section>
           </div>
           <div className="flex border-t border-gray-900/5 pt-6 justify-center xl:justify-start">
             <p className="font-semibold text-gray-900">
               <Button
-                className="bg-gray-700 hover:bg-gray-600 text-white w-[180px] flex items-center justify-center"
+                className="bg-indigo-700 hover:bg-gray-600 text-white w-[180px] flex items-center justify-center"
                 onClick={handleSave}
                 disabled={isLoading}
               >
@@ -124,7 +130,7 @@ const EventItem = ({ event }: Props) => {
         <div className="text-sm leading-6">
           <p className="font-semibold text-gray-900">
             <Link className="" href="/">
-              <Button className="bg-indigo-700 hover:bg-gray-600 text-white w-full">
+              <Button className="bg-gray-700 hover:bg-gray-600 text-white w-full">
                 View Orders
               </Button>
             </Link>

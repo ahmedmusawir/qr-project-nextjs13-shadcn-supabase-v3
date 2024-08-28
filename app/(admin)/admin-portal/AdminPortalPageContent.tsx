@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Page from "@/components/common/Page";
 import Row from "@/components/common/Row";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Spinner from "@/components/common/Spinner";
 import { fetchEvents } from "@/services/eventServices";
 import Head from "next/head";
