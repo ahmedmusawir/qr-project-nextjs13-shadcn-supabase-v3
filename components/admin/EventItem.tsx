@@ -105,7 +105,7 @@ const EventItem = ({ event }: Props) => {
               <p
                 className={
                   activeFieldName === "No active field connected"
-                    ? "text-red-500"
+                    ? "text-red-500 font-bold"
                     : "text-indigo-500 font-bold"
                 }
               >

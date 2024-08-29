@@ -12,21 +12,21 @@ export async function GET() {
     console.log("[/api/ghl/contacts/] Contacts:", contacts);
 
     // Uncomment this section if you want to upsert contacts into Supabase
-    for (const contact of contacts) {
-      await supabase.from("ghl_contacts").upsert({
-        ghl_id: contact.id,
-        location_id: contact.locationId,
-        contact_name: contact.contactName,
-        first_name: contact.firstName,
-        last_name: contact.lastName,
-        company_name: contact.companyName,
-        email: contact.email,
-        phone: contact.phone,
-        address: contact.address1,
-        inserted_at: contact.dateAdded,
-        updated_at: contact.dateUpdated,
-      });
-    }
+    // for (const contact of contacts) {
+    //   await supabase.from("ghl_contacts").upsert({
+    //     ghl_id: contact.id,
+    //     location_id: contact.locationId,
+    //     contact_name: contact.contactName,
+    //     first_name: contact.firstName,
+    //     last_name: contact.lastName,
+    //     company_name: contact.companyName,
+    //     email: contact.email,
+    //     phone: contact.phone,
+    //     address: contact.address1,
+    //     inserted_at: contact.dateAdded,
+    //     updated_at: contact.dateUpdated,
+    //   });
+    // }
 
     return NextResponse.json({
       message: "Contacts synced successfully",
