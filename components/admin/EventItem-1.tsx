@@ -56,15 +56,12 @@ const EventItem = ({ event }: Props) => {
           selectedFieldName
         );
 
-        // If the result is successful, update the active field name
+        // Updating current active filed name
         if (result.success) {
           setActiveFieldName(selectedFieldName);
-          setMessage(result.message);
-        } else {
-          // If the result is not successful, display the error message
-          setError(result.error || "Failed to link field to product.");
         }
-        // setMessage("Field successfully linked to product.");
+
+        setMessage("Field successfully linked to product.");
       } catch (err) {
         console.error(err);
         setError("Failed to link field to product.");

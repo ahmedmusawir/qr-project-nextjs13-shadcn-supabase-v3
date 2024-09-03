@@ -25,7 +25,6 @@ export async function GET(request: Request) {
   }
 
   // Fetch the paginated data
-  // Fetch the paginated data
   const { data: orders, error } = await supabase
     .from("ghl_qr_orders")
     .select(

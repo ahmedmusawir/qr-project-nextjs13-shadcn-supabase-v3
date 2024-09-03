@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Step 2: Find any active records with the same product_id
+    // Step 2: Find any active record with the same product_id
     const { data: activeRecords, error: activeError } = await supabase
       .from("ghl_qr_fields")
       .select("*")
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Custom-field connected to Product successfully.",
+      message: "Product-field combination saved successfully.",
     });
   } catch (error: any) {
     console.error("Error upserting product-field combination:", error.message);

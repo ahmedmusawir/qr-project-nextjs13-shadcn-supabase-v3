@@ -10,6 +10,7 @@ export async function GET() {
           Version: "2021-07-28",
           Accept: "application/json",
         },
+        cache: "no-store", // Disables caching
       }
     );
 
