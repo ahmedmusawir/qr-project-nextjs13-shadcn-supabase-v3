@@ -1,45 +1,37 @@
 "use client";
 
-import { PaperClipIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { fetchOrderById } from "@/services/orderServices";
 import { Order } from "@/types/orders";
 import Spinner from "@/components/common/Spinner";
 import TicketTable from "@/components/admin/TicketTable";
-
-const tickets = [
-  {
-    id: "1234",
-    order_id: "66c356325478d22b7d2bc98e",
-    ticket_type: "VIP",
-    status: "live",
-  },
-  {
-    id: "5678",
-    order_id: "66bc19a19b06065ff088a4cf",
-    ticket_type: "Regular",
-    status: "live",
-  },
-];
+import { Ticket } from "@/types/tickets";
+import { fetchTicketsByOrderId } from "@/services/ticketServices";
+import BackButton from "@/components/common/BackButton";
 
 const SingleOrderPageContent = () => {
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id; // Ensure id is a string
   const [order, setOrder] = useState<Order | null>(null);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
 
   useEffect(() => {
-    const getOrder = async () => {
+    const getOrderAndTickets = async () => {
       try {
         const fetchedOrder = await fetchOrderById(id);
         console.log("Fetched Order Data:", fetchedOrder);
         setOrder(fetchedOrder);
+
+        const fetchedTickets = await fetchTicketsByOrderId(id);
+        console.log("Fetched Tickets Data:", fetchedTickets);
+        setTickets(fetchedTickets);
       } catch (error) {
-        console.error("Error fetching order:", error);
+        console.error("Error fetching order or tickets:", error);
       }
     };
 
-    getOrder();
+    getOrderAndTickets();
   }, [id]);
 
   if (!order) {
@@ -53,6 +45,8 @@ const SingleOrderPageContent = () => {
   return (
     <div>
       <div className="px-4 sm:px-0">
+        <BackButton text="Back To Posts" />
+
         <h2 className="text-xxl font-semibold leading-7 text-gray-900">
           <img
             src={order.event_image}
@@ -60,10 +54,9 @@ const SingleOrderPageContent = () => {
             className="h-16 w-16 rounded-md float-start mr-10"
           />
           Order Information:{" "}
-          <span className="text-red-500">{order.event_name}</span>
         </h2>
-        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          Personal details and application.
+        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500 font-bold">
+          Event Name: <span className="text-red-500">{order.event_name}</span>
         </p>
       </div>
       <div className="mt-6 border-t border-gray-200 dark:border-gray-700">

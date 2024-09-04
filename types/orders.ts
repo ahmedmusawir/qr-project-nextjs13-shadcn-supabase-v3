@@ -22,7 +22,7 @@ export interface Order {
   event_ticket_price: number;
   event_ticket_type: string;
   event_ticket_currency: string;
-  // event_available_qty: number;
+  event_available_qty: number;
   event_ticket_qty: number;
   inserted_at: string;
   updated_at: string;

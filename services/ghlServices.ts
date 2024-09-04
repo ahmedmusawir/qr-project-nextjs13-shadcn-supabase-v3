@@ -13,6 +13,7 @@ export const fetchGhlOrderList = async () => {
         "Content-Type": "application/json",
         Version: "2021-07-28",
       },
+      cache: "no-store",
     }
   );
 
@@ -39,6 +40,7 @@ export const fetchGhlOrderDetails = async (orderId: string) => {
         "Content-Type": "application/json",
         Version: "2021-07-28",
       },
+      cache: "no-store",
     }
   );
 

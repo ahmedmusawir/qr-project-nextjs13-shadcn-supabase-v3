@@ -132,7 +132,7 @@ const EventItem = ({ event }: Props) => {
         </div>
         <div className="text-sm leading-6">
           <p className="font-semibold text-gray-900">
-            <Link className="" href="/">
+            <Link className="" href={`/events/${event._id}`}>
               <Button className="bg-gray-700 hover:bg-gray-600 text-white w-full">
                 View Orders
               </Button>

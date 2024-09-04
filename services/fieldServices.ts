@@ -11,6 +11,7 @@ export const upsertProductFieldCombo = async (
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-cache",
       body: JSON.stringify({
         product_id,
         product_name,
@@ -40,7 +41,8 @@ export const upsertProductFieldCombo = async (
 // Fetch the current active field
 export const getActiveFieldForProduct = async (product_id: string) => {
   const response = await fetch(
-    `/api/qrapp/active-fields?product_id=${product_id}`
+    `/api/qrapp/active-fields?product_id=${product_id}`,
+    { cache: "no-cache" }
   );
   if (!response.ok) {
     console.error("Error fetching active field:", response.statusText);
@@ -56,7 +58,7 @@ export const getActiveFieldForProduct = async (product_id: string) => {
 
 // Fetching all the custom fields from GHL
 export const fetchCustomFields = async () => {
-  const response = await fetch("/api/qrapp/fields");
+  const response = await fetch("/api/qrapp/fields", { cache: "no-cache" });
   if (!response.ok) {
     throw new Error("Failed to fetch custom fields");
   }

@@ -1,5 +1,5 @@
 export interface Ticket {
-  id: string;
+  ticket_id: string;
   order_id: string;
   ticket_type: string;
   status: string;

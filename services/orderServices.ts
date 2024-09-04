@@ -8,7 +8,10 @@ export const fetchOrders = async (page: number = 1, pageSize: number = 10) => {
     });
 
     // Make the GET request to the /orders endpoint
-    const response = await fetch(`/api/qrapp/orders?${queryParams.toString()}`);
+    const response = await fetch(
+      `/api/qrapp/orders?${queryParams.toString()}`,
+      { cache: "no-store" }
+    );
 
     // Handle the response
     if (!response.ok) {
@@ -28,7 +31,9 @@ export const fetchOrders = async (page: number = 1, pageSize: number = 10) => {
 export const fetchOrderById = async (orderId: string) => {
   try {
     // Make the GET request to the /orders/[id] endpoint
-    const response = await fetch(`/api/qrapp/orders/${orderId}`);
+    const response = await fetch(`/api/qrapp/orders/${orderId}`, {
+      cache: "no-store",
+    });
 
     // Handle the response
     if (!response.ok) {

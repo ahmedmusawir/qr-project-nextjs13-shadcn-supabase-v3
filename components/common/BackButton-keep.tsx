@@ -1,22 +1,20 @@
 import React from "react";
 import { ArrowLeftCircle } from "lucide-react";
+import Link from "next/link";
 
 interface BackButtonProps {
   text: string;
+  link: string;
 }
 
-const BackButton = ({ text }: BackButtonProps) => {
-  const handleBackClick = () => {
-    window.history.back(); // This goes one step back in the browser history
-  };
-
+const BackButton = ({ text, link }: BackButtonProps) => {
   return (
-    <button
-      onClick={handleBackClick}
+    <Link
+      href={link}
       className="text-gray-500 hover:underline flex items-center gap-1 font-bold mb-5"
     >
       <ArrowLeftCircle size={18} /> {text}
-    </button>
+    </Link>
   );
 };
 

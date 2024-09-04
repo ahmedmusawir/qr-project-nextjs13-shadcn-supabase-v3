@@ -46,7 +46,7 @@ export async function GET() {
         contact_lastname: orderDetails.contactSnapshot?.lastName,
         contact_email: orderDetails.contactSnapshot?.email,
         contact_phone: orderDetails.contactSnapshot?.phone,
-        date_added: orderDetails.contactSnapshot?.dateAdded,
+        date_added: orderDetails.createdAt,
         event_id: orderDetails.items[0]?.product?._id,
         event_name: orderDetails.items[0]?.product?.name,
         event_image: orderDetails.items[0]?.product?.image,

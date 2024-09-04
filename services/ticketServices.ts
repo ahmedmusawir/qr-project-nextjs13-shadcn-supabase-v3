@@ -4,7 +4,9 @@ export const fetchTicketsByOrderId = async (
   orderId: string
 ): Promise<Ticket[]> => {
   try {
-    const response = await fetch(`/api/qrapp/tickets/${orderId}`);
+    const response = await fetch(`/api/qrapp/tickets/${orderId}`, {
+      cache: "no-store",
+    });
     if (!response.ok) {
       throw new Error("Failed to fetch tickets");
     }

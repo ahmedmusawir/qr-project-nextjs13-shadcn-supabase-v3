@@ -25,7 +25,7 @@ const TicketTable = ({ tickets }: TicketTableProps) => {
     <div className="mt-10">
       <Table className="mb-8">
         <TableCaption>A list of your recent JSON Server tickets.</TableCaption>
-        <TableHeader>
+        <TableHeader className="border-b-2 border-red-400">
           <TableRow>
             <TableHead className="">Ticket Type</TableHead>
             <TableHead className="hidden md:table-cell">
@@ -36,11 +36,17 @@ const TicketTable = ({ tickets }: TicketTableProps) => {
         </TableHeader>
         <TableBody>
           {tickets?.map((ticket) => (
-            <TableRow key={ticket.id}>
+            <TableRow
+              key={ticket.ticket_id}
+              className="border-b-2 border-slate-400"
+            >
               <TableCell>
                 {ticket.ticket_type}
-                <Badge variant={"outline"} className="ml-5">
-                  ID: {ticket.order_id}{" "}
+                <Badge
+                  variant={"outline"}
+                  className="hidden sm:inline ml-5 p-[.5rem] bg-red-700 text-white "
+                >
+                  ID: {ticket.ticket_id}{" "}
                 </Badge>
               </TableCell>
               <TableCell>{ticket.status}</TableCell>
