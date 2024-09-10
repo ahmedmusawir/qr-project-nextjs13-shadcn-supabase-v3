@@ -25,25 +25,61 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { fetchGhlOrderDetails } from "@/services/ghlServices";
+import fs from "fs";
+import path from "path";
 
-// Helper function to fetch price name
-async function fetchPriceName(
-  productId: string,
-  priceId: string,
-  locationId: string
-) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/ghl/price/${priceId}?product_id=${productId}&location_id=${locationId}`,
-    {
-      method: "GET",
-    }
-  );
+/**
+ * Function: fetchTicketTypesFromJson
+ *
+ * Reads the `ticket_types.json` file from the server's public directory and retrieves
+ * the list of ticket type names associated with the specified `productId`.
+ *
+ * @param {string} productId - The unique identifier of the product to fetch ticket types for.
+ * @returns {Promise<string[]>} - A promise that resolves to an array of ticket type names.
+ */
+async function fetchTicketTypesFromJson(productId: string): Promise<string[]> {
+  const jsonFilePath = path.join(process.cwd(), "public", "ticket_types.json");
+  try {
+    const data = fs.readFileSync(jsonFilePath, "utf8");
+    const ticketTypesArray = JSON.parse(data);
 
-  const data = await response.json();
-  if (data.error) {
-    throw new Error(`Failed to fetch price name: ${data.error}`);
+    // Find the ticket types for the given product_id
+    const product = ticketTypesArray.find(
+      (item: any) => item.product_id === productId
+    );
+    return product ? product.ticket_types.map((type: any) => type.name) : [];
+  } catch (error) {
+    console.error("Error reading ticket_types.json:", error);
+    return [];
   }
-  return data.priceName;
+}
+
+/**
+ * Function: fetchTicketTypesFromApi
+ *
+ * Fetches ticket type names from the GHL API for a given `productId` and `locationId`.
+ * This function acts as a fallback in case the ticket types are not found in the `ticket_types.json` file.
+ *
+ * @param {string} productId - The unique identifier of the product to fetch ticket types for.
+ * @param {string} locationId - The unique identifier of the location associated with the product.
+ * @returns {Promise<string[]>} - A promise that resolves to an array of ticket type names.
+ */
+async function fetchTicketTypesFromApi(
+  productId: string,
+  locationId: string
+): Promise<string[]> {
+  try {
+    const response = await fetch(
+      `/api/ghl/price?product_id=${productId}&location_id=${locationId}`
+    );
+    const data = await response.json();
+    return data.prices
+      ? data.prices.map((price: { name: string }) => price.name)
+      : [];
+  } catch (error) {
+    console.error("Error fetching price data from GHL API:", error);
+    return [];
+  }
 }
 
 // Async function to handle the GET request
@@ -64,25 +100,33 @@ export async function GET(
 
     console.log(`[Order Details for ${orderId}]`, orderDetails);
 
-    // Initialize ticket quantities
-    const ticketQuantities: { [key: string]: number } = {};
+    // Step 2: Initialize ticket quantities
+    let ticketQuantities: { [key: string]: number } = {};
 
-    // Step 2: Calculate ticket quantities based on order items
+    // Step 3: Loop through the order items and fetch ticket types
     for (const item of orderDetails.items) {
       const productId = item.product._id;
-      const priceId = item.price._id;
       const locationId = orderDetails.altId;
 
-      // Fetch the dynamic price name
-      const priceName = await fetchPriceName(productId, priceId, locationId);
+      // Try fetching ticket types from the JSON file
+      let ticketTypes = await fetchTicketTypesFromJson(productId);
 
-      // Add the quantity to the correct ticket type (dynamic)
-      ticketQuantities[priceName] =
-        (ticketQuantities[priceName] || 0) + item.qty;
+      // Fallback to GHL API if ticket types not found in the JSON
+      if (ticketTypes.length === 0) {
+        ticketTypes = await fetchTicketTypesFromApi(productId, locationId);
+      }
+
+      // Calculate quantities based on the ticket types
+      for (const type of ticketTypes) {
+        if (!ticketQuantities[type]) {
+          ticketQuantities[type] = 0;
+        }
+        ticketQuantities[type] += item.qty;
+      }
     }
 
-    // Step 3: Upsert the order details into `ghl_qr_orders`
-    const { error: upsertError } = await supabase.from("ghl_qr_orders").upsert({
+    // Step 4: Upsert the order details into `ghl_qr_orders`
+    await supabase.from("ghl_qr_orders").upsert({
       order_id: orderDetails._id,
       location_id: orderDetails.altId,
       total_paid: orderDetails.amount,
@@ -98,31 +142,17 @@ export async function GET(
       event_id: orderDetails.items[0]?.product?._id,
       event_name: orderDetails.items[0]?.product?.name,
       event_image: orderDetails.items[0]?.product?.image,
-      event_ticket_price: orderDetails.items[0]?.price?.amount,
-      event_ticket_type: orderDetails.items[0]?.price?.name,
-      event_ticket_currency: orderDetails.items[0]?.price?.currency,
-      event_available_qty: orderDetails.items[0]?.price?.availableQuantity,
-      event_ticket_qty: orderDetails.items[0]?.qty,
-      // Upsert the total quantities dynamically for all ticket types
-      ticket_quantities: ticketQuantities,
+      event_ticket_qty: Object.values(ticketQuantities).reduce(
+        (acc, qty) => acc + qty,
+        0
+      ),
+      ticket_quantities: ticketQuantities, // Store the dynamic ticket quantities
     });
-
-    if (upsertError) {
-      console.error("Error upserting order details:", upsertError.message);
-    } else {
-      console.log("Order details upserted successfully.");
-    }
 
     // Step 4: Insert missing tickets into `ghl_qr_tickets`
     for (const item of orderDetails.items) {
-      const productId = item.product._id;
-      const priceId = item.price._id;
-      const locationId = orderDetails.altId;
-
-      // Fetch the dynamic price name
-      const ticketType = await fetchPriceName(productId, priceId, locationId);
+      const ticketType = item.price?.name;
       const qty = item.qty;
-      console.log("THIS IS THE TICKET TYPE:", ticketType);
 
       // First, check how many tickets already exist for this order
       const { data: existingTickets, error } = await supabase
@@ -140,33 +170,14 @@ export async function GET(
       }
 
       const existingCount = existingTickets ? existingTickets.length : 0;
-      console.log(`Processing ${ticketType} with quantity ${qty}`);
 
-      // Log the existing count
-      console.log(`Existing count for ${ticketType}: ${existingCount}`);
-
-      if (existingCount < qty) {
-        // Log how many tickets we are about to insert
-        console.log(
-          `Inserting ${qty - existingCount} new ${ticketType} tickets`
-        );
-
-        // Insert missing tickets
-        for (let i = existingCount; i < qty; i++) {
-          await supabase.from("ghl_qr_tickets").upsert({
-            order_id: orderDetails._id,
-            ticket_type: ticketType,
-            status: "live",
-          });
-          // Log after each insert
-          console.log(
-            `Inserted ${ticketType} ticket for order ${orderDetails._id}`
-          );
-        }
-      } else {
-        console.log(
-          `No need to insert ${ticketType} tickets, already up to date.`
-        );
+      // Insert only the missing tickets
+      for (let i = existingCount; i < qty; i++) {
+        await supabase.from("ghl_qr_tickets").insert({
+          order_id: orderDetails._id,
+          ticket_type: ticketType,
+          status: "live",
+        });
       }
     }
 
