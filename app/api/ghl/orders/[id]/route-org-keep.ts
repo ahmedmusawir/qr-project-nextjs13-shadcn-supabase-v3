@@ -26,26 +26,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { fetchGhlOrderDetails } from "@/services/ghlServices";
 
-// Helper function to fetch price name
-async function fetchPriceName(
-  productId: string,
-  priceId: string,
-  locationId: string
-) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/ghl/price/${priceId}?product_id=${productId}&location_id=${locationId}`,
-    {
-      method: "GET",
-    }
-  );
-
-  const data = await response.json();
-  if (data.error) {
-    throw new Error(`Failed to fetch price name: ${data.error}`);
-  }
-  return data.priceName;
-}
-
 // Async function to handle the GET request
 export async function GET(
   req: NextRequest,
@@ -65,24 +45,20 @@ export async function GET(
     console.log(`[Order Details for ${orderId}]`, orderDetails);
 
     // Initialize ticket quantities
-    const ticketQuantities: { [key: string]: number } = {};
+    let vipQty = 0;
+    let regularQty = 0;
 
     // Step 2: Calculate ticket quantities based on order items
     for (const item of orderDetails.items) {
-      const productId = item.product._id;
-      const priceId = item.price._id;
-      const locationId = orderDetails.altId;
-
-      // Fetch the dynamic price name
-      const priceName = await fetchPriceName(productId, priceId, locationId);
-
-      // Add the quantity to the correct ticket type (dynamic)
-      ticketQuantities[priceName] =
-        (ticketQuantities[priceName] || 0) + item.qty;
+      if (item.price?.name === "VIP") {
+        vipQty += item.qty;
+      } else if (item.price?.name === "Regular") {
+        regularQty += item.qty;
+      }
     }
 
     // Step 3: Upsert the order details into `ghl_qr_orders`
-    const { error: upsertError } = await supabase.from("ghl_qr_orders").upsert({
+    await supabase.from("ghl_qr_orders").upsert({
       order_id: orderDetails._id,
       location_id: orderDetails.altId,
       total_paid: orderDetails.amount,
@@ -103,26 +79,14 @@ export async function GET(
       event_ticket_currency: orderDetails.items[0]?.price?.currency,
       event_available_qty: orderDetails.items[0]?.price?.availableQuantity,
       event_ticket_qty: orderDetails.items[0]?.qty,
-      // Upsert the total quantities dynamically for all ticket types
-      ticket_quantities: ticketQuantities,
+      vip_ticket_qty: vipQty,
+      regular_ticket_qty: regularQty,
     });
-
-    if (upsertError) {
-      console.error("Error upserting order details:", upsertError.message);
-    } else {
-      console.log("Order details upserted successfully.");
-    }
 
     // Step 4: Insert missing tickets into `ghl_qr_tickets`
     for (const item of orderDetails.items) {
-      const productId = item.product._id;
-      const priceId = item.price._id;
-      const locationId = orderDetails.altId;
-
-      // Fetch the dynamic price name
-      const ticketType = await fetchPriceName(productId, priceId, locationId);
+      const ticketType = item.price?.name;
       const qty = item.qty;
-      console.log("THIS IS THE TICKET TYPE:", ticketType);
 
       // First, check how many tickets already exist for this order
       const { data: existingTickets, error } = await supabase
@@ -140,33 +104,14 @@ export async function GET(
       }
 
       const existingCount = existingTickets ? existingTickets.length : 0;
-      console.log(`Processing ${ticketType} with quantity ${qty}`);
 
-      // Log the existing count
-      console.log(`Existing count for ${ticketType}: ${existingCount}`);
-
-      if (existingCount < qty) {
-        // Log how many tickets we are about to insert
-        console.log(
-          `Inserting ${qty - existingCount} new ${ticketType} tickets`
-        );
-
-        // Insert missing tickets
-        for (let i = existingCount; i < qty; i++) {
-          await supabase.from("ghl_qr_tickets").upsert({
-            order_id: orderDetails._id,
-            ticket_type: ticketType,
-            status: "live",
-          });
-          // Log after each insert
-          console.log(
-            `Inserted ${ticketType} ticket for order ${orderDetails._id}`
-          );
-        }
-      } else {
-        console.log(
-          `No need to insert ${ticketType} tickets, already up to date.`
-        );
+      // Insert only the missing tickets
+      for (let i = existingCount; i < qty; i++) {
+        await supabase.from("ghl_qr_tickets").insert({
+          order_id: orderDetails._id,
+          ticket_type: ticketType,
+          status: "live",
+        });
       }
     }
 

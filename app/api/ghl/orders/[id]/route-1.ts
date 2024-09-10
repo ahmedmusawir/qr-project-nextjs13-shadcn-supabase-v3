@@ -140,33 +140,14 @@ export async function GET(
       }
 
       const existingCount = existingTickets ? existingTickets.length : 0;
-      console.log(`Processing ${ticketType} with quantity ${qty}`);
 
-      // Log the existing count
-      console.log(`Existing count for ${ticketType}: ${existingCount}`);
-
-      if (existingCount < qty) {
-        // Log how many tickets we are about to insert
-        console.log(
-          `Inserting ${qty - existingCount} new ${ticketType} tickets`
-        );
-
-        // Insert missing tickets
-        for (let i = existingCount; i < qty; i++) {
-          await supabase.from("ghl_qr_tickets").upsert({
-            order_id: orderDetails._id,
-            ticket_type: ticketType,
-            status: "live",
-          });
-          // Log after each insert
-          console.log(
-            `Inserted ${ticketType} ticket for order ${orderDetails._id}`
-          );
-        }
-      } else {
-        console.log(
-          `No need to insert ${ticketType} tickets, already up to date.`
-        );
+      // Insert only the missing tickets
+      for (let i = existingCount; i < qty; i++) {
+        await supabase.from("ghl_qr_tickets").insert({
+          order_id: orderDetails._id,
+          ticket_type: ticketType,
+          status: "live",
+        });
       }
     }
 

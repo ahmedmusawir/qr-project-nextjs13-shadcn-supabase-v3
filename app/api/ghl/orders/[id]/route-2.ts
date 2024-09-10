@@ -153,7 +153,7 @@ export async function GET(
 
         // Insert missing tickets
         for (let i = existingCount; i < qty; i++) {
-          await supabase.from("ghl_qr_tickets").upsert({
+          await supabase.from("ghl_qr_tickets").insert({
             order_id: orderDetails._id,
             ticket_type: ticketType,
             status: "live",

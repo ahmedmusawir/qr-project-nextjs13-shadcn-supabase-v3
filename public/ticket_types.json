@@ -1,0 +1,79 @@
+[
+  {
+    "product_id": "66bc15b716adf7d0c9f8781b",
+    "ticket_types": [
+      {
+        "name": "Regular"
+      },
+      {
+        "name": "VIP"
+      }
+    ]
+  },
+  {
+    "product_id": "66bc163416adf7bd62f8786b",
+    "ticket_types": [
+      {
+        "name": "Regular"
+      },
+      {
+        "name": "VIP"
+      }
+    ]
+  },
+  {
+    "product_id": "66bc172716adf78eb1f8793e",
+    "ticket_types": [
+      {
+        "name": "Regular"
+      },
+      {
+        "name": "VIP"
+      }
+    ]
+  },
+  {
+    "product_id": "66bc179816adf720a7f87963",
+    "ticket_types": [
+      {
+        "name": "VIP"
+      },
+      {
+        "name": "Regular"
+      }
+    ]
+  },
+  {
+    "product_id": "66bc14d6ad507d458c3fa071",
+    "ticket_types": [
+      {
+        "name": "Regular"
+      },
+      {
+        "name": "VIP"
+      }
+    ]
+  },
+  {
+    "product_id": "66bc180616adf73b0ff8799e",
+    "ticket_types": [
+      {
+        "name": "Team Tickets"
+      },
+      {
+        "name": "VIP"
+      }
+    ]
+  },
+  {
+    "product_id": "66bc169cad507d82ea3fa12c",
+    "ticket_types": [
+      {
+        "name": "VIP"
+      },
+      {
+        "name": "Regular"
+      }
+    ]
+  }
+]
