@@ -3,6 +3,8 @@ import { createClient } from "@/utils/supabase/server";
 import {
   fetchGhlOrderList,
   fetchGhlOrderDetails,
+  fetchTicketTypesFromJson,
+  fetchTicketTypesFromApi,
 } from "@/services/ghlServices";
 
 export async function GET() {
@@ -20,20 +22,37 @@ export async function GET() {
 
       console.log(`[Order Details for ${orderId}]`, orderDetails);
 
-      // Initialize quantities
-      let vipQty = 0;
-      let regularQty = 0;
+      // Initialize ticket quantities object
+      let ticketQuantities: { [key: string]: number } = {};
 
-      // Step 3: Calculate ticket quantities and update `ghl_qr_orders`
+      // Step 3: Calculate ticket quantities based on dynamic ticket types
       for (const item of orderDetails.items) {
-        if (item.price?.name === "VIP") {
-          vipQty += item.qty;
-        } else if (item.price?.name === "Regular") {
-          regularQty += item.qty;
+        const productId = item.product._id;
+        const locationId = orderDetails.altId;
+
+        // Try fetching ticket types from the JSON file first
+        let ticketTypes = await fetchTicketTypesFromJson(productId);
+
+        // Fallback to GHL API if ticket types are not found in the JSON file
+        if (ticketTypes.length === 0) {
+          ticketTypes = await fetchTicketTypesFromApi(productId, locationId);
+        }
+
+        // Add quantities based on ticket types
+        for (const type of ticketTypes) {
+          if (!ticketQuantities[type]) {
+            ticketQuantities[type] = 0;
+          }
+          ticketQuantities[type] += item.qty;
         }
       }
 
-      // Upsert into `ghl_qr_orders`
+      // Step 4: Upsert into `ghl_qr_orders`
+      const totalTicketQty = Object.values(ticketQuantities).reduce(
+        (acc, qty) => acc + qty,
+        0
+      );
+
       await supabase.from("ghl_qr_orders").upsert({
         order_id: orderDetails._id,
         location_id: orderDetails.altId,
@@ -50,23 +69,13 @@ export async function GET() {
         event_id: orderDetails.items[0]?.product?._id,
         event_name: orderDetails.items[0]?.product?.name,
         event_image: orderDetails.items[0]?.product?.image,
-        event_ticket_price: orderDetails.items[0]?.price?.amount,
-        event_ticket_type: orderDetails.items[0]?.price?.name,
-        event_ticket_currency: orderDetails.items[0]?.price?.currency,
-        event_available_qty: orderDetails.items[0]?.price?.availableQuantity,
-        event_ticket_qty: orderDetails.items[0]?.qty,
-        vip_ticket_qty: vipQty,
-        regular_ticket_qty: regularQty,
+        event_ticket_qty: totalTicketQty,
+        ticket_quantities: ticketQuantities, // Store the dynamic ticket quantities
       });
 
-      // Step 4: Insert or update tickets into `ghl_qr_tickets`
-      for (const item of orderDetails.items) {
-        const ticketType = item.price?.name;
-        const qty = item.qty;
-
-        console.log("QUANTITY: ", qty);
-
-        // First, check how many tickets already exist
+      // Step 5: Insert or update tickets into `ghl_qr_tickets`
+      for (const [ticketType, qty] of Object.entries(ticketQuantities)) {
+        // Check existing tickets for the given type
         const { data: existingTickets, error } = await supabase
           .from("ghl_qr_tickets")
           .select("*")

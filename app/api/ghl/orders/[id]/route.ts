@@ -24,63 +24,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { fetchGhlOrderDetails } from "@/services/ghlServices";
-import fs from "fs";
-import path from "path";
-
-/**
- * Function: fetchTicketTypesFromJson
- *
- * Reads the `ticket_types.json` file from the server's public directory and retrieves
- * the list of ticket type names associated with the specified `productId`.
- *
- * @param {string} productId - The unique identifier of the product to fetch ticket types for.
- * @returns {Promise<string[]>} - A promise that resolves to an array of ticket type names.
- */
-async function fetchTicketTypesFromJson(productId: string): Promise<string[]> {
-  const jsonFilePath = path.join(process.cwd(), "public", "ticket_types.json");
-  try {
-    const data = fs.readFileSync(jsonFilePath, "utf8");
-    const ticketTypesArray = JSON.parse(data);
-
-    // Find the ticket types for the given product_id
-    const product = ticketTypesArray.find(
-      (item: any) => item.product_id === productId
-    );
-    return product ? product.ticket_types.map((type: any) => type.name) : [];
-  } catch (error) {
-    console.error("Error reading ticket_types.json:", error);
-    return [];
-  }
-}
-
-/**
- * Function: fetchTicketTypesFromApi
- *
- * Fetches ticket type names from the GHL API for a given `productId` and `locationId`.
- * This function acts as a fallback in case the ticket types are not found in the `ticket_types.json` file.
- *
- * @param {string} productId - The unique identifier of the product to fetch ticket types for.
- * @param {string} locationId - The unique identifier of the location associated with the product.
- * @returns {Promise<string[]>} - A promise that resolves to an array of ticket type names.
- */
-async function fetchTicketTypesFromApi(
-  productId: string,
-  locationId: string
-): Promise<string[]> {
-  try {
-    const response = await fetch(
-      `/api/ghl/price?product_id=${productId}&location_id=${locationId}`
-    );
-    const data = await response.json();
-    return data.prices
-      ? data.prices.map((price: { name: string }) => price.name)
-      : [];
-  } catch (error) {
-    console.error("Error fetching price data from GHL API:", error);
-    return [];
-  }
-}
+import {
+  fetchGhlOrderDetails,
+  fetchTicketTypesFromJson,
+  fetchTicketTypesFromApi,
+} from "@/services/ghlServices";
 
 // Async function to handle the GET request
 export async function GET(
