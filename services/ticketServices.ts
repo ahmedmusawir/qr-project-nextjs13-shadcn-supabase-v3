@@ -12,8 +12,6 @@
  * The generated ticket types JSON file is saved to the public directory and
  * contains a list of ticket types for each product.
  */
-import fs from "fs";
-import path from "path";
 
 // This function will handle fetching and caching of ticket types
 export async function fetchAndGenerateTicketTypes(): Promise<void> {
@@ -23,7 +21,7 @@ export async function fetchAndGenerateTicketTypes(): Promise<void> {
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/ghl/events`,
       {
         method: "GET",
-        next: { revalidate: 300 }, // Cache for 5 minutes
+        next: { revalidate: 3600 }, // Cache for 5 minutes
       }
     );
 
@@ -46,7 +44,7 @@ export async function fetchAndGenerateTicketTypes(): Promise<void> {
         }
       );
 
-      console.log("RESPONSE ticketServices:", res);
+      // console.log("RESPONSE ticketServices:", res);
 
       if (res.ok) {
         console.log("Ticket types JSON generated successfully.");

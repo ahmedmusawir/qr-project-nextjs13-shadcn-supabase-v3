@@ -24,28 +24,23 @@ export async function GET() {
 
     console.log("[/api/ghl/orders/sync] Valid Order IDs:", validOrderIds);
 
-    // You can now use validOrderIds in place of orderIds
     for (const orderId of validOrderIds) {
       const orderDetails = await fetchGhlOrderDetails(orderId);
       console.log(`[Order Details for ${orderId}]`, orderDetails);
 
-      // Initialize ticket quantities object
       let ticketQuantities: { [key: string]: number } = {};
 
-      // Step 3: Calculate ticket quantities based on dynamic ticket types
+      // Step 2: Calculate ticket quantities based on dynamic ticket types
       for (const item of orderDetails.items) {
         const productId = item.product._id;
         const locationId = orderDetails.altId;
 
-        // Try fetching ticket types from the JSON file first
         let ticketTypes = await fetchTicketTypesFromJson(productId);
-
-        // Fallback to GHL API if ticket types are not found in the JSON file
         if (ticketTypes.length === 0) {
           ticketTypes = await fetchTicketTypesFromApi(productId, locationId);
         }
 
-        // Add quantities based on ticket types
+        // Add ticket quantities
         for (const type of ticketTypes) {
           if (!ticketQuantities[type]) {
             ticketQuantities[type] = 0;
@@ -54,12 +49,12 @@ export async function GET() {
         }
       }
 
-      // Step 4: Upsert into `ghl_qr_orders`
       const totalTicketQty = Object.values(ticketQuantities).reduce(
         (acc, qty) => acc + qty,
         0
       );
 
+      // Upsert into `ghl_qr_orders` (this should not affect the tickets)
       await supabase.from("ghl_qr_orders").upsert({
         order_id: orderDetails._id,
         location_id: orderDetails.altId,
@@ -77,12 +72,12 @@ export async function GET() {
         event_name: orderDetails.items[0]?.product?.name,
         event_image: orderDetails.items[0]?.product?.image,
         event_ticket_qty: totalTicketQty,
-        ticket_quantities: ticketQuantities, // Store the dynamic ticket quantities
+        ticket_quantities: ticketQuantities, // Store dynamic ticket quantities
       });
 
-      // Step 5: Insert or update tickets into `ghl_qr_tickets`
+      // Step 3: Insert or update tickets into `ghl_qr_tickets`
       for (const [ticketType, qty] of Object.entries(ticketQuantities)) {
-        // Check existing tickets for the given type
+        // Fetch existing tickets to avoid replacing them
         const { data: existingTickets, error } = await supabase
           .from("ghl_qr_tickets")
           .select("*")
@@ -98,9 +93,13 @@ export async function GET() {
         }
 
         const existingCount = existingTickets ? existingTickets.length : 0;
+        console.log(
+          `Existing ${ticketType} tickets for ${orderId}: ${existingCount}`
+        );
 
-        // Insert only the missing tickets
+        // Insert missing tickets
         for (let i = existingCount; i < qty; i++) {
+          console.log(`Inserting missing ${ticketType} ticket for ${orderId}`);
           await supabase.from("ghl_qr_tickets").insert({
             order_id: orderDetails._id,
             ticket_type: ticketType,

@@ -21,6 +21,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import MainLayout from "@/components/layout/MainLayout";
 import { fetchAndGenerateTicketTypes } from "@/services/ticketServices";
+import { fetchAndGenerateValidOrderList } from "@/services/orderServices";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,9 @@ export default async function RootLayout({
 }>) {
   // Fetch and generate ticket types on server-side during layout load
   await fetchAndGenerateTicketTypes();
+
+  // Fetch and generate valid order list during layout load
+  await fetchAndGenerateValidOrderList();
 
   return (
     <html lang="en">

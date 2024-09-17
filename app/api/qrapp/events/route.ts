@@ -27,7 +27,7 @@ export async function GET(request: Request) {
     const eventsRawData = await response.json();
     const eventsData = await eventsRawData.products;
 
-    console.log("Received events data:", eventsData);
+    // console.log("Received events data:", eventsData);
 
     // Since eventsData is already an array, no need for extra processing
     const totalItems = eventsData.length;
