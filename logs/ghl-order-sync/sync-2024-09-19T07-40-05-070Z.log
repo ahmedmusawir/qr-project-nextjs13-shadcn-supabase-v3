@@ -1,0 +1,189 @@
+[2024-09-19 15:40:05] INFO: [Valid Order IDs]:
+[2024-09-19 15:40:05] INFO: [Starting sync for Order ID: 66c5f91c83400668a74b54b6]
+[2024-09-19 15:40:05] INFO: [Order details for 66c5f91c83400668a74b54b6:
+[2024-09-19 15:40:05] INFO: [Ticket type: Regular, Quantity: 2]
+[2024-09-19 15:40:05] INFO: [Ticket type: VIP, Quantity: 1]
+[2024-09-19 15:40:05] INFO: [Final Ticket Quantities for Order 66c5f91c83400668a74b54b6:
+[2024-09-19 15:40:06] INFO: [Order 66c5f91c83400668a74b54b6 upserted.]
+[2024-09-19 15:40:06] INFO: [Inserting missing Regular ticket for 66c5f91c83400668a74b54b6]
+[2024-09-19 15:40:07] INFO: [Inserting missing Regular ticket for 66c5f91c83400668a74b54b6]
+[2024-09-19 15:40:08] INFO: [Inserting missing VIP ticket for 66c5f91c83400668a74b54b6]
+[2024-09-19 15:40:08] INFO: [Sync for order 66c5f91c83400668a74b54b6 complete.]
+[2024-09-19 15:40:08] INFO: [Starting sync for Order ID: 66c5f80fc78c9336766bf5b1]
+[2024-09-19 15:40:08] INFO: [Order details for 66c5f80fc78c9336766bf5b1:
+[2024-09-19 15:40:08] INFO: [Ticket type: Regular, Quantity: 2]
+[2024-09-19 15:40:08] INFO: [Ticket type: VIP, Quantity: 1]
+[2024-09-19 15:40:08] INFO: [Final Ticket Quantities for Order 66c5f80fc78c9336766bf5b1:
+[2024-09-19 15:40:09] INFO: [Order 66c5f80fc78c9336766bf5b1 upserted.]
+[2024-09-19 15:40:09] INFO: [Inserting missing Regular ticket for 66c5f80fc78c9336766bf5b1]
+[2024-09-19 15:40:10] INFO: [Inserting missing Regular ticket for 66c5f80fc78c9336766bf5b1]
+[2024-09-19 15:40:10] INFO: [Inserting missing VIP ticket for 66c5f80fc78c9336766bf5b1]
+[2024-09-19 15:40:11] INFO: [Sync for order 66c5f80fc78c9336766bf5b1 complete.]
+[2024-09-19 15:40:11] INFO: [Starting sync for Order ID: 66c4a2d5a87ec6c9fa9c9995]
+[2024-09-19 15:40:11] INFO: [Order details for 66c4a2d5a87ec6c9fa9c9995:
+[2024-09-19 15:40:11] INFO: [Ticket type: Team Tickets, Quantity: 2]
+[2024-09-19 15:40:11] INFO: [Ticket type: VIP, Quantity: 1]
+[2024-09-19 15:40:11] INFO: [Final Ticket Quantities for Order 66c4a2d5a87ec6c9fa9c9995:
+[2024-09-19 15:40:11] INFO: [Order 66c4a2d5a87ec6c9fa9c9995 upserted.]
+[2024-09-19 15:40:12] INFO: [Inserting missing Team Tickets ticket for 66c4a2d5a87ec6c9fa9c9995]
+[2024-09-19 15:40:12] INFO: [Inserting missing Team Tickets ticket for 66c4a2d5a87ec6c9fa9c9995]
+[2024-09-19 15:40:13] INFO: [Inserting missing VIP ticket for 66c4a2d5a87ec6c9fa9c9995]
+[2024-09-19 15:40:13] INFO: [Sync for order 66c4a2d5a87ec6c9fa9c9995 complete.]
+[2024-09-19 15:40:13] INFO: [Starting sync for Order ID: 66c49cf328a465095d268ccf]
+[2024-09-19 15:40:14] INFO: [Order details for 66c49cf328a465095d268ccf:
+[2024-09-19 15:40:14] INFO: [Ticket type: Team Tickets, Quantity: 3]
+[2024-09-19 15:40:14] INFO: [Ticket type: VIP, Quantity: 2]
+[2024-09-19 15:40:14] INFO: [Final Ticket Quantities for Order 66c49cf328a465095d268ccf:
+[2024-09-19 15:40:14] INFO: [Order 66c49cf328a465095d268ccf upserted.]
+[2024-09-19 15:40:14] INFO: [Inserting missing Team Tickets ticket for 66c49cf328a465095d268ccf]
+[2024-09-19 15:40:15] INFO: [Inserting missing Team Tickets ticket for 66c49cf328a465095d268ccf]
+[2024-09-19 15:40:15] INFO: [Inserting missing Team Tickets ticket for 66c49cf328a465095d268ccf]
+[2024-09-19 15:40:16] INFO: [Inserting missing VIP ticket for 66c49cf328a465095d268ccf]
+[2024-09-19 15:40:16] INFO: [Inserting missing VIP ticket for 66c49cf328a465095d268ccf]
+[2024-09-19 15:40:16] INFO: [Sync for order 66c49cf328a465095d268ccf complete.]
+[2024-09-19 15:40:16] INFO: [Starting sync for Order ID: 66c357926a7436574d78770c]
+[2024-09-19 15:40:16] INFO: [Order details for 66c357926a7436574d78770c:
+[2024-09-19 15:40:16] INFO: [Ticket type: Team Tickets, Quantity: 3]
+[2024-09-19 15:40:16] INFO: [Ticket type: VIP, Quantity: 3]
+[2024-09-19 15:40:16] INFO: [Final Ticket Quantities for Order 66c357926a7436574d78770c:
+[2024-09-19 15:40:17] INFO: [Order 66c357926a7436574d78770c upserted.]
+[2024-09-19 15:40:17] INFO: [Inserting missing Team Tickets ticket for 66c357926a7436574d78770c]
+[2024-09-19 15:40:17] INFO: [Inserting missing Team Tickets ticket for 66c357926a7436574d78770c]
+[2024-09-19 15:40:18] INFO: [Inserting missing Team Tickets ticket for 66c357926a7436574d78770c]
+[2024-09-19 15:40:18] INFO: [Inserting missing VIP ticket for 66c357926a7436574d78770c]
+[2024-09-19 15:40:19] INFO: [Inserting missing VIP ticket for 66c357926a7436574d78770c]
+[2024-09-19 15:40:19] INFO: [Inserting missing VIP ticket for 66c357926a7436574d78770c]
+[2024-09-19 15:40:19] INFO: [Sync for order 66c357926a7436574d78770c complete.]
+[2024-09-19 15:40:19] INFO: [Starting sync for Order ID: 66c3571f07d5f69433411b32]
+[2024-09-19 15:40:20] INFO: [Order details for 66c3571f07d5f69433411b32:
+[2024-09-19 15:40:20] INFO: [Ticket type: Regular, Quantity: 1]
+[2024-09-19 15:40:20] INFO: [Ticket type: VIP, Quantity: 2]
+[2024-09-19 15:40:20] INFO: [Final Ticket Quantities for Order 66c3571f07d5f69433411b32:
+[2024-09-19 15:40:20] INFO: [Order 66c3571f07d5f69433411b32 upserted.]
+[2024-09-19 15:40:20] INFO: [Inserting missing Regular ticket for 66c3571f07d5f69433411b32]
+[2024-09-19 15:40:21] INFO: [Inserting missing VIP ticket for 66c3571f07d5f69433411b32]
+[2024-09-19 15:40:21] INFO: [Inserting missing VIP ticket for 66c3571f07d5f69433411b32]
+[2024-09-19 15:40:21] INFO: [Sync for order 66c3571f07d5f69433411b32 complete.]
+[2024-09-19 15:40:21] INFO: [Starting sync for Order ID: 66c356325478d22b7d2bc98e]
+[2024-09-19 15:40:22] INFO: [Order details for 66c356325478d22b7d2bc98e:
+[2024-09-19 15:40:22] INFO: [Ticket type: Regular, Quantity: 1]
+[2024-09-19 15:40:22] INFO: [Ticket type: VIP, Quantity: 1]
+[2024-09-19 15:40:22] INFO: [Final Ticket Quantities for Order 66c356325478d22b7d2bc98e:
+[2024-09-19 15:40:22] INFO: [Order 66c356325478d22b7d2bc98e upserted.]
+[2024-09-19 15:40:22] INFO: [Inserting missing Regular ticket for 66c356325478d22b7d2bc98e]
+[2024-09-19 15:40:23] INFO: [Inserting missing VIP ticket for 66c356325478d22b7d2bc98e]
+[2024-09-19 15:40:23] INFO: [Sync for order 66c356325478d22b7d2bc98e complete.]
+[2024-09-19 15:40:23] INFO: [Starting sync for Order ID: 66c355de22172d7370e20023]
+[2024-09-19 15:40:24] INFO: [Order details for 66c355de22172d7370e20023:
+[2024-09-19 15:40:24] INFO: [Ticket type: Regular, Quantity: 4]
+[2024-09-19 15:40:24] INFO: [Ticket type: VIP, Quantity: 2]
+[2024-09-19 15:40:24] INFO: [Final Ticket Quantities for Order 66c355de22172d7370e20023:
+[2024-09-19 15:40:24] INFO: [Order 66c355de22172d7370e20023 upserted.]
+[2024-09-19 15:40:24] INFO: [Inserting missing Regular ticket for 66c355de22172d7370e20023]
+[2024-09-19 15:40:25] INFO: [Inserting missing Regular ticket for 66c355de22172d7370e20023]
+[2024-09-19 15:40:25] INFO: [Inserting missing Regular ticket for 66c355de22172d7370e20023]
+[2024-09-19 15:40:25] INFO: [Inserting missing Regular ticket for 66c355de22172d7370e20023]
+[2024-09-19 15:40:26] INFO: [Inserting missing VIP ticket for 66c355de22172d7370e20023]
+[2024-09-19 15:40:26] INFO: [Inserting missing VIP ticket for 66c355de22172d7370e20023]
+[2024-09-19 15:40:27] INFO: [Sync for order 66c355de22172d7370e20023 complete.]
+[2024-09-19 15:40:27] INFO: [Starting sync for Order ID: 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:27] INFO: [Order details for 66bc1cc95c8003630adc039d:
+[2024-09-19 15:40:27] INFO: [Ticket type: VIP, Quantity: 6]
+[2024-09-19 15:40:27] INFO: [Final Ticket Quantities for Order 66bc1cc95c8003630adc039d:
+[2024-09-19 15:40:27] INFO: [Order 66bc1cc95c8003630adc039d upserted.]
+[2024-09-19 15:40:28] INFO: [Inserting missing VIP ticket for 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:28] INFO: [Inserting missing VIP ticket for 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:28] INFO: [Inserting missing VIP ticket for 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:28] INFO: [Inserting missing VIP ticket for 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:29] INFO: [Inserting missing VIP ticket for 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:29] INFO: [Inserting missing VIP ticket for 66bc1cc95c8003630adc039d]
+[2024-09-19 15:40:30] INFO: [Sync for order 66bc1cc95c8003630adc039d complete.]
+[2024-09-19 15:40:30] INFO: [Starting sync for Order ID: 66bc1c7b32bc9243f28777fa]
+[2024-09-19 15:40:30] INFO: [Order details for 66bc1c7b32bc9243f28777fa:
+[2024-09-19 15:40:30] INFO: [Ticket type: Team Tickets, Quantity: 1]
+[2024-09-19 15:40:30] INFO: [Final Ticket Quantities for Order 66bc1c7b32bc9243f28777fa:
+[2024-09-19 15:40:30] INFO: [Order 66bc1c7b32bc9243f28777fa upserted.]
+[2024-09-19 15:40:30] INFO: [Inserting missing Team Tickets ticket for 66bc1c7b32bc9243f28777fa]
+[2024-09-19 15:40:31] INFO: [Sync for order 66bc1c7b32bc9243f28777fa complete.]
+[2024-09-19 15:40:31] INFO: [Starting sync for Order ID: 66bc1c32b685d51906b6791a]
+[2024-09-19 15:40:31] INFO: [Order details for 66bc1c32b685d51906b6791a:
+[2024-09-19 15:40:31] INFO: [Ticket type: Regular, Quantity: 4]
+[2024-09-19 15:40:31] INFO: [Final Ticket Quantities for Order 66bc1c32b685d51906b6791a:
+[2024-09-19 15:40:31] INFO: [Order 66bc1c32b685d51906b6791a upserted.]
+[2024-09-19 15:40:32] INFO: [Inserting missing Regular ticket for 66bc1c32b685d51906b6791a]
+[2024-09-19 15:40:32] INFO: [Inserting missing Regular ticket for 66bc1c32b685d51906b6791a]
+[2024-09-19 15:40:32] INFO: [Inserting missing Regular ticket for 66bc1c32b685d51906b6791a]
+[2024-09-19 15:40:33] INFO: [Inserting missing Regular ticket for 66bc1c32b685d51906b6791a]
+[2024-09-19 15:40:33] INFO: [Sync for order 66bc1c32b685d51906b6791a complete.]
+[2024-09-19 15:40:33] INFO: [Starting sync for Order ID: 66bc1bf832bc9261bc8777ed]
+[2024-09-19 15:40:33] INFO: [Order details for 66bc1bf832bc9261bc8777ed:
+[2024-09-19 15:40:33] INFO: [Ticket type: VIP, Quantity: 1]
+[2024-09-19 15:40:33] INFO: [Final Ticket Quantities for Order 66bc1bf832bc9261bc8777ed:
+[2024-09-19 15:40:34] INFO: [Order 66bc1bf832bc9261bc8777ed upserted.]
+[2024-09-19 15:40:34] INFO: [Inserting missing VIP ticket for 66bc1bf832bc9261bc8777ed]
+[2024-09-19 15:40:34] INFO: [Sync for order 66bc1bf832bc9261bc8777ed complete.]
+[2024-09-19 15:40:34] INFO: [Starting sync for Order ID: 66bc1b5e32bc923f6e8777c9]
+[2024-09-19 15:40:35] INFO: [Order details for 66bc1b5e32bc923f6e8777c9:
+[2024-09-19 15:40:35] INFO: [Ticket type: Team Tickets, Quantity: 5]
+[2024-09-19 15:40:35] INFO: [Final Ticket Quantities for Order 66bc1b5e32bc923f6e8777c9:
+[2024-09-19 15:40:35] INFO: [Order 66bc1b5e32bc923f6e8777c9 upserted.]
+[2024-09-19 15:40:35] INFO: [Inserting missing Team Tickets ticket for 66bc1b5e32bc923f6e8777c9]
+[2024-09-19 15:40:36] INFO: [Inserting missing Team Tickets ticket for 66bc1b5e32bc923f6e8777c9]
+[2024-09-19 15:40:36] INFO: [Inserting missing Team Tickets ticket for 66bc1b5e32bc923f6e8777c9]
+[2024-09-19 15:40:36] INFO: [Inserting missing Team Tickets ticket for 66bc1b5e32bc923f6e8777c9]
+[2024-09-19 15:40:36] INFO: [Inserting missing Team Tickets ticket for 66bc1b5e32bc923f6e8777c9]
+[2024-09-19 15:40:37] INFO: [Sync for order 66bc1b5e32bc923f6e8777c9 complete.]
+[2024-09-19 15:40:37] INFO: [Starting sync for Order ID: 66bc1b176fa090696b4d3cb5]
+[2024-09-19 15:40:37] INFO: [Order details for 66bc1b176fa090696b4d3cb5:
+[2024-09-19 15:40:37] INFO: [Ticket type: Regular, Quantity: 5]
+[2024-09-19 15:40:37] INFO: [Final Ticket Quantities for Order 66bc1b176fa090696b4d3cb5:
+[2024-09-19 15:40:37] INFO: [Order 66bc1b176fa090696b4d3cb5 upserted.]
+[2024-09-19 15:40:38] INFO: [Inserting missing Regular ticket for 66bc1b176fa090696b4d3cb5]
+[2024-09-19 15:40:38] INFO: [Inserting missing Regular ticket for 66bc1b176fa090696b4d3cb5]
+[2024-09-19 15:40:38] INFO: [Inserting missing Regular ticket for 66bc1b176fa090696b4d3cb5]
+[2024-09-19 15:40:39] INFO: [Inserting missing Regular ticket for 66bc1b176fa090696b4d3cb5]
+[2024-09-19 15:40:39] INFO: [Inserting missing Regular ticket for 66bc1b176fa090696b4d3cb5]
+[2024-09-19 15:40:39] INFO: [Sync for order 66bc1b176fa090696b4d3cb5 complete.]
+[2024-09-19 15:40:39] INFO: [Starting sync for Order ID: 66bc1ac09b0606665688a4f0]
+[2024-09-19 15:40:40] INFO: [Order details for 66bc1ac09b0606665688a4f0:
+[2024-09-19 15:40:40] INFO: [Ticket type: VIP, Quantity: 2]
+[2024-09-19 15:40:40] INFO: [Final Ticket Quantities for Order 66bc1ac09b0606665688a4f0:
+[2024-09-19 15:40:40] INFO: [Order 66bc1ac09b0606665688a4f0 upserted.]
+[2024-09-19 15:40:40] INFO: [Inserting missing VIP ticket for 66bc1ac09b0606665688a4f0]
+[2024-09-19 15:40:40] INFO: [Inserting missing VIP ticket for 66bc1ac09b0606665688a4f0]
+[2024-09-19 15:40:41] INFO: [Sync for order 66bc1ac09b0606665688a4f0 complete.]
+[2024-09-19 15:40:41] INFO: [Starting sync for Order ID: 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:41] INFO: [Order details for 66bc1a67bce5d33e1ec05d6d:
+[2024-09-19 15:40:41] INFO: [Ticket type: VIP, Quantity: 9]
+[2024-09-19 15:40:41] INFO: [Final Ticket Quantities for Order 66bc1a67bce5d33e1ec05d6d:
+[2024-09-19 15:40:41] INFO: [Order 66bc1a67bce5d33e1ec05d6d upserted.]
+[2024-09-19 15:40:42] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:42] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:42] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:43] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:43] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:43] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:44] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:44] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:44] INFO: [Inserting missing VIP ticket for 66bc1a67bce5d33e1ec05d6d]
+[2024-09-19 15:40:44] INFO: [Sync for order 66bc1a67bce5d33e1ec05d6d complete.]
+[2024-09-19 15:40:44] INFO: [Starting sync for Order ID: 66bc19f0c5672877dcec6511]
+[2024-09-19 15:40:45] INFO: [Order details for 66bc19f0c5672877dcec6511:
+[2024-09-19 15:40:45] INFO: [Ticket type: Regular, Quantity: 2]
+[2024-09-19 15:40:45] INFO: [Ticket type: VIP, Quantity: 1]
+[2024-09-19 15:40:45] INFO: [Final Ticket Quantities for Order 66bc19f0c5672877dcec6511:
+[2024-09-19 15:40:45] INFO: [Order 66bc19f0c5672877dcec6511 upserted.]
+[2024-09-19 15:40:45] INFO: [Inserting missing Regular ticket for 66bc19f0c5672877dcec6511]
+[2024-09-19 15:40:46] INFO: [Inserting missing Regular ticket for 66bc19f0c5672877dcec6511]
+[2024-09-19 15:40:46] INFO: [Inserting missing VIP ticket for 66bc19f0c5672877dcec6511]
+[2024-09-19 15:40:47] INFO: [Sync for order 66bc19f0c5672877dcec6511 complete.]
+[2024-09-19 15:40:47] INFO: [Starting sync for Order ID: 66bc19a19b06065ff088a4cf]
+[2024-09-19 15:40:47] INFO: [Order details for 66bc19a19b06065ff088a4cf:
+[2024-09-19 15:40:47] INFO: [Ticket type: Regular, Quantity: 1]
+[2024-09-19 15:40:47] INFO: [Ticket type: VIP, Quantity: 2]
+[2024-09-19 15:40:47] INFO: [Final Ticket Quantities for Order 66bc19a19b06065ff088a4cf:
+[2024-09-19 15:40:47] INFO: [Order 66bc19a19b06065ff088a4cf upserted.]
+[2024-09-19 15:40:48] INFO: [Inserting missing Regular ticket for 66bc19a19b06065ff088a4cf]
+[2024-09-19 15:40:48] INFO: [Inserting missing VIP ticket for 66bc19a19b06065ff088a4cf]
+[2024-09-19 15:40:48] INFO: [Inserting missing VIP ticket for 66bc19a19b06065ff088a4cf]
+[2024-09-19 15:40:49] INFO: [Sync for order 66bc19a19b06065ff088a4cf complete.]

@@ -38,6 +38,16 @@ import {
   fetchGhlOrderDetails,
 } from "@/services/ghlServices"; // Adjust the imports as needed
 
+export async function GET(req: NextRequest) {
+  return NextResponse.json(
+    {
+      message:
+        "GET request successful! This endpoint uses POST. Plz use Postman",
+    },
+    { status: 200 }
+  );
+}
+
 // POST method to handle generating the valid order list
 export async function POST(req: NextRequest) {
   try {

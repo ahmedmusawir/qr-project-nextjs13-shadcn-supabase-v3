@@ -3,10 +3,14 @@ import { createClient } from "@/utils/supabase/server";
 import { fetchGhlOrderDetails } from "@/services/ghlServices";
 import fs from "fs";
 import path from "path";
+// import { orderSyncLogger as logger } from "@/utils/logging/logger";
+import { createCustomLogger } from "@/utils/logging/logger";
 
 export async function GET() {
   try {
     const supabase = createClient();
+
+    const logger = createCustomLogger("ghl-order-sync", "sync");
 
     // Step 1: Fetch the list of valid orders from the JSON file
     const validOrderListPath = path.join(
@@ -19,30 +23,20 @@ export async function GET() {
     );
 
     // Log the valid order IDs
-    console.log(
-      `[${new Date().toISOString()}] [/api/ghl/orders/sync] Valid Order IDs:`,
-      validOrderIds
-    );
+    logger.info(`[Valid Order IDs]:`, validOrderIds);
 
     // Step 2: Loop through each valid order and sync
     for (const orderId of validOrderIds) {
-      console.log(
-        `[${new Date().toISOString()}] Starting sync for Order ID: ${orderId}`
-      );
+      logger.info(`[Starting sync for Order ID: ${orderId}]`);
 
       // Fetch order details from GHL API
       const orderDetails = await fetchGhlOrderDetails(orderId);
       if (!orderDetails) {
-        console.error(
-          `[${new Date().toISOString()}] Order ${orderId} not found. Skipping.`
-        );
+        logger.warn(`[Order ${orderId} not found. Skipping.]`);
         continue;
       }
 
-      console.log(
-        `[${new Date().toISOString()}] Order details for ${orderId}:`,
-        orderDetails
-      );
+      logger.info(`[Order details for ${orderId}:`, orderDetails);
 
       // Initialize ticket quantities object
       let ticketQuantities: { [key: string]: number } = {};
@@ -53,8 +47,8 @@ export async function GET() {
         const qty = item.qty;
 
         if (!ticketType || !qty) {
-          console.error(
-            `[${new Date().toISOString()}] Missing ticket type or quantity for item in order ${orderId}.`
+          logger.error(
+            `[Missing ticket type or quantity for item in order ${orderId}.]`
           );
           continue;
         }
@@ -64,14 +58,12 @@ export async function GET() {
         }
         ticketQuantities[ticketType] += qty;
 
-        console.log(
-          `[${new Date().toISOString()}] Ticket type: ${ticketType}, Quantity: ${qty}`
-        );
+        logger.info(`[Ticket type: ${ticketType}, Quantity: ${qty}]`);
       }
 
       // Log final ticket quantities for the order
-      console.log(
-        `[${new Date().toISOString()}] Final Ticket Quantities for Order ${orderId}:`,
+      logger.info(
+        `[Final Ticket Quantities for Order ${orderId}:`,
         ticketQuantities
       );
 
@@ -100,7 +92,7 @@ export async function GET() {
       });
 
       // Log order upsert success
-      console.log(`[${new Date().toISOString()}] Order ${orderId} upserted.`);
+      logger.info(`[Order ${orderId} upserted.]`);
 
       // Step 5: Upsert tickets into `ghl_qr_tickets` based on ticket type
       for (const [ticketType, qty] of Object.entries(ticketQuantities)) {
@@ -112,9 +104,8 @@ export async function GET() {
           .eq("ticket_type", ticketType);
 
         if (ticketError) {
-          console.error(
-            `[${new Date().toISOString()}] Error fetching tickets for order ${orderId}:`,
-            ticketError.message
+          logger.error(
+            `[Error fetching tickets for order ${orderId}: ${ticketError.message}]`
           );
           continue;
         }
@@ -123,8 +114,8 @@ export async function GET() {
 
         // Insert missing tickets
         for (let i = existingCount; i < qty; i++) {
-          console.log(
-            `[${new Date().toISOString()}] Inserting missing ${ticketType} ticket for ${orderId}`
+          logger.info(
+            `[Inserting missing ${ticketType} ticket for ${orderId}]`
           );
           await supabase.from("ghl_qr_tickets").upsert({
             order_id: orderDetails._id,
@@ -134,19 +125,15 @@ export async function GET() {
         }
       }
 
-      console.log(
-        `[${new Date().toISOString()}] Sync for order ${orderId} complete.`
-      );
+      logger.info(`[Sync for order ${orderId} complete.]`);
     }
 
     return NextResponse.json({
       message: "Orders and tickets synced successfully",
     });
   } catch (error: any) {
-    console.error(
-      `[${new Date().toISOString()}] [/api/ghl/orders/sync] Error:`,
-      error.message
-    );
+    const logger = createCustomLogger("ghl-order-sync", "sync");
+    logger.error(`[Error during sync: ${error.message}]`);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
