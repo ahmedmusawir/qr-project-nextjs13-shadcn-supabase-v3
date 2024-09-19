@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
 import { fetchGhlOrderDetails } from "@/services/ghlServices";
 import fs from "fs";
 import path from "path";
 
 export async function GET() {
   try {
+    const supabase = createClient();
+
     // Step 1: Fetch the list of valid orders from the JSON file
     const validOrderListPath = path.join(
       process.cwd(),
@@ -15,43 +18,135 @@ export async function GET() {
       fs.readFileSync(validOrderListPath, "utf-8")
     );
 
-    console.log("[/api/ghl/orders/sync] Valid Order IDs:", validOrderIds);
+    // Log the valid order IDs
+    console.log(
+      `[${new Date().toISOString()}] [/api/ghl/orders/sync] Valid Order IDs:`,
+      validOrderIds
+    );
 
-    // Process each valid order
+    // Step 2: Loop through each valid order and sync
     for (const orderId of validOrderIds) {
+      console.log(
+        `[${new Date().toISOString()}] Starting sync for Order ID: ${orderId}`
+      );
+
+      // Fetch order details from GHL API
       const orderDetails = await fetchGhlOrderDetails(orderId);
-      console.log(`[Order Details for ${orderId}]`, orderDetails);
+      if (!orderDetails) {
+        console.error(
+          `[${new Date().toISOString()}] Order ${orderId} not found. Skipping.`
+        );
+        continue;
+      }
+
+      console.log(
+        `[${new Date().toISOString()}] Order details for ${orderId}:`,
+        orderDetails
+      );
 
       // Initialize ticket quantities object
       let ticketQuantities: { [key: string]: number } = {};
 
-      // Step 2: Loop through the order items and extract ticket type and quantity
+      // Step 3: Loop through the order items and extract ticket type and quantity
       for (const item of orderDetails.items) {
-        const ticketType = item.price?.name; // Extract ticket type
-        const qty = item.qty; // Extract ticket quantity
+        const ticketType = item.price?.name;
+        const qty = item.qty;
+
+        if (!ticketType || !qty) {
+          console.error(
+            `[${new Date().toISOString()}] Missing ticket type or quantity for item in order ${orderId}.`
+          );
+          continue;
+        }
 
         if (!ticketQuantities[ticketType]) {
           ticketQuantities[ticketType] = 0;
         }
-
         ticketQuantities[ticketType] += qty;
 
-        // Log the ticket type and quantity for debugging
-        console.log(`Ticket type: ${ticketType}, Quantity: ${qty}`);
+        console.log(
+          `[${new Date().toISOString()}] Ticket type: ${ticketType}, Quantity: ${qty}`
+        );
       }
 
-      // Log the final ticket quantities for each order
+      // Log final ticket quantities for the order
       console.log(
-        `Final Ticket Quantities for Order ${orderId}:`,
+        `[${new Date().toISOString()}] Final Ticket Quantities for Order ${orderId}:`,
         ticketQuantities
+      );
+
+      // Step 4: Upsert order details into `ghl_qr_orders`
+      await supabase.from("ghl_qr_orders").upsert({
+        order_id: orderDetails._id,
+        location_id: orderDetails.altId,
+        total_paid: orderDetails.amount,
+        payment_status: orderDetails.paymentStatus,
+        payment_currency: orderDetails.currency,
+        order_status: orderDetails.status,
+        contact_id: orderDetails.contactSnapshot?.id,
+        contact_firstname: orderDetails.contactSnapshot?.firstName,
+        contact_lastname: orderDetails.contactSnapshot?.lastName,
+        contact_email: orderDetails.contactSnapshot?.email,
+        contact_phone: orderDetails.contactSnapshot?.phone,
+        date_added: orderDetails.createdAt,
+        event_id: orderDetails.items[0]?.product?._id,
+        event_name: orderDetails.items[0]?.product?.name,
+        event_image: orderDetails.items[0]?.product?.image,
+        event_ticket_qty: Object.values(ticketQuantities).reduce(
+          (acc, qty) => acc + qty,
+          0
+        ),
+        ticket_quantities: ticketQuantities, // Store dynamic ticket quantities
+      });
+
+      // Log order upsert success
+      console.log(`[${new Date().toISOString()}] Order ${orderId} upserted.`);
+
+      // Step 5: Upsert tickets into `ghl_qr_tickets` based on ticket type
+      for (const [ticketType, qty] of Object.entries(ticketQuantities)) {
+        // Check if tickets already exist for this order and type
+        const { data: existingTickets, error: ticketError } = await supabase
+          .from("ghl_qr_tickets")
+          .select("*")
+          .eq("order_id", orderDetails._id)
+          .eq("ticket_type", ticketType);
+
+        if (ticketError) {
+          console.error(
+            `[${new Date().toISOString()}] Error fetching tickets for order ${orderId}:`,
+            ticketError.message
+          );
+          continue;
+        }
+
+        const existingCount = existingTickets ? existingTickets.length : 0;
+
+        // Insert missing tickets
+        for (let i = existingCount; i < qty; i++) {
+          console.log(
+            `[${new Date().toISOString()}] Inserting missing ${ticketType} ticket for ${orderId}`
+          );
+          await supabase.from("ghl_qr_tickets").upsert({
+            order_id: orderDetails._id,
+            ticket_type: ticketType,
+            status: "live",
+          });
+        }
+      }
+
+      console.log(
+        `[${new Date().toISOString()}] Sync for order ${orderId} complete.`
       );
     }
 
     return NextResponse.json({
-      message: "Orders processed successfully (DB actions skipped)",
+      message: "Orders and tickets synced successfully",
     });
   } catch (error: any) {
-    console.error("[/api/ghl/orders/sync] Error:", error.message);
+    console.error(
+      `[${new Date().toISOString()}] [/api/ghl/orders/sync] Error:`,
+      error.message
+    );
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
