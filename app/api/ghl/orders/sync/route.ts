@@ -3,7 +3,6 @@ import { createClient } from "@/utils/supabase/server";
 import { fetchGhlOrderDetails } from "@/services/ghlServices";
 import fs from "fs";
 import path from "path";
-// import { orderSyncLogger as logger } from "@/utils/logging/logger";
 import { createCustomLogger } from "@/utils/logging/logger";
 
 export async function GET() {
