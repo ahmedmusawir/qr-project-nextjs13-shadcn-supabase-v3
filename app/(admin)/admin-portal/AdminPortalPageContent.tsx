@@ -9,6 +9,7 @@ import AdminPagination from "@/components/admin/AdminPagination";
 import AdminEventList from "@/components/admin/AdminEventList";
 import { useGHLDataStore } from "@/store/useGHLDataStore";
 import { fetchCustomFields } from "@/services/fieldServices";
+import SyncButtonBlock from "@/components/admin/sync-button/SyncButtonBlock";
 
 const AdminPortalPageContent = () => {
   const { setEvents, setFields } = useGHLDataStore();
@@ -45,6 +46,9 @@ const AdminPortalPageContent = () => {
       </Head>
       <Page className={""} FULL={false}>
         <Row className="prose max-w-3xl mx-auto">
+          <section className="sync-btn-section">
+            <SyncButtonBlock />
+          </section>
           <h1 className="">Admin Portal</h1>
           <h2 className="mt-[-1.5rem]">Events list:</h2>
 
