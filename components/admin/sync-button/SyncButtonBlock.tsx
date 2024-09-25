@@ -1,108 +1,103 @@
-import React, { useEffect, useState } from "react";
+import { useSyncStore } from "@/store/useSyncStore";
 import { Button } from "@/components/ui/button";
 import ReadyToSyncDialog from "./ReadyToSyncDialog";
 import SyncInProgressDialog from "./SyncInProgressDialog";
-import ConfirmCancelDialog from "./ConfirmCancelDialog";
-import SyncDelayDialog from "./SyncDelayDialog"; // Import the delay dialog
+import SyncDelayDialog from "./SyncDelayDialog";
+import { SyncStatus } from "@/types/sync";
+import { useState } from "react";
+import Spinner from "@/components/common/Spinner";
+import { fetchOrderTotal } from "@/services/syncStatusService";
 
 const SyncButtonBlock = () => {
-  const [showReadyDialog, setShowReadyDialog] = useState(false);
-  const [showSyncProgressDialog, setShowSyncProgressDialog] = useState(false);
-  const [showConfirmCancelDialog, setShowConfirmCancelDialog] = useState(false);
-  const [showSyncDelayDialog, setShowSyncDelayDialog] = useState(false); // Show sync delay dialog
-  const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
+  const {
+    syncStatus,
+    fetchSyncStatus,
+    updateSyncStatus,
+    isDialogOpen,
+    setIsDialogOpen,
+  } = useSyncStore();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [totalValidOrders] = useState(18); // Simulated value from JSON
-  const [syncedOrders, setSyncedOrders] = useState(0);
+  // Function to handle Sync button click
+  const handleSyncClick = async () => {
+    setIsLoading(true); // Set loading to true while we fetch data
 
-  const handleOpenReadyDialog = () => {
-    const syncDelay = localStorage.getItem("syncInProgress");
-    if (syncDelay) {
-      setShowSyncDelayDialog(true); // Open the delay dialog if the syncInProgress variable is present
-      setLastSyncTime("2:02 PM"); // Static time for the demo
-    } else {
-      setShowReadyDialog(true); // Otherwise, open the ready to sync dialog
+    console.log("Fetching sync status...");
+
+    try {
+      await fetchSyncStatus(); // Fetch the latest status with no caching
+      console.log("Sync status fetched successfully:", syncStatus);
+    } catch (error) {
+      console.error("Error fetching sync status:", error);
+    } finally {
+      setIsLoading(false); // Set loading to false after the status is fetched
+      setIsDialogOpen(true); // Open the dialog after fetching status
     }
   };
 
-  const handleCloseReadyDialog = () => setShowReadyDialog(false);
+  // Function to start the sync process
+  const handleStartSync = async () => {
+    // Fetch the total orders dynamically from valid_order_list.json
+    const totalOrders = await fetchOrderTotal();
 
-  useEffect(() => {
-    // Check if a sync has recently been completed
-    const syncDelay = localStorage.getItem("syncInProgress");
-    if (syncDelay) {
-      setLastSyncTime("2:02 PM"); // Static time for the demo
-    }
-  }, []);
+    const newStatus: SyncStatus = {
+      syncInProgress: true,
+      startTime: new Date().toISOString(),
+      endTime: null,
+      totalOrders: totalOrders, // This should now be dynamic (can be fetched from JSON)
+      syncedOrders: 0,
+      status: "Syncing",
+      delay_in_sec: 0,
+    };
 
-  const handleStartSync = () => {
-    setShowReadyDialog(false);
-    setShowSyncProgressDialog(true);
+    // Update the sync status in the JSON file
+    await updateSyncStatus(newStatus);
 
-    // Simulate progress every few seconds
-    const interval = setInterval(() => {
-      setSyncedOrders((prev) => {
-        if (prev >= totalValidOrders) {
-          clearInterval(interval);
-          setShowSyncProgressDialog(false); // Simulate finishing the sync
+    // Call the backend sync process
+    await fetch("/api/qrapp/test-sync", { method: "GET" });
 
-          // Store the sync status in localStorage after successful sync completion
-          localStorage.setItem("syncInProgress", "true");
-          setShowSyncDelayDialog(true); // Show the delay dialog
-        }
-        return prev + 1;
-      });
-    }, 1000); // Sync progress every 3 seconds
+    fetchSyncStatus(); // Refresh the sync status immediately after starting sync
+    setIsDialogOpen(true); // Show the SyncInProgressDialog immediately
   };
 
-  const handleCancelSync = () => setShowConfirmCancelDialog(true);
-  const handleConfirmCancelSync = () => {
-    setShowConfirmCancelDialog(false);
-    setShowSyncProgressDialog(false);
-    setSyncedOrders(0); // Reset the count
-  };
-
-  const handleCancelConfirm = () => setShowConfirmCancelDialog(false);
-
-  const handleCloseSyncDelay = () => setShowSyncDelayDialog(false);
+  // Close dialog handler
+  const handleDialogClose = () => setIsDialogOpen(false);
 
   return (
     <div className="float-end flex flex-col">
       <span className="inline-flex items-center rounded-md bg-slate-500 px-2 py-1 text-xs font-medium text-white">
-        Last Sync-ed at {lastSyncTime || "10:01 AM"}
+        Last Sync-ed at{" "}
+        {syncStatus?.endTime
+          ? new Date(syncStatus.endTime).toLocaleTimeString()
+          : "N/A"}
       </span>
       <Button
         size={"xl"}
         className="bg-indigo-700 hover:bg-indigo-600 text-white mt-2"
-        onClick={handleOpenReadyDialog} // Open the dialog when clicked
+        onClick={handleSyncClick}
+        disabled={isLoading}
       >
-        Sync Data
+        {isLoading ? <Spinner /> : "Sync Data"}
       </Button>
-
-      {showReadyDialog && (
-        <ReadyToSyncDialog
-          onClose={handleCloseReadyDialog}
-          onStart={handleStartSync}
-        />
-      )}
-
-      {showSyncProgressDialog && (
-        <SyncInProgressDialog
-          totalOrders={totalValidOrders}
-          syncedOrders={syncedOrders}
-          onCancelSync={handleCancelSync}
-        />
-      )}
-
-      {showConfirmCancelDialog && (
-        <ConfirmCancelDialog
-          onConfirm={handleConfirmCancelSync}
-          onCancel={handleCancelConfirm}
-        />
-      )}
-
-      {showSyncDelayDialog && (
-        <SyncDelayDialog onClose={handleCloseSyncDelay} />
+      {isDialogOpen && syncStatus && (
+        <>
+          {syncStatus.syncInProgress ? (
+            <SyncInProgressDialog
+              totalOrders={syncStatus.totalOrders}
+              onClose={handleDialogClose}
+            />
+          ) : syncStatus.status === "Delay" ? (
+            <SyncDelayDialog
+              onClose={handleDialogClose}
+              delayInSec={syncStatus.delay_in_sec}
+            />
+          ) : (
+            <ReadyToSyncDialog
+              onClose={handleDialogClose}
+              onStart={handleStartSync}
+            />
+          )}
+        </>
       )}
     </div>
   );

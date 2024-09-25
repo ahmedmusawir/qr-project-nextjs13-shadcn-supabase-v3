@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import ReadyToSyncDialog from "./ReadyToSyncDialog";
-import SyncInProgressDialog from "./SyncInProgressDialog";
-import ConfirmCancelDialog from "./ConfirmCancelDialog";
-import SyncDelayDialog from "./SyncDelayDialog";
+import ReadyToSyncDialog from "../ReadyToSyncDialog";
+import SyncInProgressDialog from "../SyncInProgressDialog";
+import ConfirmCancelDialog from "../ConfirmCancelDialog";
+import SyncDelayDialog from "../SyncDelayDialog"; // Import the delay dialog
 
 const SyncButtonBlock = () => {
   const [showReadyDialog, setShowReadyDialog] = useState(false);
   const [showSyncProgressDialog, setShowSyncProgressDialog] = useState(false);
   const [showConfirmCancelDialog, setShowConfirmCancelDialog] = useState(false);
   const [showSyncDelayDialog, setShowSyncDelayDialog] = useState(false); // Show sync delay dialog
-  const [isSyncDelayed, setIsSyncDelayed] = useState(false);
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
 
   const [totalValidOrders] = useState(18); // Simulated value from JSON
   const [syncedOrders, setSyncedOrders] = useState(0);
 
-  const handleOpenReadyDialog = () => setShowReadyDialog(true);
+  const handleOpenReadyDialog = () => {
+    const syncDelay = localStorage.getItem("syncInProgress");
+    if (syncDelay) {
+      setShowSyncDelayDialog(true); // Open the delay dialog if the syncInProgress variable is present
+      setLastSyncTime("2:02 PM"); // Static time for the demo
+    } else {
+      setShowReadyDialog(true); // Otherwise, open the ready to sync dialog
+    }
+  };
+
   const handleCloseReadyDialog = () => setShowReadyDialog(false);
 
   useEffect(() => {
     // Check if a sync has recently been completed
-    const syncDelay = localStorage.getItem("syncInProgress"); // Only check if sync has been completed
+    const syncDelay = localStorage.getItem("syncInProgress");
     if (syncDelay) {
-      setIsSyncDelayed(true);
-      setShowSyncDelayDialog(true); // Show the delay dialog if sync completed
       setLastSyncTime("2:02 PM"); // Static time for the demo
-    } else {
-      setIsSyncDelayed(false);
     }
   }, []);
 
@@ -44,12 +48,11 @@ const SyncButtonBlock = () => {
 
           // Store the sync status in localStorage after successful sync completion
           localStorage.setItem("syncInProgress", "true");
-          setIsSyncDelayed(true); // Trigger delay state
           setShowSyncDelayDialog(true); // Show the delay dialog
         }
         return prev + 1;
       });
-    }, 3000); // Sync progress every 3 seconds
+    }, 1000); // Sync progress every 3 seconds
   };
 
   const handleCancelSync = () => setShowConfirmCancelDialog(true);
@@ -72,9 +75,8 @@ const SyncButtonBlock = () => {
         size={"xl"}
         className="bg-indigo-700 hover:bg-indigo-600 text-white mt-2"
         onClick={handleOpenReadyDialog} // Open the dialog when clicked
-        disabled={isSyncDelayed} // Disable if sync is in progress
       >
-        {isSyncDelayed ? "Sync Disabled" : "Sync Data"}
+        Sync Data
       </Button>
 
       {showReadyDialog && (

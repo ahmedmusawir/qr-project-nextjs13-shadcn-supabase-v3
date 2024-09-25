@@ -9,15 +9,13 @@ import { Button } from "@/components/ui/button";
 import Spinner from "@/components/common/Spinner";
 
 interface SyncInProgressDialogProps {
-  onCancelSync: () => void;
   totalOrders: number;
-  syncedOrders: number;
+  onClose: () => void; // Handle completion
 }
 
 const SyncInProgressDialog = ({
-  onCancelSync,
   totalOrders,
-  syncedOrders,
+  onClose,
 }: SyncInProgressDialogProps) => {
   return (
     <Dialog open>
@@ -26,7 +24,6 @@ const SyncInProgressDialog = ({
           <DialogTitle>Data Sync Process Has Begun!</DialogTitle>
         </DialogHeader>
         <p>Total Orders to Sync: {totalOrders}</p>
-        <p>Currently Synced: {syncedOrders}</p>
         <div>
           <Spinner />
         </div>
@@ -34,9 +31,9 @@ const SyncInProgressDialog = ({
           <Button
             className="bg-red-500 hover:bg-red-700 text-white"
             variant="destructive"
-            onClick={onCancelSync}
+            onClick={onClose} // Handle closing the modal
           >
-            Cancel Sync
+            Close
           </Button>
         </DialogFooter>
       </DialogContent>

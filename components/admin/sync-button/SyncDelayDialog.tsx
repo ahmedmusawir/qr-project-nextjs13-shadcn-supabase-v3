@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,14 +9,32 @@ import {
 
 interface SyncDelayDialogProps {
   onClose: () => void;
+  delayInSec: number;
 }
 
-const SyncDelayDialog: React.FC<SyncDelayDialogProps> = ({ onClose }) => {
+const SyncDelayDialog = ({ onClose, delayInSec }: SyncDelayDialogProps) => {
+  const [countdown, setCountdown] = useState(delayInSec);
+
+  // Simulate countdown timer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 0) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer); // Clear the interval on unmount
+  }, [delayInSec]);
+
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Sync In Progress</DialogTitle>
+          <DialogTitle>Sync Delay</DialogTitle>
         </DialogHeader>
         <div className="mb-4">
           <p>
@@ -24,8 +42,8 @@ const SyncDelayDialog: React.FC<SyncDelayDialogProps> = ({ onClose }) => {
             to be available.
           </p>
           <p>
-            Sync will be available in approximately 30 minutes. A timer will be
-            shown here counting down.
+            Sync will be available in approximately {countdown} seconds. A timer
+            will be shown here counting down.
           </p>
         </div>
         <Button

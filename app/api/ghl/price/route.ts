@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
 
     // Fetch the price data from GHL API
     const priceData = await fetchPriceData(productId, locationId);
-    console.log("price data:", priceData.prices);
+    // console.log("price data:", priceData.prices);
     const prices = priceData.prices;
 
     // Return the price data in the response

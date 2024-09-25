@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import SyncDialog from "./SyncDialog";
+import SyncDialog from "../SyncDialog";
 
 const SyncButtonBlock = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Manage dialog open/close state
