@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useSyncStore } from "@/store/useSyncStore";
+import { SyncStatus } from "@/types/sync";
 
 interface CountdownTimerProps {
   delaySeconds: number; // Accept the delay seconds
@@ -13,14 +15,14 @@ const CountdownTimer = ({ delaySeconds, onComplete }: CountdownTimerProps) => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(intervalId);
-          onComplete(); // Trigger when countdown is complete
+          if (onComplete) onComplete(); // Safely trigger onComplete if it exists
           return 0;
         }
         return prevTime - 1;
       });
     }, 1000);
 
-    return () => clearInterval(intervalId); // Cleanup interval
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, [delaySeconds, onComplete]);
 
   const formatTime = (seconds: number) => {

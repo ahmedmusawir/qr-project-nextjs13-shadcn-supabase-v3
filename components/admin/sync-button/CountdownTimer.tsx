@@ -1,29 +1,38 @@
-import { useEffect, useState, useRef } from "react";
-import { useSyncStore } from "@/store/useSyncStore";
-import { SyncStatus } from "@/types/sync";
+import { useEffect, useState } from "react";
 
 interface CountdownTimerProps {
-  delaySeconds: number; // Accept the delay seconds
-  onComplete: () => void; // Function to call when countdown is complete
+  delayInSec: number;
 }
 
-const CountdownTimer = ({ delaySeconds, onComplete }: CountdownTimerProps) => {
-  const [timeLeft, setTimeLeft] = useState(delaySeconds);
+const CountdownTimer = ({ delayInSec }: CountdownTimerProps) => {
+  const [timeLeft, setTimeLeft] = useState(delayInSec);
 
   useEffect(() => {
+    // Get the delay_start_time from localStorage
+    const startTime = localStorage.getItem("delay_start_time");
+    if (startTime) {
+      const currentTime = new Date().getTime();
+      const elapsedTime = Math.floor(
+        (currentTime - parseInt(startTime)) / 1000
+      ); // Time elapsed in seconds
+
+      const remainingTime = delayInSec - elapsedTime;
+      setTimeLeft(remainingTime > 0 ? remainingTime : 0); // Ensure we don't go negative
+    }
+
     const intervalId = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(intervalId);
-          if (onComplete) onComplete(); // Safely trigger onComplete if it exists
+          localStorage.removeItem("delay_start_time"); // Remove delay_start_time once timer is done
           return 0;
         }
         return prevTime - 1;
       });
     }, 1000);
 
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, [delaySeconds, onComplete]);
+    return () => clearInterval(intervalId); // Cleanup interval
+  }, [delayInSec]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

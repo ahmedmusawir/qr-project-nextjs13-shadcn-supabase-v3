@@ -4,6 +4,6 @@
   "endTime": "2024-09-25T17:16:08.000Z",
   "totalOrders": 18,
   "syncedOrders": 0,
-  "status": "Complete",
-  "delay_in_sec": 0
+  "status": "Delay",
+  "delay_in_sec": 60
 }
