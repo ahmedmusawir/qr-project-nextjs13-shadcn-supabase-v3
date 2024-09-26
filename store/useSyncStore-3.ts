@@ -13,7 +13,7 @@ interface SyncStoreState {
   setIsDialogOpen: (open: boolean) => void;
   fetchSyncStatus: () => Promise<void>;
   updateSyncStatus: (status: SyncStatus) => Promise<void>;
-  updateStatusToComplete: () => Promise<void>; // Update sync to complete
+  updateStatusToComplete: () => Promise<void>; // <-- New method for completion
 }
 
 export const useSyncStore = create<SyncStoreState>((set, get) => ({
@@ -48,7 +48,7 @@ export const useSyncStore = create<SyncStoreState>((set, get) => ({
     set({ syncStatus: status });
   },
 
-  // Update sync status to complete
+  // New method to update the status to "Complete"
   updateStatusToComplete: async () => {
     const { syncStatus } = get();
     if (syncStatus) {

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,7 @@ import CountdownTimer from "./CountdownTimer";
 interface SyncDelayDialogProps {
   onClose: () => void;
   delayInSec: number;
-  updateStatusToComplete: () => void;
+  updateStatusToComplete: () => void; // Trigger when countdown completes
 }
 
 const SyncDelayDialog = ({
@@ -26,19 +27,18 @@ const SyncDelayDialog = ({
         </DialogHeader>
         <div className="mb-4">
           <p>Sync will be available once the countdown is complete.</p>
-          {/* CountdownTimer to display the countdown */}
           <CountdownTimer
             delaySeconds={delayInSec}
             onComplete={updateStatusToComplete}
           />
         </div>
         <DialogFooter>
-          <button
+          <Button
             onClick={onClose}
             className="bg-indigo-700 hover:bg-indigo-600 text-white"
           >
             Close
-          </button>
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

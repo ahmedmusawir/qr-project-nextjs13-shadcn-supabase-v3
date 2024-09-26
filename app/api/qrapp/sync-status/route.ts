@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import fs from "fs";
 import path from "path";
 
@@ -86,6 +85,30 @@ export async function POST(req: Request) {
 
     // Write updated status back to file
     writeSyncStatus(updatedStatus);
+
+    //================FINAL JSON UPDATE START====================
+    // Timer code to update status after delay
+    if (updatedStatus.status === "Delay" && updatedStatus.delay_in_sec > 0) {
+      console.log(
+        "Starting backend timer for",
+        updatedStatus.delay_in_sec,
+        "seconds..."
+      );
+
+      // Backend timer
+      setTimeout(() => {
+        const finalStatus = {
+          ...updatedStatus,
+          status: "Complete", // Change status to "Complete"
+          delay_in_sec: 0, // Reset delay_in_sec
+        };
+
+        // Write the final "Complete" status after the delay
+        writeSyncStatus(finalStatus);
+        console.log("Status updated to 'Complete' after the timer finished.");
+      }, updatedStatus.delay_in_sec * 1000); // Convert delay_in_sec to milliseconds
+    }
+    //================FINAL JSON UPDATE FINISH===================
 
     return NextResponse.json({ message: "Sync status updated successfully" });
   } catch (error: any) {
