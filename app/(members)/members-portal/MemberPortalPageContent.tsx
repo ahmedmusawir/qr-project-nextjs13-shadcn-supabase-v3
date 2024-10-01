@@ -15,17 +15,9 @@ const MemberPortalPageContent = () => {
         <meta name="description" content="This is the template page" />
       </Head>
       <Page className={""} FULL={false}>
-        <BackButton text="Go Back" link="/" />
-        <Link className="float-end" href="/">
-          <Button className="bg-gray-700 hover:bg-gray-600 text-white">
-            Create Booking
-          </Button>
-        </Link>
-        <Row className="prose max-w-3xl mx-auto">
-          <h1 className="h1">Members' Portal</h1>
-          <h2 className="h2">Your booked events list:</h2>
-          <MemberEventList />
-        </Row>
+        <p>
+          Used to be member portal page ... we don't need this for this project
+        </p>
       </Page>
     </>
   );

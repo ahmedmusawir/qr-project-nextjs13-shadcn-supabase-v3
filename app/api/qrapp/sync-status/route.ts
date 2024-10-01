@@ -5,7 +5,7 @@ import path from "path";
 const SYNC_STATUS_PATH = path.join(process.cwd(), "public", "sync_status.json");
 
 // Function to read sync status from file
-export const readSyncStatus = () => {
+const readSyncStatus = () => {
   try {
     const data = fs.readFileSync(SYNC_STATUS_PATH, "utf8");
     return JSON.parse(data);
@@ -16,7 +16,7 @@ export const readSyncStatus = () => {
 };
 
 // Function to write sync status to file
-export const writeSyncStatus = (statusData: any) => {
+const writeSyncStatus = (statusData: any) => {
   try {
     fs.writeFileSync(
       SYNC_STATUS_PATH,

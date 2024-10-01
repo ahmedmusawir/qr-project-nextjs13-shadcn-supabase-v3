@@ -109,11 +109,6 @@ export async function GET() {
 
     console.log("Sync process complete. Status updated to 'Delay'.");
 
-    // After the sync completes, emit a sync_complete event to all clients
-    if (io) {
-      io.emit("sync_complete", { message: "Sync Process Complete!" });
-    }
-
     return NextResponse.json({ message: "Test sync completed successfully" });
   } catch (error: any) {
     console.error("Error during sync process:", error);
