@@ -87,10 +87,7 @@ const SyncButtonBlock = () => {
               onClose={handleDialogClose}
             />
           ) : syncStatus.status === "Delay" ? (
-            <SyncDelayDialog
-              onClose={handleDialogClose}
-              delayInSec={syncStatus.delay_in_sec}
-            />
+            <SyncDelayDialog onClose={handleDialogClose} />
           ) : (
             <ReadyToSyncDialog
               onClose={handleDialogClose}

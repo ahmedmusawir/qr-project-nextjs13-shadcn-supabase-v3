@@ -4,25 +4,18 @@ import path from "path";
 
 const SYNC_STATUS_PATH = path.join(process.cwd(), "public", "sync_status.json");
 
-// Utility function to read the sync status from the JSON file
+// Function to read sync status from file
 export const readSyncStatus = () => {
   try {
     const data = fs.readFileSync(SYNC_STATUS_PATH, "utf8");
     return JSON.parse(data);
   } catch (error) {
-    console.error("Error reading sync status file:", error);
-    return {
-      syncInProgress: false,
-      startTime: null,
-      endTime: null,
-      totalOrders: 0,
-      syncedOrders: 0,
-      status: "Not Started",
-    };
+    console.error("Error reading sync status:", error);
+    return {};
   }
 };
 
-// Utility function to write to the sync status file
+// Function to write sync status to file
 export const writeSyncStatus = (statusData: any) => {
   try {
     fs.writeFileSync(
@@ -31,16 +24,8 @@ export const writeSyncStatus = (statusData: any) => {
       "utf8"
     );
   } catch (error) {
-    console.error("Error writing sync status file:", error);
+    console.error("Error writing sync status:", error);
   }
-};
-
-// Function to get local timezone time in ISO format
-const getLocalTimeISO = () => {
-  const localTime = new Date().toLocaleString("en-US", {
-    timeZone: "America/New_York",
-  }); // Adjust timeZone as needed
-  return new Date(localTime).toISOString();
 };
 
 // GET handler: Return the current sync status
@@ -49,8 +34,10 @@ export async function GET() {
   return NextResponse.json(syncStatus);
 }
 
-// POST handler: Update the sync status
+// POST handler: Update the sync status and broadcast it
 export async function POST(req: Request) {
+  const io = globalThis.io; // Access the global socket.io instance
+
   try {
     const body = await req.json();
     const { syncInProgress, totalOrders, syncedOrders, status, delay_in_sec } =
@@ -59,7 +46,7 @@ export async function POST(req: Request) {
     // Read the current status
     const currentStatus = readSyncStatus();
 
-    // Update the status fields with proper checks for undefined values
+    // Update the sync status
     const updatedStatus = {
       ...currentStatus,
       syncInProgress:
@@ -75,16 +62,22 @@ export async function POST(req: Request) {
         delay_in_sec !== undefined ? delay_in_sec : currentStatus.delay_in_sec,
       startTime:
         syncInProgress && !currentStatus.syncInProgress
-          ? getLocalTimeISO()
+          ? new Date().toISOString()
           : currentStatus.startTime,
       endTime:
         !syncInProgress && currentStatus.syncInProgress
-          ? getLocalTimeISO()
+          ? new Date().toISOString()
           : currentStatus.endTime,
     };
 
-    // Write updated status back to file
+    // Write updated status to file
     writeSyncStatus(updatedStatus);
+
+    // Broadcast the updated sync status to all clients
+    if (io) {
+      io.emit("sync_status", updatedStatus); // Emit the updated status
+      console.log("Broadcasted updated sync status:", updatedStatus);
+    }
 
     //================FINAL JSON UPDATE START====================
     // Timer code to update status after delay
@@ -95,18 +88,39 @@ export async function POST(req: Request) {
         "seconds..."
       );
 
-      // Backend timer
-      setTimeout(() => {
-        const finalStatus = {
-          ...updatedStatus,
-          status: "Complete", // Change status to "Complete"
-          delay_in_sec: 0, // Reset delay_in_sec
-        };
+      // Instead of calling a separate function, let's handle the timer directly here
+      let countdown = updatedStatus.delay_in_sec;
 
-        // Write the final "Complete" status after the delay
+      // Emit the countdown every second
+      const interval = setInterval(() => {
+        if (countdown >= 0) {
+          io?.emit(
+            "delay_timer",
+            `Sync Button will be ready in: ${countdown} seconds`
+          );
+          console.log(`Countdown: ${countdown} seconds remaining`);
+          countdown--;
+        } else {
+          io?.emit("delay_timer", "ENDED");
+          clearInterval(interval);
+        }
+      }, 1000);
+
+      // After the delay, update the status to "Complete"
+      const finalStatus = {
+        ...updatedStatus,
+        status: "Complete", // Change status to "Complete"
+        delay_in_sec: 0, // Reset delay_in_sec
+      };
+
+      // Write the final "Complete" status after the delay
+      setTimeout(() => {
         writeSyncStatus(finalStatus);
+
+        // Broadcast final status
+        io?.emit("sync_status", finalStatus);
         console.log("Status updated to 'Complete' after the timer finished.");
-      }, updatedStatus.delay_in_sec * 1000); // Convert delay_in_sec to milliseconds
+      }, updatedStatus.delay_in_sec * 1000); // Update the status after the delay ends
     }
     //================FINAL JSON UPDATE FINISH===================
 

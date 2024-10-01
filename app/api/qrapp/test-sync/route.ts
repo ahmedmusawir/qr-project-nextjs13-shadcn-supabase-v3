@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { updateSyncStatus } from "@/services/syncStatusService"; // Service to update sync status
+import validOrders from "@/public/valid_order_list.json"; // Assuming this is the order list
+import { SyncStatus } from "@/types/sync";
 
 // Static data for upserting into the test_orders table
 const testData = [
@@ -9,12 +11,9 @@ const testData = [
   { product_name: "Product C", quantity: 3, order_status: "synced" },
 ];
 
-// Import the valid orders from a JSON file
-import validOrders from "@/public/valid_order_list.json"; // Update path as needed
-import { SyncStatus } from "@/types/sync";
-
 export async function GET() {
   const supabase = createClient();
+  const io = globalThis.io; // Access the global Socket.IO instance
 
   try {
     // Capture the start time
@@ -34,6 +33,12 @@ export async function GET() {
     // Update the sync status JSON to reflect the start of the sync process
     await updateSyncStatus(initialStatus);
 
+    // Broadcast the initial sync status
+    if (io) {
+      io.emit("sync_status", initialStatus);
+      console.log("Broadcasted sync status (Start):", initialStatus);
+    }
+
     // Loop through the valid orders and upsert data
     for (let i = 0; i < validOrders.length; i++) {
       const orderId = validOrders[i];
@@ -51,14 +56,26 @@ export async function GET() {
         order_status: staticData.order_status,
       });
 
-      // Delay of 2 seconds between each insert
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       if (error) {
         console.error(`Error upserting order ${orderId}:`, error);
       } else {
         console.log(`Order ${orderId} upserted successfully.`);
       }
+
+      // Broadcast the updated progress after each upsert
+      const progressStatus: SyncStatus = {
+        ...initialStatus,
+        syncedOrders: i + 1, // Update the syncedOrders count
+        status: "Syncing",
+      };
+
+      if (io) {
+        io.emit("sync_progress", progressStatus);
+        console.log("Broadcasted sync progress:", progressStatus);
+      }
+
+      // Delay of 2 seconds between each insert to simulate real-time processing
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
     console.log("ALL ORDERS UPDATED SUCCESS! /api/qrapp/test-sync");
@@ -72,8 +89,8 @@ export async function GET() {
       startTime, // Same start time
       endTime, // Sync completed time
       totalOrders: validOrders.length, // Total orders synced
-      syncedOrders: 0, // We aren't tracking individual synced orders yet
-      status: "Delay", // Set to Delay
+      syncedOrders: validOrders.length, // All orders synced
+      status: "Delay", // Set to Delay after sync
       delay_in_sec: 60, // Delay for 60 seconds (for now)
     };
 
@@ -83,6 +100,12 @@ export async function GET() {
 
     // Update the sync status JSON to reflect the completion of the sync process
     await updateSyncStatus(finalStatus);
+
+    // Broadcast the final sync completion status
+    if (io) {
+      io.emit("sync_status", finalStatus);
+      console.log("Broadcasted final sync status (Completion):", finalStatus);
+    }
 
     console.log("Sync process complete. Status updated to 'Delay'.");
 

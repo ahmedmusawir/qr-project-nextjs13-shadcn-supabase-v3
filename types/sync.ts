@@ -7,3 +7,9 @@ export interface SyncStatus {
   status: "Ready" | "Syncing" | "Complete" | "Failed" | "Delay"; // Could be other statuses as well
   delay_in_sec: number;
 }
+
+export interface SyncData {
+  syncedOrders: number; // Number of orders that have been synced
+  totalOrders: number; // Total number of orders to sync
+  status: string; // Current status of the sync process (e.g., "Syncing")
+}
