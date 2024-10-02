@@ -66,8 +66,10 @@ const SyncInProgressDialog = ({
   return (
     <Dialog open>
       <DialogContent className="bg-white">
-        <DialogHeader>
-          <DialogTitle>Data Sync Process Has Begun!</DialogTitle>
+        <DialogHeader className="bg-slate-600 p-5">
+          <DialogTitle className="text-white font-bold">
+            Data Sync Process:
+          </DialogTitle>
         </DialogHeader>
         <p>Total Orders to Sync: {totalOrders}</p>
 
@@ -99,10 +101,10 @@ const SyncInProgressDialog = ({
             </div>
           </>
         ) : (
-          <p className="text-lg font-bold text-green-500">
+          <h3 className="text-2xl font-bold text-green-700">
             {statusMessage ||
               "The Sync Process is complete! You may close this dialog."}
-          </p>
+          </h3>
         )}
 
         <div className="mt-4 text-sm text-gray-500">
@@ -110,7 +112,7 @@ const SyncInProgressDialog = ({
         </div>
         <DialogFooter>
           <Button
-            className="bg-red-500 hover:bg-red-700 text-white"
+            className="bg-green-700 hover:bg-green-600 text-white"
             onClick={onClose} // Handle closing the modal
           >
             Close

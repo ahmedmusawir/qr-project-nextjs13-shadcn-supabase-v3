@@ -73,7 +73,7 @@ const SyncDelayDialog = ({ onClose }: SyncDelayDialogProps) => {
                 <CountdownTimer delayInSec={delayCountdown} />
               </>
             ) : (
-              <p className="text-xl font-bold text-green-600">
+              <p className="text-2xl font-bold text-green-700">
                 {statusMessage}
               </p>
             )}

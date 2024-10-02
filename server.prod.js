@@ -22,12 +22,11 @@ function readSyncStatus() {
   }
 }
 
-// Prepare the Next.js app and Socket.IO server
 app.prepare().then(() => {
   const server = express();
   const httpServer = http.createServer(server);
 
-  // Initialize Socket.IO on the same server as Next.js
+  // Initialize Socket.IO
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
@@ -58,14 +57,19 @@ app.prepare().then(() => {
     // Handle client disconnect
     socket.on("disconnect", () => {
       console.log("A client disconnected");
+      clearInterval(heartbeatInterval); // Clear the interval when a client disconnects
     });
   });
+
+  // Serve static files from the `.next` folder for production
+  server.use(express.static(path.join(__dirname, ".next")));
 
   // All other requests are handled by Next.js
   server.all("*", (req, res) => {
     return handle(req, res);
   });
 
+  // Start the server on port 4001 (or any other custom port you prefer)
   httpServer.listen(4001, (err) => {
     if (err) throw err;
     console.log("Server running on http://localhost:4001");

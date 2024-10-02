@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.prod.js"
+    "start": "node server.prod.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
