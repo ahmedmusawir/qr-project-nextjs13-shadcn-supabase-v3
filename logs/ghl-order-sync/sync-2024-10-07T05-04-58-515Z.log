@@ -1,0 +1,102 @@
+[2024-10-07 13:04:58] INFO: [Valid Order IDs]:
+[2024-10-07 13:04:58] INFO: [Starting sync for Order ID: 66c5f91c83400668a74b54b6]
+[2024-10-07 13:04:59] INFO: [Starting sync for Order ID: 66c5f80fc78c9336766bf5b1]
+[2024-10-07 13:04:59] INFO: [Starting sync for Order ID: 66c4a2d5a87ec6c9fa9c9995]
+[2024-10-07 13:05:00] INFO: [Starting sync for Order ID: 66c49cf328a465095d268ccf]
+[2024-10-07 13:05:01] INFO: [Starting sync for Order ID: 66c357926a7436574d78770c]
+[2024-10-07 13:05:01] INFO: [Starting sync for Order ID: 66c3571f07d5f69433411b32]
+[2024-10-07 13:05:02] INFO: [Starting sync for Order ID: 66c356325478d22b7d2bc98e]
+[2024-10-07 13:05:02] INFO: [Starting sync for Order ID: 66c355de22172d7370e20023]
+[2024-10-07 13:05:03] INFO: [Starting sync for Order ID: 66bc1cc95c8003630adc039d]
+[2024-10-07 13:05:04] INFO: [Starting sync for Order ID: 66bc1c7b32bc9243f28777fa]
+[2024-10-07 13:05:04] INFO: [Starting sync for Order ID: 66bc1c32b685d51906b6791a]
+[2024-10-07 13:05:05] INFO: [Starting sync for Order ID: 66bc1bf832bc9261bc8777ed]
+[2024-10-07 13:05:05] INFO: [Starting sync for Order ID: 66bc1b5e32bc923f6e8777c9]
+[2024-10-07 13:05:06] INFO: [Starting sync for Order ID: 66bc1b176fa090696b4d3cb5]
+[2024-10-07 13:05:06] INFO: [Starting sync for Order ID: 66bc1ac09b0606665688a4f0]
+[2024-10-07 13:05:07] INFO: [Starting sync for Order ID: 66bc1a67bce5d33e1ec05d6d]
+[2024-10-07 13:05:08] INFO: [Starting sync for Order ID: 66bc19f0c5672877dcec6511]
+[2024-10-07 13:05:08] INFO: [Starting sync for Order ID: 66bc19a19b06065ff088a4cf]
+[2024-10-07 13:05:09] INFO: Broadcasted initial sync status:
+[2024-10-07 13:05:09] INFO: [Ticket type: Regular, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:09] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:09] INFO: [Ticket type: VIP, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:09] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:09] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:10] INFO: [Ticket type: Regular, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:10] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:10] INFO: [Ticket type: VIP, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:10] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:10] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:10] INFO: [Ticket type: Team Tickets, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:10] INFO: [No missing tickets for Team Tickets]
+[2024-10-07 13:05:11] INFO: [Ticket type: VIP, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:11] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:11] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:11] INFO: [Ticket type: Team Tickets, Existing: 3, Required: 3, Missing: 0]
+[2024-10-07 13:05:11] INFO: [No missing tickets for Team Tickets]
+[2024-10-07 13:05:11] INFO: [Ticket type: VIP, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:11] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:11] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:11] INFO: [Ticket type: Team Tickets, Existing: 3, Required: 3, Missing: 0]
+[2024-10-07 13:05:11] INFO: [No missing tickets for Team Tickets]
+[2024-10-07 13:05:12] INFO: [Ticket type: VIP, Existing: 3, Required: 3, Missing: 0]
+[2024-10-07 13:05:12] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:12] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:12] INFO: [Ticket type: Regular, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:12] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:12] INFO: [Ticket type: VIP, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:12] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:12] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:13] INFO: [Ticket type: Regular, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:13] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:13] INFO: [Ticket type: VIP, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:13] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:13] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:13] INFO: [Ticket type: Regular, Existing: 4, Required: 4, Missing: 0]
+[2024-10-07 13:05:13] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:14] INFO: [Ticket type: VIP, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:14] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:14] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:14] INFO: [Ticket type: VIP, Existing: 6, Required: 6, Missing: 0]
+[2024-10-07 13:05:14] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:14] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:14] INFO: [Ticket type: Team Tickets, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:14] INFO: [No missing tickets for Team Tickets]
+[2024-10-07 13:05:14] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:15] INFO: [Ticket type: Regular, Existing: 4, Required: 4, Missing: 0]
+[2024-10-07 13:05:15] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:15] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:15] INFO: [Ticket type: VIP, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:15] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:15] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:15] INFO: [Ticket type: Team Tickets, Existing: 5, Required: 5, Missing: 0]
+[2024-10-07 13:05:15] INFO: [No missing tickets for Team Tickets]
+[2024-10-07 13:05:15] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:15] INFO: [Ticket type: Regular, Existing: 5, Required: 5, Missing: 0]
+[2024-10-07 13:05:15] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:15] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:16] INFO: [Ticket type: VIP, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:16] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:16] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:16] INFO: [Ticket type: VIP, Existing: 9, Required: 9, Missing: 0]
+[2024-10-07 13:05:16] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:16] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:16] INFO: [Ticket type: Regular, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:16] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:17] INFO: [Ticket type: VIP, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:17] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:17] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:17] INFO: [Ticket type: Regular, Existing: 1, Required: 1, Missing: 0]
+[2024-10-07 13:05:17] INFO: [No missing tickets for Regular]
+[2024-10-07 13:05:17] INFO: [Ticket type: VIP, Existing: 2, Required: 2, Missing: 0]
+[2024-10-07 13:05:17] INFO: [No missing tickets for VIP]
+[2024-10-07 13:05:17] INFO: Broadcasted sync progress:
+[2024-10-07 13:05:17] INFO: 
+      =============================================
+      SYNC PROCESS SUCCESSFUL!
+      TOTAL ORDERS SYNCED: 18
+      TOTAL TICKETS ADDED: 0
+      TOTAL TIME TAKEN: 0 min 19 sec
+      =============================================
+    

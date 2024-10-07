@@ -20,14 +20,12 @@ const SyncInProgressDialog = ({
   onClose,
 }: SyncInProgressDialogProps) => {
   const [syncedOrders, setSyncedOrders] = useState(0); // Track synced orders
-  const [syncedTickets, setSyncedTickets] = useState(0); // Track ticket types checked
-  const [orderProgressPercent, setOrderProgressPercent] = useState(0); // Track order progress percentage
-  const [ticketProgressPercent, setTicketProgressPercent] = useState(0); // Track ticket progress percentage
-  const [currentPhase, setCurrentPhase] = useState("Syncing Orders"); // Track which phase we're in
+  const [progressPercent, setProgressPercent] = useState(0); // Track progress percentage
   const [heartbeat, setHeartbeat] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
+    // Use the environment variable for dynamic URL
     const socket = io(
       process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000"
     );
@@ -41,39 +39,25 @@ const SyncInProgressDialog = ({
       setHeartbeat(message);
     });
 
-    // Listen for sync progress during Order sync
+    // Listen for sync progress updates
     socket.on("sync_progress", (data) => {
-      setCurrentPhase("Syncing Orders");
       console.log("Received sync progress:", data);
 
       setSyncedOrders(data.syncedOrders); // Update synced orders
       const progress = Math.round((data.syncedOrders / totalOrders) * 100);
-      setOrderProgressPercent(progress); // Calculate and update percentage
+      setProgressPercent(progress); // Calculate percentage
     });
 
-    // Listen for sync progress during Ticket sync
-    socket.on("sync_ticket_progress", (data) => {
-      setCurrentPhase("Verifying Tickets");
-      console.log("Received sync ticket progress:", data);
-
-      const progress = Math.round(
-        (data.totalTicketsChecked / data.totalTicketTypes) * 100
-      );
-      setTicketProgressPercent(progress); // Update ticket sync progress percentage
-      setSyncedTickets(data.totalTicketsChecked);
-    });
-
-    // Listen for sync completion
+    // Listen for sync complete
     socket.on("sync_complete", (data) => {
       console.log("Received sync complete:", data.message);
-      setOrderProgressPercent(100); // Ensure progress bar is filled for orders
-      setTicketProgressPercent(100); // Ensure progress bar is filled for tickets
+      setProgressPercent(100); // Ensure progress bar is filled
       setStatusMessage(
         "The Sync Process is complete! You may close this dialog."
       );
     });
 
-    // Clean up the WebSocket connection
+    // Clean up the WebSocket connection when the component unmounts
     return () => {
       socket.disconnect();
     };
@@ -87,54 +71,36 @@ const SyncInProgressDialog = ({
             Data Sync Process:
           </DialogTitle>
         </DialogHeader>
-        <p>Phase: {currentPhase}</p>
+        <p>Total Orders to Sync: {totalOrders}</p>
 
-        {/* Order Sync Progress */}
-        {orderProgressPercent < 100 && (
+        {/* Check if sync is complete */}
+        {progressPercent < 100 ? (
           <>
             <p>
-              Currently Syncing Orders: {syncedOrders} of {totalOrders}
+              Currently Processing: {syncedOrders} of {totalOrders}
             </p>
 
             <div className="relative pt-1">
               <div className="flex mb-2 items-center justify-between">
-                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200">
-                  {orderProgressPercent}% Orders Synced
-                </span>
+                <div>
+                  <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200">
+                    {progressPercent}% Completed
+                  </span>
+                </div>
               </div>
               <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-indigo-200">
                 <div
-                  style={{ width: `${orderProgressPercent}%` }}
+                  style={{ width: `${progressPercent}%` }}
                   className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-600"
                 ></div>
               </div>
             </div>
-          </>
-        )}
 
-        {/* Ticket Sync Progress */}
-        {orderProgressPercent === 100 && ticketProgressPercent < 100 && (
-          <>
-            <p>Currently Verifying Tickets: {syncedTickets}</p>
-
-            <div className="relative pt-1">
-              <div className="flex mb-2 items-center justify-between">
-                <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200">
-                  {ticketProgressPercent}% Tickets Verified
-                </span>
-              </div>
-              <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-indigo-200">
-                <div
-                  style={{ width: `${ticketProgressPercent}%` }}
-                  className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-600"
-                ></div>
-              </div>
+            <div>
+              <Spinner />
             </div>
           </>
-        )}
-
-        {/* Completion Message */}
-        {orderProgressPercent === 100 && ticketProgressPercent === 100 && (
+        ) : (
           <h3 className="text-2xl font-bold text-green-700">
             {statusMessage ||
               "The Sync Process is complete! You may close this dialog."}
@@ -147,7 +113,7 @@ const SyncInProgressDialog = ({
         <DialogFooter>
           <Button
             className="bg-green-700 hover:bg-green-600 text-white"
-            onClick={onClose}
+            onClick={onClose} // Handle closing the modal
           >
             Close
           </Button>

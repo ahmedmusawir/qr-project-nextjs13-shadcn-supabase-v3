@@ -53,8 +53,11 @@ const SyncButtonBlock = () => {
     // Update the sync status in the JSON file
     await updateSyncStatus(newStatus);
 
-    // Call the backend sync process
-    await fetch("/api/qrapp/test-sync", { method: "GET" });
+    // Call the backend REAL sync process
+    await fetch("/api/ghl/orders/sync", { method: "GET" });
+
+    // Call the backend test sync process
+    // await fetch("/api/qrapp/test-sync", { method: "GET" });
 
     fetchSyncStatus(); // Refresh the sync status immediately after starting sync
     setIsDialogOpen(true); // Show the SyncInProgressDialog immediately

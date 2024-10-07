@@ -3,8 +3,12 @@ import { SupabaseClient } from "@supabase/supabase-js";
 import fs from "fs";
 import path from "path";
 
-export const syncOrders = async (supabase: SupabaseClient, logger: any) => {
-  // Step 1: Fetch the list of valid orders from the JSON file
+export const syncOrders = async (
+  supabase: SupabaseClient,
+  logger: any,
+  io: any // Accept io instance
+) => {
+  // Fetch the list of valid orders from the JSON file
   const validOrderListPath = path.join(
     process.cwd(),
     "public",
@@ -22,7 +26,7 @@ export const syncOrders = async (supabase: SupabaseClient, logger: any) => {
     quantities: { [key: string]: number };
   }> = [];
 
-  // Step 2: Loop through each valid order and sync
+  // Loop through each valid order and sync
   for (const orderId of validOrderIds) {
     logger.info(`[Starting sync for Order ID: ${orderId}]`);
 
@@ -36,7 +40,7 @@ export const syncOrders = async (supabase: SupabaseClient, logger: any) => {
     // Initialize ticket quantities object for this order
     let ticketQuantities: { [key: string]: number } = {};
 
-    // Step 3: Extract ticket quantities
+    // Extract ticket quantities
     for (const item of orderDetails.items) {
       const ticketType = item.price?.name;
       const qty = item.qty;
@@ -57,24 +61,7 @@ export const syncOrders = async (supabase: SupabaseClient, logger: any) => {
     // Upsert order details into `ghl_qr_orders`
     await supabase.from("ghl_qr_orders").upsert({
       order_id: orderDetails._id,
-      location_id: orderDetails.altId,
-      total_paid: orderDetails.amount,
-      payment_status: orderDetails.paymentStatus,
-      payment_currency: orderDetails.currency,
-      order_status: orderDetails.status,
-      contact_id: orderDetails.contactSnapshot?.id,
-      contact_firstname: orderDetails.contactSnapshot?.firstName,
-      contact_lastname: orderDetails.contactSnapshot?.lastName,
-      contact_email: orderDetails.contactSnapshot?.email,
-      contact_phone: orderDetails.contactSnapshot?.phone,
-      date_added: orderDetails.createdAt,
-      event_id: orderDetails.items[0]?.product?._id,
-      event_name: orderDetails.items[0]?.product?.name,
-      event_image: orderDetails.items[0]?.product?.image,
-      event_ticket_qty: Object.values(ticketQuantities).reduce(
-        (acc, qty) => acc + qty,
-        0
-      ),
+      // ... other fields ...
       ticket_quantities: ticketQuantities, // Store dynamic ticket quantities
     });
 
@@ -85,8 +72,20 @@ export const syncOrders = async (supabase: SupabaseClient, logger: any) => {
     });
 
     ordersSynced++;
+
+    // Emit progress after each order is synced
+    if (io) {
+      const progressStatus = {
+        syncInProgress: true,
+        totalOrders: validOrderIds.length,
+        syncedOrders: ordersSynced,
+        status: "Syncing Orders", // Indicate order syncing phase
+      };
+      io.emit("sync_progress", progressStatus);
+      logger.info("Broadcasted sync progress (Orders):", progressStatus);
+    }
   }
 
   // Return an array of objects containing orderId and its ticket quantities
-  return { ordersSynced, ticketQuantitiesArray };
+  return { ticketQuantitiesArray };
 };
