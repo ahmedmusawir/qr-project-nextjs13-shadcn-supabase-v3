@@ -5,7 +5,7 @@ import Spinner from "@/components/common/Spinner";
 import { fetchEventOrders } from "@/services/eventServices";
 import Head from "next/head";
 import AdminPagination from "@/components/admin/AdminPagination";
-import AdminOrderList from "@/components/admin/AdminOrderList";
+import AdminOrderList from "@/components/admin/single-event-page/AdminOrderList";
 import { Order } from "@/types/orders";
 
 interface Props {

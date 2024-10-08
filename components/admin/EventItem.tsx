@@ -10,6 +10,7 @@ import {
 } from "@/services/fieldServices"; // Import the service function
 import Spinner from "@/components/common/Spinner"; // Import Spinner component
 import { Badge } from "../ui/badge";
+// import "./EventItem.scss"; // --> Keep this for testing
 
 interface Props {
   event: GHLEvent;
@@ -77,7 +78,10 @@ const EventItem = ({ event }: Props) => {
   };
 
   return (
-    <article className="bg-white relative isolate flex flex-col gap-8 lg:flex-col xl:flex-row mb-10 rounded-t-xl xl:pr-10 xl:rounded-2xl shadow-xl">
+    <article
+      id="moose-block"
+      className="bg-white relative isolate flex flex-col gap-8 lg:flex-col xl:flex-row mb-10 rounded-t-xl xl:pr-10 xl:rounded-2xl shadow-xl"
+    >
       <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-[2/1] xl:w-1/2 xl:shrink-0 mt-[-32px]">
         <img
           alt=""

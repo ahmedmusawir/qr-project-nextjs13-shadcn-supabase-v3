@@ -86,6 +86,7 @@ const Navbar = () => {
         {/* <NavLink href="/members-portal">Members' Portal</NavLink> */}
         <NavLink href="/admin-portal">Admin</NavLink>
         <NavLink href="/superadmin-portal">Super</NavLink>
+        <NavLink href="/wp-test">WP Blog</NavLink>
       </nav>
 
       {/* DARK MODE BUTTON */}

@@ -1,0 +1,105 @@
+[2024-10-08 20:00:45] INFO: Broadcasted initial sync status:
+[2024-10-08 20:00:45] INFO: [Valid Order IDs]:
+[2024-10-08 20:00:45] INFO: [Starting sync for Order ID: 66c5f91c83400668a74b54b6]
+[2024-10-08 20:00:46] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:46] INFO: [Starting sync for Order ID: 66c5f80fc78c9336766bf5b1]
+[2024-10-08 20:00:46] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:46] INFO: [Starting sync for Order ID: 66c4a2d5a87ec6c9fa9c9995]
+[2024-10-08 20:00:47] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:47] INFO: [Starting sync for Order ID: 66c49cf328a465095d268ccf]
+[2024-10-08 20:00:47] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:47] INFO: [Starting sync for Order ID: 66c357926a7436574d78770c]
+[2024-10-08 20:00:48] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:48] INFO: [Starting sync for Order ID: 66c3571f07d5f69433411b32]
+[2024-10-08 20:00:49] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:49] INFO: [Starting sync for Order ID: 66c356325478d22b7d2bc98e]
+[2024-10-08 20:00:49] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:49] INFO: [Starting sync for Order ID: 66c355de22172d7370e20023]
+[2024-10-08 20:00:50] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:50] INFO: [Starting sync for Order ID: 66bc1cc95c8003630adc039d]
+[2024-10-08 20:00:51] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:51] INFO: [Starting sync for Order ID: 66bc1c7b32bc9243f28777fa]
+[2024-10-08 20:00:52] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:52] INFO: [Starting sync for Order ID: 66bc1c32b685d51906b6791a]
+[2024-10-08 20:00:52] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:52] INFO: [Starting sync for Order ID: 66bc1bf832bc9261bc8777ed]
+[2024-10-08 20:00:53] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:53] INFO: [Starting sync for Order ID: 66bc1b5e32bc923f6e8777c9]
+[2024-10-08 20:00:53] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:53] INFO: [Starting sync for Order ID: 66bc1b176fa090696b4d3cb5]
+[2024-10-08 20:00:54] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:54] INFO: [Starting sync for Order ID: 66bc1ac09b0606665688a4f0]
+[2024-10-08 20:00:56] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:56] INFO: [Starting sync for Order ID: 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:00:56] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:56] INFO: [Starting sync for Order ID: 66bc19f0c5672877dcec6511]
+[2024-10-08 20:00:57] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:57] INFO: [Starting sync for Order ID: 66bc19a19b06065ff088a4cf]
+[2024-10-08 20:00:58] INFO: Broadcasted sync progress (Orders):
+[2024-10-08 20:00:58] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:00:58] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:00:58] INFO: Broadcasted sync progress:
+[2024-10-08 20:00:59] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:00:59] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:00:59] INFO: Broadcasted sync progress:
+[2024-10-08 20:00:59] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:00:59] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:00:59] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:00] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:00] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:00] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:00] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:01] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:01] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:01] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:01] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:01] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:02] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:02] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:02] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:02] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:02] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:02] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:03] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:03] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:03] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:03] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:03] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:03] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:04] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:05] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:05] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:05] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:06] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:06] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:06] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:07] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:07] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:07] INFO: [Inserting missing VIP ticket for order 66bc1a67bce5d33e1ec05d6d]
+[2024-10-08 20:01:08] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:08] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:08] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:08] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:08] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:08] INFO: [Inserting missing Regular ticket for order 66bc19a19b06065ff088a4cf]
+[2024-10-08 20:01:09] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:09] INFO: [Inserting missing VIP ticket for order 66bc19a19b06065ff088a4cf]
+[2024-10-08 20:01:09] INFO: [Inserting missing VIP ticket for order 66bc19a19b06065ff088a4cf]
+[2024-10-08 20:01:10] INFO: Broadcasted sync ticket progress:
+[2024-10-08 20:01:10] INFO: Broadcasted sync progress:
+[2024-10-08 20:01:10] INFO: Broadcasted ticket verification phase started.
+[2024-10-08 20:01:10] INFO: 
+      =============================================
+      SYNC PROCESS SUCCESSFUL!
+      TOTAL ORDERS SYNCED: 18
+      TOTAL TICKETS ADDED: 12
+      TOTAL TIME TAKEN: 0 min 25 sec
+      =============================================
+    

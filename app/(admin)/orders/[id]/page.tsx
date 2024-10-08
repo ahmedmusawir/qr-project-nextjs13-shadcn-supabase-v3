@@ -3,7 +3,7 @@ import SingleOrderPageContent from "./SingleOrderPageContent";
 
 const SingleOrderPage = () => {
   return (
-    <div className="p-10">
+    <div className="p-2 sm:p-10">
       <SingleOrderPageContent />
     </div>
   );

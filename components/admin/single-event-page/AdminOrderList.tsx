@@ -1,7 +1,7 @@
 import { Order } from "@/types/orders";
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 interface Prop {
   orders: Order[];
