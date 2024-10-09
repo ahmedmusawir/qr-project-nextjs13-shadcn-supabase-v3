@@ -1,3 +1,47 @@
+// Service function to update the status of a single ticket by ticket_id.
+// Sends a PUT request to the /api/qrapp/tickets/status/[id] endpoint with the new status.
+
+export async function updateTicketStatusById(
+  ticket_id: string,
+  status: string
+) {
+  try {
+    const response = await fetch(`/api/qrapp/tickets/status/${ticket_id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    console.error("Error updating ticket status by ID:", error);
+    throw error;
+  }
+}
+
+// Service function to update the status of all tickets for a given order_id.
+// Sends a PUT request to the /api/qrapp/tickets/status endpoint with the order_id and new status to update all related tickets.
+
+export async function updateTicketsStatusByOrderId(
+  order_id: string,
+  status: string
+) {
+  try {
+    const response = await fetch(`/api/qrapp/tickets/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order_id, status }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    console.error("Error updating tickets status by order ID:", error);
+    throw error;
+  }
+}
+
 /**
  * Service: fetchAndGenerateTicketTypes
  *

@@ -27,7 +27,8 @@ export interface Order {
   inserted_at: string;
   updated_at: string;
   qr_code_image: string;
-  ticket_quantities: Record<string, number>;
+  vip_ticket_qty: number;
+  regular_ticket_qty: number;
 }
 
 export interface Pagination {

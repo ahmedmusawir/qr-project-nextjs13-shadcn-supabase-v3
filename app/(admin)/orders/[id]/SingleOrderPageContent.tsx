@@ -17,6 +17,7 @@ const SingleOrderPageContent = () => {
   const id = Array.isArray(params.id) ? params.id[0] : params.id; // Ensure id is a string
   const [order, setOrder] = useState<Order | null>(null);
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [isTicketsLoading, setisTicketsLoading] = useState(false);
 
   useEffect(() => {
     const getOrderAndTickets = async () => {
@@ -25,9 +26,11 @@ const SingleOrderPageContent = () => {
         console.log("Fetched Order Data:", fetchedOrder);
         setOrder(fetchedOrder);
 
+        setisTicketsLoading(true);
         const fetchedTickets = await fetchTicketsByOrderId(id);
         console.log("Fetched Tickets Data:", fetchedTickets);
         setTickets(fetchedTickets);
+        setisTicketsLoading(false);
       } catch (error) {
         console.error("Error fetching order or tickets:", error);
       }
@@ -51,8 +54,10 @@ const SingleOrderPageContent = () => {
       <OrderInfoHeader order={order} />
       <OrderInfoBlock order={order} />
 
-      <div className="mt-8">
+      <div className="mt-16">
         <h3>Tickets List</h3>
+        {isTicketsLoading && <Spinner />}
+
         <TicketTable tickets={tickets} />
       </div>
     </>

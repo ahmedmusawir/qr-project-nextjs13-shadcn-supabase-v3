@@ -20,7 +20,7 @@ interface TicketTableProps {
 
 const TicketTable = ({ tickets }: TicketTableProps) => {
   return (
-    <div className="mt-10">
+    <div className="mt-5">
       <Table className="mb-8">
         <TableCaption>A list of your recent tickets.</TableCaption>
         <TableHeader className="border-b-2 border-red-400">
