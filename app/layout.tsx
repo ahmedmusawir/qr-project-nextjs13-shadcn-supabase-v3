@@ -18,10 +18,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
 import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "./providers/ThemeProvider";
 import MainLayout from "@/components/layout/MainLayout";
 import { fetchAndGenerateTicketTypes } from "@/services/ticketServices";
 import { fetchAndGenerateValidOrderList } from "@/services/orderServices";
+import { ThemeProvider } from "./providers/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 

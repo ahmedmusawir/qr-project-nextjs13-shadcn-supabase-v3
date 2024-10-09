@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
+    "dev": "NODE_OPTIONS='--max-old-space-size=4096' node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.prod.js"
+    "start": "NODE_OPTIONS='--max-old-space-size=4096' NODE_ENV=production node server.prod.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
