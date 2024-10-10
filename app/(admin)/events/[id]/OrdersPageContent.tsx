@@ -7,6 +7,7 @@ import Head from "next/head";
 import AdminPagination from "@/components/admin/AdminPagination";
 import AdminOrderList from "@/components/admin/single-event-page/AdminOrderList";
 import { Order } from "@/types/orders";
+import BackButton from "@/components/common/BackButton";
 
 interface Props {
   eventId: string;
@@ -49,6 +50,8 @@ const OrdersPageContent = ({ eventId }: Props) => {
         <meta name="description" content="Admin portal for managing events" />
       </Head>
       <Page className={""} FULL={false}>
+        <BackButton text="Go Back" />
+
         <div className="px-4 sm:px-0 mb-10">
           <h2 className="text-xxl font-semibold leading-7 text-gray-900">
             Order List:

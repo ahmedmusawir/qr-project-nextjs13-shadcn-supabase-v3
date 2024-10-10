@@ -6,8 +6,12 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
 export async function PUT(req: Request) {
-  const { order_id, status } = await req.json(); // Expecting order_id and status in the request body
+  // Expecting order_id and status in the request body
+  const { order_id, status } = await req.json();
   const supabase = createClient();
+
+  console.log("ORDER ID: (/api/qrapp/tickets/status/route.ts): ", order_id);
+  console.log("ORDER STATUS: (/api/qrapp/tickets/status/route.ts): ", status);
 
   try {
     const { error } = await supabase

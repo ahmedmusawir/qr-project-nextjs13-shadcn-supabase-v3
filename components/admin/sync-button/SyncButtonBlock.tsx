@@ -67,7 +67,7 @@ const SyncButtonBlock = () => {
   const handleDialogClose = () => setIsDialogOpen(false);
 
   return (
-    <div className="float-end flex flex-col">
+    <div className="sm:float-end flex flex-col">
       <span className="inline-flex items-center rounded-md bg-slate-500 px-2 py-1 text-xs font-medium text-white">
         Last Sync-ed at{" "}
         {syncStatus?.endTime
@@ -76,7 +76,7 @@ const SyncButtonBlock = () => {
       </span>
       <Button
         size={"xl"}
-        className="bg-indigo-700 hover:bg-indigo-600 text-white mt-2"
+        className="bg-indigo-700 hover:bg-indigo-600 text-white mb-8 sm:mb-1 mt-1"
         onClick={handleSyncClick}
         disabled={isLoading}
       >

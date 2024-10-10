@@ -1,3 +1,5 @@
+"use client";
+
 import { Order } from "@/types/orders";
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
@@ -19,8 +21,11 @@ const AdminOrderList = ({ orders }: Prop) => {
           <img
             src="https://res.cloudinary.com/dyb0qa58h/image/upload/v1725423361/NO-ITEM-FOUND_bwdwum.webp"
             alt="icon"
+            className="mt-10"
           />
-          <h1 className="font-bold text-red-500">No Orders Found</h1>
+          <h1 className="font-bold text-red-500 text-center">
+            No Orders Found
+          </h1>
         </div>
       )}
       {orders.map((order) => (

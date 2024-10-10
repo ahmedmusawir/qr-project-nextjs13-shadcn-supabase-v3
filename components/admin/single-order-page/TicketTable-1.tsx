@@ -25,7 +25,6 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Order } from "@/types/orders";
 
 interface Modal {
   open: boolean;
@@ -69,11 +68,10 @@ const ConfirmationModal = ({ open, onConfirm, onCancel }: Modal) => {
 };
 
 interface TicketTableProps {
-  tickets: Ticket[];
-  order: Order;
+  tickets?: Ticket[];
 }
 
-const TicketTable = ({ tickets, order }: TicketTableProps) => {
+const TicketTable = ({ tickets }: TicketTableProps) => {
   // Initialize statuses based on the ticket data
   const [ticketStatuses, setTicketStatuses] = useState<Record<string, string>>(
     {}
@@ -104,9 +102,9 @@ const TicketTable = ({ tickets, order }: TicketTableProps) => {
   };
 
   // Helps validate all Tickets
-  const handleValidateAllTickets = async (order_id: string) => {
+  const handleValidateAllTickets = async () => {
     try {
-      await updateTicketsStatusByOrderId(order_id, "validated");
+      await updateTicketsStatusByOrderId("order_id_here", "validated");
       setTicketStatuses((prev) => {
         const newStatuses = { ...prev };
         tickets?.forEach((ticket) => {
@@ -199,7 +197,7 @@ const TicketTable = ({ tickets, order }: TicketTableProps) => {
       {/* Confirmation Modal for Validate All */}
       <ConfirmationModal
         open={isModalOpen}
-        onConfirm={() => handleValidateAllTickets(order.order_id)}
+        onConfirm={handleValidateAllTickets}
         onCancel={() => setModalOpen(false)}
       />
     </div>

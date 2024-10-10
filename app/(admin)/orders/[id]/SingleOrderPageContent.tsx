@@ -39,7 +39,7 @@ const SingleOrderPageContent = () => {
     getOrderAndTickets();
   }, [id]);
 
-  if (!order) {
+  if (!order || !tickets) {
     return (
       <div>
         <Spinner />
@@ -49,16 +49,16 @@ const SingleOrderPageContent = () => {
 
   return (
     <>
-      <BackButton text="Back To Posts" />
+      <BackButton text="Go Back" />
 
       <OrderInfoHeader order={order} />
       <OrderInfoBlock order={order} />
 
       <div className="mt-16">
-        <h3>Tickets List</h3>
+        <h3 className="font-extrabold text-3xl text-center">Tickets List</h3>
         {isTicketsLoading && <Spinner />}
 
-        <TicketTable tickets={tickets} />
+        <TicketTable tickets={tickets} order={order} />
       </div>
     </>
   );

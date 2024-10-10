@@ -17,6 +17,8 @@ import Logout from "../auth/Logout";
 import { User as SupabaseUser } from "@supabase/auth-js";
 import { createClient } from "@/utils/supabase/client";
 import { usePathname } from "next/navigation";
+import { MenuIcon } from "lucide-react";
+// import { MenuIcon } from "@heroicons/react/outline";
 
 const Navbar = () => {
   const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -91,13 +93,13 @@ const Navbar = () => {
 
       {/* DARK MODE BUTTON */}
       <div className="flex items-center">
-        <ThemeToggler />
+        {/* <ThemeToggler /> */}
 
         {user && <span className="mr-3 text-white">{user.email}</span>}
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Avatar>
+            {/* <Avatar>
               <AvatarImage
                 src="https://res.cloudinary.com/dyb0qa58h/image/upload/v1699413824/wjykytitrfuv2ubnyzqd.png"
                 alt={user ? user.email ?? "Avatar" : "Avatar"}
@@ -105,9 +107,18 @@ const Navbar = () => {
               <AvatarFallback>
                 {user ? user.email?.[0] ?? "U" : "U"}
               </AvatarFallback>
-            </Avatar>
+            </Avatar> */}
+            <button className="text-gray-500 pt-1">
+              <MenuIcon
+                className="h-8 w-8 text-white border-2 border-white p-1"
+                aria-hidden="true"
+              />
+            </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white dark:bg-slate-600">
+            <DropdownMenuItem>
+              <Link href={"/admin-portal"}>Event List</Link>
+            </DropdownMenuItem>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
