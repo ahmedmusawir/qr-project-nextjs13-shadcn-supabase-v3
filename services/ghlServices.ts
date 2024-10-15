@@ -22,7 +22,7 @@ export const fetchGhlOrderList = async () => {
   }
 
   const raw_data = await response.json();
-  console.log("ORDER DATA: ", raw_data.data);
+  // console.log("ORDER DATA: ", raw_data.data);
   const data = raw_data.data;
 
   return data.map((order: any) => order._id); // return only the order IDs

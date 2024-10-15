@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import Navbar from "@/components/global/Navbar";
 import withAdminProtection from "@/hoc/withAdminProtection";
-import AdminSidebar from "@/components/layout/AdminSidebar";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
 interface LayoutProps {
   children: ReactNode;

@@ -65,7 +65,7 @@ export async function fetchAndGenerateTicketTypes(): Promise<void> {
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/ghl/events`,
       {
         method: "GET",
-        next: { revalidate: 3600 }, // Cache for 5 minutes
+        next: { revalidate: 3600 }, // Cache for 1 hour
       }
     );
 

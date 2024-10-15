@@ -23,6 +23,7 @@ import {
 } from "../ui/card";
 import { useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
+import ForgotPassForm from "./ForgotPassForm";
 
 const formSchema = z.object({
   email: z
@@ -49,10 +50,11 @@ const LoginForm = () => {
       password: "",
     },
   });
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setError(null); // Reset error state before submission
-    console.log("[Login Form] Attempting login...");
+    // console.log("[Login Form] Attempting login...");
 
     try {
       console.log("[useAuthStore] Starting login process...");
@@ -67,7 +69,7 @@ const LoginForm = () => {
         "[Login Form] Login successful. isAuthenticated:",
         isAuthenticated
       );
-      console.log("[Login Form] Roles:", roles);
+      // console.log("[Login Form] Roles:", roles);
 
       // Only proceed with redirection if the user is authenticated
       if (isAuthenticated) {
@@ -123,63 +125,77 @@ const LoginForm = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleSubmit)}
-              className="space-y-8"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text.white">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        className="p-6 bg-slate-100 dark:bg-slate-500 dark:text-white"
-                        placeholder="Please Enter Email"
-                        {...field}
-                      />
-                    </FormControl>
+          {showForgotPassword ? (
+            <ForgotPassForm setShowForgotPassword={setShowForgotPassword} />
+          ) : (
+            // Current Login Form
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="space-y-8"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text.white">
+                        Email
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          className="p-6 bg-slate-100 dark:bg-slate-500 dark:text-white"
+                          placeholder="Please Enter Email"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage className="dark:text-red-300" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text.white">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        className="p-6 bg-slate-100 dark:bg-slate-500 dark:text-white"
-                        placeholder="Please Enter password"
-                        {...field}
-                      />
-                    </FormControl>
+                      <FormMessage className="dark:text-red-300" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text.white">
+                        Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          className="p-6 bg-slate-100 dark:bg-slate-500 dark:text-white"
+                          placeholder="Please Enter password"
+                          {...field}
+                        />
+                      </FormControl>
 
-                    <FormMessage className="dark:text-red-300" />
-                  </FormItem>
+                      <FormMessage className="dark:text-red-300" />
+                    </FormItem>
+                  )}
+                />
+                {error && (
+                  <div className="text-red-500 dark:text-red-300 text-sm mt-2">
+                    {error}
+                  </div>
                 )}
-              />
-              {error && (
-                <div className="text-red-500 dark:text-red-300 text-sm mt-2">
-                  {error}
+                <Button className="w-full bg-slate-700 text-white dark:bg-slate-600 dark:text-white hover:bg-gray-900">
+                  Login
+                </Button>
+                <div className="text-right">
+                  <Button
+                    variant="link"
+                    className="text-sm underline text-slate-600 dark:text-slate-400"
+                    onClick={() => setShowForgotPassword(true)}
+                  >
+                    Forgot Password?
+                  </Button>
                 </div>
-              )}
-              <Button className="w-full bg-slate-700 text-white dark:bg-slate-600 dark:text-white hover:bg-gray-900">
-                Login
-              </Button>
-            </form>
-          </Form>
+              </form>
+            </Form>
+          )}
         </CardContent>
       </Card>
     </>

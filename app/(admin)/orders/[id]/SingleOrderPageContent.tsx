@@ -23,7 +23,7 @@ const SingleOrderPageContent = () => {
     const getOrderAndTickets = async () => {
       try {
         const fetchedOrder = await fetchOrderById(id);
-        console.log("Fetched Order Data:", fetchedOrder);
+        // console.log("Fetched Order Data:", fetchedOrder);
         setOrder(fetchedOrder);
 
         setisTicketsLoading(true);

@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
   );
 }
 
-// POST method to handle generating the valid order list
+// POST method to handle generating the valid order list by filtering w/ valid product id-s
 export async function POST(req: NextRequest) {
   try {
     const locationId = process.env.NEXT_PUBLIC_GHL_LOCATION_ID;
@@ -75,9 +75,10 @@ export async function POST(req: NextRequest) {
     // Step 3: Filter orders based on product availability
     const validOrderIds = [];
     for (const orderId of orderIds) {
+      console.log("Valid Order ID:", orderId);
       // Fetch order details asynchronously
       const orderDetails = await fetchGhlOrderDetails(orderId);
-      console.log("Order Details:", orderDetails);
+      // console.log("Order Details:", orderDetails);
 
       if (orderDetails?.items && orderDetails.items.length > 0) {
         const productId = orderDetails.items[0]?.product?._id;

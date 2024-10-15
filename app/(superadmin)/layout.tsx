@@ -2,8 +2,7 @@
 
 import { ReactNode } from "react";
 import withSuperAdminProtection from "@/hoc/withSuperAdminProtection";
-import NavbarSuperadmin from "@/components/global/NavbarSuperadmin";
-import SuperAdminSidebar from "@/components/layout/SuperAdminSidebar";
+import SuperAdminSidebar from "@/components/superadmin/SuperAdminSidebar";
 import Navbar from "@/components/global/Navbar";
 
 interface LayoutProps {

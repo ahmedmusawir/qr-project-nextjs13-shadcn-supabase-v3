@@ -19,8 +19,12 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const AdminSidebar = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id; // Assuming user.id contains the user's unique ID
+
   return (
     <Command className="bg-secondary">
       {/* <CommandInput placeholder="Type a command or search..." /> */}
@@ -44,7 +48,10 @@ const AdminSidebar = () => {
         <CommandGroup heading="Settings">
           <CommandItem>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
+            <Link href={`/profile/${userId}`}>
+              <span>Profile</span>
+            </Link>
+
             <CommandShortcut>&#x2318; P</CommandShortcut>
           </CommandItem>
           {/* <CommandItem>

@@ -19,8 +19,12 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const Sidebar = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id; // Assuming user.id contains the user's unique ID
+
   return (
     <Command className="bg-secondary">
       <CommandInput placeholder="Type a command or search..." />
