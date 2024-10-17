@@ -23,7 +23,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 
 const AdminSidebar = () => {
   const { user } = useAuthStore();
-  const userId = user?.id; // Assuming user.id contains the user's unique ID
+  const userId = user?.id;
 
   return (
     <Command className="bg-secondary">

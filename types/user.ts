@@ -1,4 +1,4 @@
-interface User {
+export interface User {
   id: string; // User's unique ID
   aud: string; // Audience (refers to the intended audience of the token)
   email: string; // User's email

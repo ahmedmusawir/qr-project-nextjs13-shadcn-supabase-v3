@@ -74,7 +74,7 @@ const LoginForm = () => {
       // Only proceed with redirection if the user is authenticated
       if (isAuthenticated) {
         console.log("[Login Form] Redirecting based on roles...");
-        if (redirectURL && roles.is_qr_admin === 1) {
+        if (redirectURL) {
           // Clear the stored URL after using it
           console.log("[Login Form] Redirecting to stored URL:", redirectURL);
           localStorage.removeItem("redirectAfterLogin");

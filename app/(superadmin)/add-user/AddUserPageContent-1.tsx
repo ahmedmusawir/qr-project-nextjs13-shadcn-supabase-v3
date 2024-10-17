@@ -22,10 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
-import {
-  addUserToCustomTable,
-  superadminAddNewUser,
-} from "@/services/userServices";
+import { superadminAddNewUser } from "@/services/userServices";
 import Spinner from "@/components/common/Spinner";
 
 const formSchema = z
@@ -101,24 +98,6 @@ const AddUserForm = () => {
         "SUPARADMIN ADD USER RESPONSE (AddUserPageContent)",
         response
       );
-      //----- PREP FOR CUSTOM USER TABLE -----------------------------
-      console.log("NEW USER ID:", response.data.user.id);
-      const newUserId = response?.data?.user?.id; // Get the newly created user ID from the response
-      const name = user_metadata.name;
-
-      // Step 2: Determine the type based on the metadata
-      let type = "Member"; // Default to Member (if you want to skip members in this version, just skip the else case)
-      if (user_metadata.is_qr_superadmin === 1) {
-        type = "Super Admin";
-      } else if (user_metadata.is_qr_admin === 1) {
-        type = "Admin";
-      }
-
-      // Step 3: Insert the user into the custom user table with the correct information
-      await addUserToCustomTable(newUserId, name, data.email, type);
-      console.log("User successfully added to custom table");
-
-      //----- PREP FOR CUSTOM USER TABLE -----------------------------
       // Redirect to the superadmin dashboard after user creation
       setIsLoading(false); // Set loading to true while we fetch data
 

@@ -41,6 +41,8 @@ export default async function RootLayout({
   // Fetch and generate valid order list during layout load
   await fetchAndGenerateValidOrderList();
 
+  // console.log("Service role key:", process.env.SUPABASE_SERVICE_ROLE_KEY);
+
   return (
     <html lang="en">
       <body className={inter.className}>

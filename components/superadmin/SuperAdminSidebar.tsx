@@ -19,10 +19,14 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const SuperAdminSidebar = () => {
+  const { user } = useAuthStore();
+  const userId = user?.id;
+
   return (
-    <Command className="bg-secondary">
+    <Command className="bg-white">
       <CommandInput placeholder="Type a command or search..." />
       <CommandList className="px-8">
         <CommandEmpty>No results found.</CommandEmpty>
@@ -40,10 +44,12 @@ const SuperAdminSidebar = () => {
         <CommandGroup heading="Settings">
           <CommandItem>
             <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <CommandShortcut>&#x2318; P</CommandShortcut>
+            <Link href={`/superadmin/profile/${userId}`}>
+              <span>Profile</span>
+            </Link>
+            <CommandShortcut>&#x2318;</CommandShortcut>
           </CommandItem>
-          <CommandItem>
+          {/* <CommandItem>
             <CreditCard className="mr-2 h-4 w-4" />
             <span>Billing</span>
             <CommandShortcut>&#x2318; B</CommandShortcut>
@@ -52,7 +58,7 @@ const SuperAdminSidebar = () => {
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
             <CommandShortcut>&#x2318; S</CommandShortcut>
-          </CommandItem>
+          </CommandItem> */}
         </CommandGroup>
       </CommandList>
     </Command>

@@ -1,4 +1,4 @@
-import { User } from "@/types/user";
+import { Order } from "@/types/orders";
 import { formatDate } from "@/utils/common/commonUtils";
 import React from "react";
 
@@ -67,8 +67,8 @@ const UserInfoBlock = ({ user }: Props) => {
                 User Type:
               </td>
               <td className="w-1/2 text-sm md:text-base text-gray-700 dark:text-gray-300 text-center bg-gray-300">
-                {user.identities[0].identity_data.is_qr_superadmin
-                  ? "Super Admin"
+                {user.identities[0].identity_data.is_qr_admin
+                  ? "Admin"
                   : "Type Unknown"}
               </td>
             </tr>

@@ -22,6 +22,7 @@ const PasswordResetPage = () => {
       console.log("sessionData: /auth/pass-reset", sessionData);
 
       if (error || !sessionData.session) {
+        console.error("Error fetching session:", error);
         setErrorMessage("Session not found. Please log in.");
       } else {
         setSession(sessionData.session); // Set session if found

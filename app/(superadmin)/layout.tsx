@@ -11,13 +11,13 @@ interface LayoutProps {
 
 const SuperAdminLayout = ({ children }: LayoutProps) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gray-100">
       <Navbar />
       <div className="flex flex-1">
         <div className="hidden md:block h-auto flex-shrink-0 border-4 w-[25rem]">
           <SuperAdminSidebar />
         </div>
-        <div className="flex-1 p-5 md:max-w-[1140px]">{children}</div>
+        <div className="flex-1 p-5 md:max-w-[1140px] ">{children}</div>
       </div>
     </div>
   );

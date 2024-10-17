@@ -14,10 +14,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { updatePassword } from "@/services/userServices";
+import { useAuthStore } from "@/store/useAuthStore";
+import RedirectButton from "./redirect-button";
 
 // Define form validation schema
 const schema = z.object({
-  newPassword: z.string().min(8, "Password must be at least 8 characters long"),
+  newPassword: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .regex(/[A-Z]/, "Password must include at least one uppercase letter") // Example of adding more complexity rules
+    .regex(/[a-z]/, "Password must include at least one lowercase letter")
+    .regex(/\d/, "Password must include at least one number"),
 });
 
 const ResetPasswordForm = () => {
@@ -30,24 +38,28 @@ const ResetPasswordForm = () => {
   });
 
   const [message, setMessage] = useState<string | null>(null);
-  const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [showRedirectButton, setShowRedirectButton] = useState(false);
 
-  const handleResetPassword = async () => {
-    const supabase = createClient();
+  const handleResetPassword = async (data: { newPassword: string }) => {
+    setMessage(null); // Reset previous success message
+    setError(null); // Reset previous error message
 
     try {
-      const { data, error } = await supabase.auth.updateUser({
-        password: newPassword, // Only pass the new password
-      });
+      const resetError = await updatePassword(data.newPassword);
 
-      if (error) {
-        setError(error.message);
+      if (resetError) {
+        setError(
+          resetError.message ||
+            "An error occurred while resetting the password."
+        );
+        console.error("Reset password error:", resetError);
       } else {
         setMessage("Password has been reset successfully!");
+        setShowRedirectButton(true);
       }
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "An unexpected error occurred.");
     }
   };
 
@@ -90,6 +102,11 @@ const ResetPasswordForm = () => {
             {message}
           </div>
         )}
+
+        {error && (
+          <div className="text-red-500 dark:text-red-300 mt-3">{error}</div>
+        )}
+        {showRedirectButton && <RedirectButton />}
       </form>
     </Form>
   );
