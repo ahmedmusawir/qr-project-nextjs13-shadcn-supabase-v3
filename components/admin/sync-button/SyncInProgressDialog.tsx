@@ -7,7 +7,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import Spinner from "@/components/common/Spinner";
 import io from "socket.io-client";
 
 interface SyncInProgressDialogProps {

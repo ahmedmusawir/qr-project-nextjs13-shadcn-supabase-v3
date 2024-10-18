@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import Page from "@/components/common/Page";
-import ProfileHeader from "@/components/admin/profile-page/ProfileHeader";
-import UserInfoBlock from "@/components/admin/profile-page/UserInfoBlock";
 import { useAuthStore } from "@/store/useAuthStore";
 import PasswordForm from "@/components/admin/profile-page/PasswordForm";
+import ProfileHeader from "@/components/superadmin/profile-page/ProfileHeader";
+import UserInfoBlock from "@/components/superadmin/profile-page/UserInfoBlock";
 
 interface Props {
   userId: string;

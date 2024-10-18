@@ -6,12 +6,12 @@ import UserList from "@/components/superadmin/UserList";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { fetchUsers } from "@/services/userServices"; // Import the function
-import { User } from "@/types/user";
+import { CustomUser, User } from "@/types/user";
 import Spinner from "@/components/common/Spinner"; // Optional spinner component for loading
 import { useAuthStore } from "@/store/useAuthStore";
 
 const SuperadminPortalPageContent = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<CustomUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuthStore();
@@ -20,7 +20,7 @@ const SuperadminPortalPageContent = () => {
     const getUsers = async () => {
       try {
         const fetchedUsers = await fetchUsers();
-        console.log("Fetched Users:", fetchedUsers);
+        // console.log("Fetched Users:", fetchedUsers);
         setUsers(fetchedUsers);
       } catch (err: any) {
         setError(err.message);
@@ -31,6 +31,14 @@ const SuperadminPortalPageContent = () => {
 
     getUsers(); // Fetch users on component mount
   }, []);
+
+  // Function to handle user deletion in the modal and update state
+  const handleUserDeletion = (deletedUserId: string) => {
+    // Update the state to remove the deleted user immediately
+    setUsers((prevUsers) =>
+      prevUsers.filter((user) => user.id !== deletedUserId)
+    );
+  };
 
   if (loading) {
     return (
@@ -60,7 +68,7 @@ const SuperadminPortalPageContent = () => {
           </h1>
           <h2 className="h2">The User List</h2>
           {/* Pass the fetched users to UserList */}
-          <UserList users={users} />
+          <UserList users={users} onDelete={handleUserDeletion} />
         </Row>
       </Page>
     </>

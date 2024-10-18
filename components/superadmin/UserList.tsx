@@ -1,10 +1,25 @@
-import { User } from "@/types/user";
+import { CustomUser, User } from "@/types/user";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
+import { useAuthStore } from "@/store/useAuthStore";
 
 interface Props {
-  users: User[];
+  users: CustomUser[];
+  onDelete: (id: string) => void;
 }
-const UserList = ({ users }: Props) => {
-  console.log("Users:", users);
+const UserList = ({ users, onDelete }: Props) => {
+  // console.log("Users:", users);
+  const [selectedUser, setSelectedUser] = useState<CustomUser | null>(null);
+  const { user } = useAuthStore();
+
+  // console.log("USER ID - UserList.tsx", user.id);
+
+  // Function to open the dialog when delete is clicked
+  const handleDeleteClick = (user: CustomUser) => {
+    setSelectedUser(user);
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       {users?.map((person) => (
@@ -21,7 +36,7 @@ const UserList = ({ users }: Props) => {
           </div>
           <div className="min-w-0 flex-1">
             <div className="float-end">
-              {person.user_metadata.is_qr_superadmin ? (
+              {person.type === "Super Admin" ? (
                 <span className="inline-flex items-center gap-x-1.5 rounded-full bg-red-100 px-4 py-3 text-xs font-medium text-red-700">
                   <svg
                     viewBox="0 0 6 6"
@@ -32,7 +47,7 @@ const UserList = ({ users }: Props) => {
                   </svg>
                   Super Admin
                 </span>
-              ) : person.user_metadata.is_qr_admin ? (
+              ) : person.type === "Admin" ? (
                 <span className="inline-flex items-center gap-x-1.5 rounded-full bg-blue-100 px-4 py-3 text-xs font-medium text-blue-700">
                   <svg
                     viewBox="0 0 6 6"
@@ -57,13 +72,36 @@ const UserList = ({ users }: Props) => {
               )}
             </div>
 
-            <h3 className="text-xl font-bold text-gray-900">
-              {person.user_metadata.name}
-            </h3>
-            <p className="truncate text-sm text-gray-500">{person.email}</p>
+            <h3 className="text-xl font-bold text-gray-900">{person.name}</h3>
+            <h4 className="truncate text-lg text-gray-500">{person.email}</h4>
+            {person.id === user.id && (
+              <Button
+                onClick={() => handleDeleteClick(person)} // Trigger dialog open
+                className="bg-green-700 hover:bg-green-600 text-white ml-3 float-end"
+                disabled
+              >
+                Logged In
+              </Button>
+            )}
+            {person.id !== user.id && (
+              <Button
+                onClick={() => handleDeleteClick(person)} // Trigger dialog open
+                className="bg-red-700 hover:bg-red-600 text-white ml-3 float-end"
+              >
+                Delete
+              </Button>
+            )}
           </div>
         </div>
       ))}
+
+      {selectedUser && (
+        <DeleteConfirmationDialog
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
+          onDelete={onDelete}
+        />
+      )}
     </div>
   );
 };

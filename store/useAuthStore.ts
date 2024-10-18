@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthState>()(
       setIsLoading: (isLoading) => set({ isLoading }),
       setUser: (user) => set({ user, isAuthenticated: !!user }),
       setRoles: (roles) => {
-        console.log("[useAuthStore] Setting roles:", roles);
+        // console.log("[useAuthStore] Setting roles:", roles);
         set({ roles });
       },
       setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),

@@ -1,4 +1,4 @@
-import { Order } from "@/types/orders";
+import { User } from "@/types/user";
 import { formatDate } from "@/utils/common/commonUtils";
 import React from "react";
 
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const UserInfoBlock = ({ user }: Props) => {
-  console.log("USER:", user);
+  // console.log("USER:", user);
   return (
     <>
       {/* Large Screen Layout (Double-Column) */}
@@ -67,8 +67,8 @@ const UserInfoBlock = ({ user }: Props) => {
                 User Type:
               </td>
               <td className="w-1/2 text-sm md:text-base text-gray-700 dark:text-gray-300 text-center bg-gray-300">
-                {user.identities[0].identity_data.is_qr_admin
-                  ? "Admin"
+                {user.user_metadata.is_qr_superadmin
+                  ? "Super Admin"
                   : "Type Unknown"}
               </td>
             </tr>

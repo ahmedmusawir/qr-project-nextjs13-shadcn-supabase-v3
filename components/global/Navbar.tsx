@@ -21,6 +21,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 const Navbar = () => {
   const { user } = useAuthStore();
   const userId = user?.id; // Assuming user.id contains the user's unique ID
+  console.log("USER: Navbar:", user);
 
   const pathname = usePathname();
 
@@ -62,10 +63,9 @@ const Navbar = () => {
 
       {/* NAVIGATION */}
       <nav className="hidden sm:ml-6 sm:flex flex-grow justify-center items-center">
-        {/* <NavLink href="/members-portal">Members' Portal</NavLink> */}
-        <NavLink href="/admin-portal">Admin</NavLink>
-        <NavLink href="/superadmin-portal">Super</NavLink>
-        <NavLink href="/wp-test">WP Blog</NavLink>
+        {/* <NavLink href="/admin-portal">Admin</NavLink> */}
+        {/* <NavLink href="/superadmin-portal">Super</NavLink> */}
+        {/* <NavLink href="/wp-test">WP Blog</NavLink> */}
       </nav>
 
       {/* DARK MODE BUTTON */}
@@ -76,15 +76,6 @@ const Navbar = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            {/* <Avatar>
-              <AvatarImage
-                src="https://res.cloudinary.com/dyb0qa58h/image/upload/v1699413824/wjykytitrfuv2ubnyzqd.png"
-                alt={user ? user.email ?? "Avatar" : "Avatar"}
-              />
-              <AvatarFallback>
-                {user ? user.email?.[0] ?? "U" : "U"}
-              </AvatarFallback>
-            </Avatar> */}
             <button className="text-gray-500 pt-1">
               <MenuIcon
                 className="h-8 w-8 text-white border-2 border-white p-1"
@@ -93,16 +84,47 @@ const Navbar = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white dark:bg-slate-600">
+            {/* For Dropdown Menu - Switching between 'Event List' & 'Dashboard' */}
+            {
+              user ? (
+                <DropdownMenuItem>
+                  {user?.user_metadata?.is_qr_superadmin ? (
+                    <Link href={"/superadmin-portal"}>Dashboard</Link> // Superadmin sees "Dashboard"
+                  ) : (
+                    <Link href={"/admin-portal"}>Event List</Link> // Admin sees "Event List"
+                  )}
+                </DropdownMenuItem>
+              ) : null /* Do not render this link if no user is logged in */
+            }
+            {user && (
+              <>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+              </>
+            )}
+
+            {/* For Profile Link Based on User Role */}
+            {
+              user ? (
+                <DropdownMenuItem>
+                  {user?.user_metadata?.is_qr_superadmin ? (
+                    <Link href={`/superadmin/profile/${userId}`}>Profile</Link> // Superadmin profile link
+                  ) : (
+                    <Link href={`/profile/${userId}`}>Profile</Link> // Admin profile link
+                  )}
+                </DropdownMenuItem>
+              ) : null /* Will not render this link if no user is logged in */
+            }
+
+            {/* For Logout / Log in */}
             <DropdownMenuItem>
-              <Link href={"/admin-portal"}>Event List</Link>
-            </DropdownMenuItem>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={`/profile/${userId}`}>Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Logout /> {/* Use the Logout component */}
+              {user ? (
+                <Logout /> /* If the user is logged in, show Logout */
+              ) : (
+                <Link href={"/auth"}>
+                  Log in
+                </Link> /* If no user is logged in, show 'Log in' */
+              )}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

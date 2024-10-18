@@ -97,12 +97,12 @@ const AddUserForm = () => {
         data.password,
         user_metadata
       );
-      console.log(
-        "SUPARADMIN ADD USER RESPONSE (AddUserPageContent)",
-        response
-      );
+      // console.log(
+      //   "SUPARADMIN ADD USER RESPONSE (AddUserPageContent)",
+      //   response
+      // );
       //----- PREP FOR CUSTOM USER TABLE -----------------------------
-      console.log("NEW USER ID:", response.data.user.id);
+      // console.log("NEW USER ID:", response.data.user.id);
       const newUserId = response?.data?.user?.id; // Get the newly created user ID from the response
       const name = user_metadata.name;
 
@@ -122,7 +122,7 @@ const AddUserForm = () => {
       // Redirect to the superadmin dashboard after user creation
       setIsLoading(false); // Set loading to true while we fetch data
 
-      // router.push("/superadmin-portal");
+      router.push("/superadmin-portal");
     } catch (error: any) {
       console.error("Signup error:", error);
       setError(error.message);

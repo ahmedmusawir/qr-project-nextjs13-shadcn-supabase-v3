@@ -3,6 +3,7 @@ export interface User {
   aud: string; // Audience (refers to the intended audience of the token)
   email: string; // User's email
   phone: string | null; // Phone can be null
+  type: string | null; // Phone can be null
   user_metadata: {
     is_qr_admin: number; // Whether the user is an admin (1 for true, 0 for false)
     is_qr_member: number; // Whether the user is a member (1 for true, 0 for false)
@@ -25,4 +26,12 @@ export interface User {
   last_sign_in_at: string; // Last sign-in time
   created_at: string; // User creation time
   updated_at: string; // User update time
+}
+
+export interface CustomUser {
+  id: string; // Unique user ID
+  name: string; // User name
+  email: string; // User email
+  type: "Admin" | "Super Admin"; // User type (Admin or Super Admin)
+  created_at: string; // Timestamp of user creation
 }
