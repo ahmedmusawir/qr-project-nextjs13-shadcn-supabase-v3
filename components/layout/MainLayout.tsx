@@ -23,8 +23,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   }, [fetchUser]);
 
   if (isLoading) {
-    console.log("[Main Layout] We are stuck here");
-
     return (
       <div>
         <Spinner />

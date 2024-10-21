@@ -67,9 +67,10 @@ const UserInfoBlock = ({ user }: Props) => {
                 User Type:
               </td>
               <td className="w-1/2 text-sm md:text-base text-gray-700 dark:text-gray-300 text-center bg-gray-300">
-                {user.identities[0].identity_data.is_qr_superadmin
+                {/* {user.identities[0].identity_data.is_qr_superadmin
                   ? "Super Admin"
-                  : "Type Unknown"}
+                  : "Type Unknown"} */}
+                Admin
               </td>
             </tr>
           </tbody>

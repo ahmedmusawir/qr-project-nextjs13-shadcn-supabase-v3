@@ -1,0 +1,1 @@
+[2024-10-21 14:34:55] ERROR: [Error during sync: Dynamic server usage: Page couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error]

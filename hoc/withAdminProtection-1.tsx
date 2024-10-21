@@ -38,7 +38,6 @@ const withAdminProtection = (WrappedComponent: ComponentType<LayoutProps>) => {
     }, [isAuthenticated, roles, router, isLoading, logoutInProgress]);
 
     if (isLoading || !isAuthenticated || roles.is_qr_admin !== 1) {
-      // console.log("[Admin HOC] We are stuck here");
       return <Spinner />;
     }
 

@@ -52,7 +52,7 @@ const WPPost = () => {
         <meta name="description" content={`Post: ${post.title.rendered}`} />
       </Head>
       <Page className={""} FULL={false}>
-        <Row className="prose max-w-3xl mx-auto">
+        <Row className="prose max-w-3xl mx-auto bg-gray-200">
           {/* <h1 className="h1 text-center">{post.title.rendered}</h1> */}
           <BackButton text="Go Back..." />
           <div
