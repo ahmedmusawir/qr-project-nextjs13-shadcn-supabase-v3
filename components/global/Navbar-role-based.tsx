@@ -84,12 +84,6 @@ const Navbar = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white dark:bg-slate-600">
-            <DropdownMenuItem>
-              <Link href={"/"}>Home</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href={"/wp-blog"}>Our Blog</Link>
-            </DropdownMenuItem>
             {/* For Dropdown Menu - Switching between 'Event List' & 'Dashboard' */}
             {
               user ? (

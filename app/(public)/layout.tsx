@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import NavbarHome from "@/components/global/NavbarHome";
 import Main from "@/components/common/Main";
 import Navbar from "@/components/global/Navbar";
+import Footer from "@/components/home/Footer";
 
 export default async function PublicLayout({
   children,
@@ -17,6 +17,7 @@ export default async function PublicLayout({
             ? children
             : "This is a Layout container. Must have children"}
         </Main>
+        <Footer />
       </div>
     </>
   );
