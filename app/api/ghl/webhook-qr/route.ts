@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     console.log("Extracted Data:", extractedData);
 
     // Step 2: Generate the QR code URL and image
-    const qrCodeURL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/order/${extractedData.order_id}`;
+    const qrCodeURL = `${process.env.NEXT_PUBLIC_API_BASE_URL}/orders/${extractedData.order_id}`;
     const qrCodeImage = await generateQRCode(qrCodeURL);
 
     // console.log("Generated QR code URL:", qrCodeURL);

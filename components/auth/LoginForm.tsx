@@ -24,6 +24,7 @@ import {
 import { useState } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import ForgotPassForm from "./ForgotPassForm";
+import Spinner from "../common/Spinner";
 
 const formSchema = z.object({
   email: z
@@ -51,24 +52,28 @@ const LoginForm = () => {
     },
   });
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setError(null); // Reset error state before submission
     // console.log("[Login Form] Attempting login...");
-
     try {
-      console.log("[useAuthStore] Starting login process...");
+      setIsLoading(true);
+      // console.log("[useAuthStore] Starting login process...");
+      // The Login Process Begins here
       await login(data.email, data.password);
+
+      setIsLoading(false);
 
       // Ensure the state is updated before accessing roles
       const roles = useAuthStore.getState().roles;
       const isAuthenticated = useAuthStore.getState().isAuthenticated;
       const redirectURL = localStorage.getItem("redirectAfterLogin");
 
-      console.log(
-        "[Login Form] Login successful. isAuthenticated:",
-        isAuthenticated
-      );
+      // console.log(
+      //   "[Login Form] Login successful. isAuthenticated:",
+      //   isAuthenticated
+      // );
       // console.log("[Login Form] Roles:", roles);
 
       // Only proceed with redirection if the user is authenticated
@@ -182,7 +187,7 @@ const LoginForm = () => {
                   </div>
                 )}
                 <Button className="w-full bg-slate-700 text-white dark:bg-slate-600 dark:text-white hover:bg-gray-900">
-                  Login
+                  {isLoading ? <Spinner /> : "Login"}
                 </Button>
                 <div className="text-right">
                   <Button

@@ -32,7 +32,7 @@ const OrdersPageContent = ({ eventId }: Props) => {
         setOrders(ordersData.orders);
         setTotalPages(ordersData.pagination.totalPages);
 
-        console.log("Orders by Event: 66bc172716adf78eb1f8793e", ordersData);
+        // console.log("Orders by Event: 66bc172716adf78eb1f8793e", ordersData);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {

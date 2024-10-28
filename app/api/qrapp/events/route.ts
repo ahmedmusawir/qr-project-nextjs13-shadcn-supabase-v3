@@ -12,7 +12,7 @@ export async function GET(request: Request) {
       `https://services.leadconnectorhq.com/products/?locationId=4rKuULHASyQ99nwdL1XH`,
       {
         headers: {
-          Authorization: "Bearer pit-a0cb4c90-dcd4-45e1-b811-8a01c30e5014",
+          Authorization: `Bearer ${process.env.GHL_ACCESS_TOKEN}`,
           Version: "2021-07-28",
           Accept: "application/json",
         },

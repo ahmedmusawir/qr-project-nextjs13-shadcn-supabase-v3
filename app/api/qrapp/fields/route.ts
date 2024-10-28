@@ -6,7 +6,7 @@ export async function GET() {
       `https://services.leadconnectorhq.com/locations/4rKuULHASyQ99nwdL1XH/customFields`,
       {
         headers: {
-          Authorization: "Bearer pit-a0cb4c90-dcd4-45e1-b811-8a01c30e5014",
+          Authorization: `Bearer ${process.env.GHL_ACCESS_TOKEN}`,
           Version: "2021-07-28",
           Accept: "application/json",
         },

@@ -46,7 +46,7 @@ export async function GET(
       throw new Error(`Order not found for ID: ${orderId}`);
     }
 
-    console.log(`[Order Details for ${orderId}]`, orderDetails);
+    // console.log(`[Order Details for ${orderId}]`, orderDetails);
 
     // Step 2: Initialize ticket quantities
     let ticketQuantities: { [key: string]: number } = {};
@@ -119,7 +119,7 @@ export async function GET(
 
       const existingCount = existingTickets ? existingTickets.length : 0;
 
-      // Insert only the missing tickets
+      // Insert the tickets
       for (let i = existingCount; i < qty; i++) {
         await supabase.from("ghl_qr_tickets").insert({
           order_id: orderDetails._id,
