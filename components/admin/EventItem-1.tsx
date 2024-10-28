@@ -108,25 +108,24 @@ const EventItem = ({ event }: Props) => {
           <div className="flex justify-center xl:justify-start">
             <FieldSelector onFieldSelect={handleFieldSelect} />
           </div>
-          {/* ========================= */}
           <div className="text-sm mt-2 text-center xl:text-left">
-            {isLoading ? (
-              <Spinner />
-            ) : !activeFieldName ? (
-              <p className="text-red-500 font-bold">
-                No active field connected
-              </p>
-            ) : (
-              <section>
-                <Badge variant="outline" className="bg-indigo-700 text-white">
-                  Connected Field:
-                </Badge>{" "}
-                <p className="text-indigo-500 font-bold">{activeFieldName}</p>
-              </section>
-            )}
-          </div>
+            {!activeFieldName && <Spinner />}
 
-          {/* ================================= */}
+            <section>
+              <Badge variant="outline" className="bg-indigo-700 text-white">
+                Connected Field:
+              </Badge>{" "}
+              <p
+                className={
+                  activeFieldName === "No active field connected"
+                    ? "text-red-500 font-bold"
+                    : "text-indigo-500 font-bold"
+                }
+              >
+                {activeFieldName}
+              </p>
+            </section>
+          </div>
           <div className="flex border-t border-gray-900/5 pt-6 justify-center xl:justify-start">
             <p className="font-semibold text-gray-900">
               <Button

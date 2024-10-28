@@ -9,7 +9,7 @@ import {
 import { useGHLDataStore } from "@/store/useGHLDataStore";
 
 interface FieldSelectorProps {
-  onFieldSelect: (fieldId: string | null, fieldName: string | null) => void;
+  onFieldSelect: (fieldId: string, fieldName: string) => void;
 }
 
 const FieldSelector = ({ onFieldSelect }: FieldSelectorProps) => {
@@ -18,15 +18,9 @@ const FieldSelector = ({ onFieldSelect }: FieldSelectorProps) => {
   return (
     <Select
       onValueChange={(value) => {
-        if (value === "no_field") {
-          onFieldSelect(null, "No Field"); // Handle "No Field" selection
-        } else {
-          const selectedField = fields.find(
-            (field) => field.field_id === value
-          );
-          if (selectedField) {
-            onFieldSelect(selectedField.field_id, selectedField.field_name);
-          }
+        const selectedField = fields.find((field) => field.field_id === value);
+        if (selectedField) {
+          onFieldSelect(selectedField.field_id, selectedField.field_name);
         }
       }}
     >
@@ -35,8 +29,6 @@ const FieldSelector = ({ onFieldSelect }: FieldSelectorProps) => {
       </SelectTrigger>
       <SelectContent className="bg-white">
         <SelectGroup>
-          <SelectItem value="no_field">No Field</SelectItem>{" "}
-          {/* "No Field" option */}
           {fields.map((field) => (
             <SelectItem key={field.field_id} value={field.field_id}>
               {field.field_name}

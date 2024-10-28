@@ -12,11 +12,29 @@ export async function POST(req: NextRequest) {
   const supabase = createClient();
 
   try {
-    const { product_id, product_name, field_id, field_name } = await req.json();
+    const { product_id, product_name, field_id, field_name, remove_this } =
+      await req.json();
 
-    if (!product_id || !field_id) {
+    // If remove_this is true, delete the current field-product association
+    if (remove_this) {
+      const { error: deleteError } = await supabase
+        .from("ghl_qr_fields")
+        .delete()
+        .eq("product_id", product_id);
+
+      if (deleteError) throw deleteError;
+
+      return NextResponse.json({
+        success: true,
+        message:
+          "Custom field has been released from the product successfully.",
+      });
+    }
+
+    // If `remove_this` is false or not provided, proceed with upsert logic
+    if (!field_id) {
       return NextResponse.json(
-        { error: "product_id and field_id are required" },
+        { error: "field_id is required for associating a custom field" },
         { status: 400 }
       );
     }
@@ -49,63 +67,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Step 2: Find any active records with the same product_id
-    const { data: activeRecords, error: activeError } = await supabase
-      .from("ghl_qr_fields")
-      .select("*")
-      .eq("product_id", product_id)
-      .eq("status", "active");
+    // Step 2: Insert the new record as active if no conflicts are found
+    const { error: insertError } = await supabase.from("ghl_qr_fields").insert({
+      product_id,
+      product_name,
+      field_id,
+      field_name,
+      status: "active",
+    });
 
-    if (activeError) throw activeError;
-
-    // Step 3: If found, update them to inactive
-    if (activeRecords && activeRecords.length > 0) {
-      const { error: updateError } = await supabase
-        .from("ghl_qr_fields")
-        .update({ status: "inactive" })
-        .eq("product_id", product_id)
-        .eq("status", "active");
-
-      if (updateError) throw updateError;
-    }
-
-    // Step 4: Check if the combo exists and is inactive, then upsert
-    const { data: existingRecord, error: existingError } = await supabase
-      .from("ghl_qr_fields")
-      .select("*")
-      .eq("product_id", product_id)
-      .eq("field_id", field_id)
-      .single();
-
-    if (existingError && existingError.code !== "PGRST116") throw existingError;
-
-    if (existingRecord) {
-      // Step 5: Update the existing inactive record to active
-      const { error: upsertError } = await supabase
-        .from("ghl_qr_fields")
-        .update({ status: "active" })
-        .eq("product_id", product_id)
-        .eq("field_id", field_id);
-
-      if (upsertError) throw upsertError;
-    } else {
-      // Step 6: Insert the new record as active
-      const { error: insertError } = await supabase
-        .from("ghl_qr_fields")
-        .insert({
-          product_id,
-          product_name,
-          field_id,
-          field_name,
-          status: "active",
-        });
-
-      if (insertError) throw insertError;
-    }
+    if (insertError) throw insertError;
 
     return NextResponse.json({
       success: true,
-      message: "Custom-field connected to Product successfully.",
+      message: "Custom field connected to product successfully.",
     });
   } catch (error: any) {
     console.error("Error upserting product-field combination:", error.message);
