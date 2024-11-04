@@ -74,6 +74,7 @@ interface TicketTableProps {
 }
 
 const TicketTable = ({ tickets, order }: TicketTableProps) => {
+  // console.log("TICKETS:", tickets);
   // Initialize statuses based on the ticket data
   const [ticketStatuses, setTicketStatuses] = useState<Record<string, string>>(
     {}
@@ -87,6 +88,8 @@ const TicketTable = ({ tickets, order }: TicketTableProps) => {
         acc[ticket.ticket_id] = ticket.status; // Initialize statuses based on the ticket data
         return acc;
       }, {} as Record<string, string>);
+
+      // console.log("Ticket Statuses:", initialStatuses);
 
       setTicketStatuses(initialStatuses); // Set the initial state with ticket statuses
     }

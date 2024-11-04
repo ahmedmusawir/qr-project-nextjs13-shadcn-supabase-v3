@@ -13,6 +13,8 @@ interface Props {
   eventId: string;
 }
 
+// Single Event/Product page. Here eventId is GHL product_id. This page displays
+// a list or orders by product_id. All order items links to each single order details page
 const OrdersPageContent = ({ eventId }: Props) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [currentPage, setCurrentPage] = useState(1);

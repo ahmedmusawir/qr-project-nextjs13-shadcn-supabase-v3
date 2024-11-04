@@ -7,7 +7,7 @@ export async function GET(
 ) {
   const supabase = createClient();
 
-  // Extract the event ID from the URL parameters
+  // Extract the event ID or GHL product ID from the URL parameters
   const { id } = params;
 
   // Extract query parameters for pagination

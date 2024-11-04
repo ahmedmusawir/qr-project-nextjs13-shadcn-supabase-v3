@@ -1,9 +1,9 @@
 {
   "syncInProgress": false,
-  "startTime": "2024-10-21T06:42:41.350Z",
-  "endTime": "2024-10-21T06:43:21.755Z",
   "totalOrders": 18,
   "syncedOrders": 18,
   "status": "Complete",
-  "delay_in_sec": 0
+  "delay_in_sec": 0,
+  "startTime": "2024-10-30T07:13:09.621Z",
+  "endTime": "2024-10-30T07:13:35.177Z"
 }

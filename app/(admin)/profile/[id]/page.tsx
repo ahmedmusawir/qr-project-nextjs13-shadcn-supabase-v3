@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import ProfilePageContent from "./ProfilePageContent";
 
 const Profile = () => {

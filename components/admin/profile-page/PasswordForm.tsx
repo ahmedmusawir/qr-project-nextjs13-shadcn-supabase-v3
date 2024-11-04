@@ -142,12 +142,6 @@ const PasswordForm = () => {
             >
               {isLoading ? <Spinner /> : "Update Password"}
             </Button>
-            {/* <Button
-              type="submit"
-              className="w-full bg-slate-700 text-white dark:bg-slate-600 hover:bg-slate-800"
-            >
-              Update Password
-            </Button> */}
           </form>
         </Form>
       </CardContent>

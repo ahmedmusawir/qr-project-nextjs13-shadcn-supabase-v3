@@ -16,7 +16,7 @@ export async function PUT(
 
   try {
     const { error } = await supabase
-      .from("ghl_qr_tickets") // Your tickets table
+      .from("ghl_qr_tickets")
       .update({ status })
       .eq("ticket_id", id);
 
