@@ -59,22 +59,44 @@ export const addUserToCustomTable = async (
   return await response.json();
 };
 
-// Delete the user from our custom user table after we delete the supabase
-// User via supabase.auth.admin
-export const deleteUserFromCustomTable = async (id: string) => {
-  const response = await fetch("/api/qrapp/users/delete-user", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id }),
-  });
+// Delete the user from Supabase and our custom user table
+export const deleteUserCompletely = async (id: string) => {
+  try {
+    // Step 1: Delete the user from Supabase
+    const supabaseResponse = await fetch("/api/superadmin/delete-user", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
 
-  if (!response.ok) {
-    throw new Error("Failed to delete user from ghl_qr_users");
+    if (!supabaseResponse.ok) {
+      const errorData = await supabaseResponse.json();
+      throw new Error(errorData.error || "Failed to delete user from Supabase");
+    }
+
+    // Step 2: Delete the user from our custom table
+    const customTableResponse = await fetch("/api/qrapp/users/delete-user", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (!customTableResponse.ok) {
+      const errorData = await customTableResponse.json();
+      throw new Error(
+        errorData.error || "Failed to delete user from ghl_qr_users"
+      );
+    }
+
+    return { success: true, message: "User deleted successfully." };
+  } catch (error: any) {
+    console.error("Error deleting user:", error.message);
+    return { success: false, error: error.message };
   }
-
-  return await response.json();
 };
 
 // Function to add a new user as a superadmin using the API route. But this is using

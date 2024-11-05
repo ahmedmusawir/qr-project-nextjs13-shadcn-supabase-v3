@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { deleteUserFromCustomTable } from "@/services/userServices";
+import { deleteUserCompletely } from "@/services/userServices";
 import Spinner from "../common/Spinner";
 
 interface Props {
@@ -30,7 +30,7 @@ const DeleteConfirmationDialog = ({
     setIsDeleting(true); // Show the spinner
     try {
       // Calling delete service function
-      await deleteUserFromCustomTable(selectedUser.id);
+      await deleteUserCompletely(selectedUser.id);
       // Calling the onDelete prop to update the parent component's state
       onDelete(selectedUser.id);
       // Closing the modal

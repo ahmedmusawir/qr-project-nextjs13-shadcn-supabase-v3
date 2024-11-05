@@ -76,7 +76,6 @@ const UserList = ({ users, onDelete }: Props) => {
             <h4 className="truncate text-lg text-gray-500">{person.email}</h4>
             {person.id === user.id && (
               <Button
-                onClick={() => handleDeleteClick(person)} // Trigger dialog open
                 className="bg-green-700 hover:bg-green-600 text-white ml-3 float-end"
                 disabled
               >

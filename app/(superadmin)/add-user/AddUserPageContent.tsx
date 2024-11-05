@@ -97,10 +97,7 @@ const AddUserForm = () => {
         data.password,
         user_metadata
       );
-      // console.log(
-      //   "SUPARADMIN ADD USER RESPONSE (AddUserPageContent)",
-      //   response
-      // );
+
       //----- PREP FOR CUSTOM USER TABLE -----------------------------
       // console.log("NEW USER ID:", response.data.user.id);
       const newUserId = response?.data?.user?.id; // Get the newly created user ID from the response

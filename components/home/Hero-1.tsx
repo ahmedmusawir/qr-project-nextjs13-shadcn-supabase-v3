@@ -38,44 +38,27 @@ const Hero = () => {
             <p className="mt-6 text-lg leading-8 text-gray-600">
               The best way to manage your ticket sales...
             </p>
-
-            {/* <div className="mt-10 flex items-center justify-center gap-x-6">
-              {user ? (
-                user.user_metadata?.is_qr_superadmin ||
-                user.user_metadata?.is_qr_admin ? (
-                  <Link
-                    className="rounded-md bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    href={`/admin-portal`}
-                  >
-                    Go To Admin Portal
-                  </Link>
-                ) : null // Render nothing if neither role matches
-              ) : (
-                <Link
-                  href="/auth"
-                  className="rounded-md bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Get started
-                </Link>
-              )}
-            </div> */}
             <div className="mt-10 flex items-center justify-center gap-x-6">
               {user ? (
-                user.user_metadata?.is_qr_superadmin ? (
-                  <Link
-                    className="rounded-md bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    href="/superadmin-portal"
-                  >
-                    Go To Superadmin Portal
-                  </Link>
-                ) : user.user_metadata?.is_qr_admin ? (
-                  <Link
-                    className="rounded-md bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    href="/admin-portal"
-                  >
-                    Go To Admin Portal
-                  </Link>
-                ) : null // Render nothing if the user is not an admin or superadmin
+                <span>
+                  {user?.user_metadata?.is_qr_superadmin && (
+                    <Link
+                      className="rounded-md bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      href={`/superadmin-portal/`}
+                    >
+                      Go To Superadmin Portal
+                    </Link> // Superadmin profile link
+                  )}
+
+                  {user?.user_metadata?.is_qr_admin && (
+                    <Link
+                      className="rounded-md bg-indigo-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      href={`/admin-portal`}
+                    >
+                      Go To Admin Portal
+                    </Link> // Admin profile link
+                  )}
+                </span>
               ) : (
                 <Link
                   href="/auth"

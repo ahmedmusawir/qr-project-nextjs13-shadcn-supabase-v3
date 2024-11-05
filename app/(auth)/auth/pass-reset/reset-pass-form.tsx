@@ -13,9 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import { updatePassword } from "@/services/userServices";
-import { useAuthStore } from "@/store/useAuthStore";
 import RedirectButton from "./redirect-button";
 
 // Define form validation schema
