@@ -36,10 +36,10 @@
     "product_id": "66bc179816adf720a7f87963",
     "ticket_types": [
       {
-        "name": "Regular"
+        "name": "VIP"
       },
       {
-        "name": "VIP"
+        "name": "Regular"
       }
     ]
   },
@@ -69,10 +69,10 @@
     "product_id": "66bc169cad507d82ea3fa12c",
     "ticket_types": [
       {
-        "name": "Regular"
+        "name": "VIP"
       },
       {
-        "name": "VIP"
+        "name": "Regular"
       }
     ]
   }
