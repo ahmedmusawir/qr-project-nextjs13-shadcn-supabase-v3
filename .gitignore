@@ -33,3 +33,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# runtime logs (production sync logs — never commit)
+/logs/
+
+# temp / scratch sample data
+/temp/
+
+# private planning / session notes (moved to private lab repo)
+/SESSION_31_DEC_2025.md
+/DOCUMENTATION_PLAN.md
